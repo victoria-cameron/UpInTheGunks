@@ -1,0 +1,27 @@
+<form id = "createQ" action = "create_question.js">
+    <div class = "form-group">
+        Create Question: <br>
+        <input type = "question" class = "form-group" id = "question"><br>
+        Type: <br>
+        <input type = "type" class = "form-group" id = "questionType"><br>
+        Submit: <br>
+        <input type = "button" value = "submit" id = "submit" onClick = "createQuestion()"><br>
+    </div>
+    <script>
+        function createQuestion(q, qt){
+            var quest = q.value.length;
+            if(quest == 0){
+                alert("Empty question not valid");
+            }else{
+                var question = document.getElementById("createQ");
+            }
+            var questionT = qt.value.length;
+            if(questionT == 0){
+                alert("Empty question type not valid");
+            }else{
+                var questionType = document.getElementById("createQ");
+            }
+        }   
+    </script>
+</form>
+
