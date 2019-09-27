@@ -1,14 +1,15 @@
 header {
-  background-color: rgb(26, 44, 27);
+  background-color: #33443C;
   padding: 30px;
   text-align: right;
   font-size: 35px;
   color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 body {
-  background: #D2D2DC url(distrib/images/linen.png) repeat;
-  font-family: Helvetica, Verdana, Arial, sans-serif;
+  background: #D7DEF4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 12pt;
   font-weight: normal;
   font-style: normal;
@@ -36,12 +37,6 @@ h3 {
   font-style: normal;
 }
 
-#display {
-  background-color:#DFDBC3;
-  border: 2px solid red;
-  cursor: default;
-}
-
 .normal_button {
   width: 100px;
 }
@@ -55,14 +50,15 @@ h3 {
 
 /* Creates two columns/boxes that float next to each other */
 .sidenav {
-  width: 130px;
-  position: fixed;
-  z-index: 1;
+  float:left;
+  width: 195px;
+  /*position: fixed;*/
   top: 143px;
   left: 10px;
-  background: rgb(77, 235, 62);
+  background: #9DCE5B;
   overflow-x: hidden;
   padding: 8px 0;
+  border-radius: 5px;
 }
 
 .sidenav a {
@@ -74,11 +70,12 @@ h3 {
 }
 
 .index {
-  padding-left: 150px;
+  left: 140px;
   width: 85%;
   height: 800px;
   font-size: 20px;
-  background-color: #DFDBC3;
+  background-color: #DFE4E8;
+  float: right;
 }
 
 /* Style the list inside the menu */
