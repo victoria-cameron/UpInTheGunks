@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang = "en">
+<body>
+    <head>
+        <title> Create a survey</title> 
+        <script src = "create_survey.js"></script>
+        <meta charset = "utf-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale = 1">
+        <link rel = "stylesheet" href = "gunks.css"/> 
+    </head>
+    <div class = "container">
+        <div class = "main">
+            <h1>Create a survey</h1>
+            <h2>Select questions for your survey.</h2>
+        </div>
+
+        <div class = "sidenav">
+            <a href = "#Create"> Create></a>
+            <a href = "#Fill"> Fill></a>
+            <a href = "#View"> View></a>
+        </div>
+
+        <div class = "index">
+            <div id = "bar">
+                <h3>Creator | Created | Question </h3>
+            </div>
+            <div id = "search" style = "margin-left: 50%">
+                <input type = "search" value = "Filter By" id = "filterBy">
+                <button onClick = "searchFunction()">Search</button><br>
+            </div>
+
+            <form action="checkAll()">
+                <input type="checkbox" name="checkBox" value="qOne"> Question One<br>
+                <input type="checkbox" name="checkBox" value="qTwo"> Question Two<br>
+                <input type="checkbox" name="checkBox" value="qThree"> Question Three<br>
+                <input type="checkbox" name="checkBox" value="qFour"> Question Four<br>
+                <input type="checkbox" name="checkBox" value="qFive"> Question Five<br>
+                <input type="checkbox" name="checkBox" value="qSix"> Question Six<br>
+                <input type="checkbox" name="checkBox" value="qSeven"> Question Seven<br>
+                <input type="checkbox" name="checkBox" value="qEight"> Question Eight<br>
+                <input type="checkbox" name="checkBox" value="qNine"> Question Nine<br>
+                <input type="checkbox" name="checkBox" value="qTen"> Question Ten<br>
+                <input type="button" value="Submit" onClick = "checkAll()">
+            </form>
+
+        </div>
+
+        <script type="text/javascript">
+            function checkAll() {
+                var checked = document.getElementsByName('checkBox');
+                var checkedBoxes = [];
+                for (var i=0; i<checked.length; i++){
+                    if (checked[i].checked) {
+                        checkedBoxes.push(checked[i]);
+                    }
+                }
+                return checkedBoxes.length > 0 ? checkedBoxes : null;
+            }   
+        </script>
+
+        <script type = "text/javascript">
+            function searchFunction(){
+                var search = document.getElementId("filterBy").placeHolder;
+                document.getElementId("createS").innerHTML = search;
+            }
+        </script>
+</body>
+</html>
