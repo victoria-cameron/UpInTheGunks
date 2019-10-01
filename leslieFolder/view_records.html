@@ -5,20 +5,30 @@
         <title>Surv-YAY View Records</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="fill_select.html"></script>
     </head>
     <body>
-	<header>
-            <h2>Welcome, User!</h2>
-        </header>
+    <body>
+	<div class="header"> 
+	    <a href="index.html">
+            	<img src="SurvyaySmallLogo.jpg" alt="SurvYay">
+	    </a>
+	    <h2>Welcome, User!</h2>
+	    <button type="button">Logout</button>
+        </div>
+
         <div class="sidenav">
-            <a href="#create">Create ></a>
-            <a href="#fill">Fill ></a>
-            <a href="#view">View ></a>
+            <button type="button" id="create">Create ></button>
+            <button type="button" id="fill">Fill ></button>
+            <button type="button" id="view">View ></button>
         </div>
 
         <div class="index">
-            <h2>View Records</h2>
-            <h3>Creator | Name | Category | Survey </h3>
+            <h1> View Records</h1>
+	</div>
+	
+	<div class="file">
+            <span>Creator | Name | Category | Survey </span>
         </div>
     </body>
 </html>
