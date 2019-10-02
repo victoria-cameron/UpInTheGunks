@@ -5,16 +5,19 @@
         <title>Surv-YAY</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script type="text/javascript" src="fill_select.html"></script>
+        <script type="text/javascript" src="fill_select.js"></script>
     </head>
     <body>
-        <header>
+        <div class="header"> 
+            <a href="index.html">
+                    <img src="SurvyaySmallLogo.jpg" alt="SurvYay">
+            </a>
             <h2>Welcome, User!</h2>
             <button type="button">Logout</button>
-        </header>
+        </div>
         <div class="sidenav">
             <button type="button" id="create">Create ></button>
-            <button type="button" id="fill">Fill ></button>
+            <button type="button" id="fill" onclick="myFunction()">Fill ></button>
             <button type="button" id="view">View ></button>
         </div>
 
@@ -22,10 +25,10 @@
             <span>Welcome, make a site selection to begin!</span>
         </div>
 
-        <div class="file">
+        <!--This goes into each individual html file-->
+        <div class="file" id="file">
             <span>Question: </span>
         </div>
-
 
     </body>
 </html>

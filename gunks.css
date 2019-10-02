@@ -1,10 +1,16 @@
-header {
+.header { /*made it into a container to make lives easier*/
   background-color: #33443C;
   padding: 30px;
   text-align: right;
   font-size: 35px;
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header img { /*this is for the logo*/
+  float: left;
+  width: 400px;
+  height: 150px;
 }
 
 /*Outer wrapper*/
