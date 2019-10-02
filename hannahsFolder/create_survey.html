@@ -8,19 +8,27 @@
         <meta name = "viewport" content = "width=device-width, initial-scale = 1">
         <link rel = "stylesheet" href = "gunks.css"/> 
     </head>
-    <div class = "container">
-        <div class = "main">
-            <h1>Create a survey</h1>
-            <h2>Select questions for your survey.</h2>
+    <body>
+        <div class = "header">
+            <a href = "index.html">
+                <img src = "SurvyaySmallLogo.jpg" alt = "SurvYay">
+            </a>
+            <h2>Welcome, user!</h2>
+            <button type = "button"> Logout</button>
         </div>
 
-        <div class = "sidenav">
-            <a href = "#Create"> Create></a>
-            <a href = "#Fill"> Fill></a>
-            <a href = "#View"> View></a>
+        <div class="sidenav">
+            <button type="button" id="create">Create ></button>
+            <button type="button" id="fill">Fill ></button>
+            <button type="button" id="view">View ></button>
         </div>
 
         <div class = "index">
+            <h1>Create a survey</h1>
+        </div>
+
+        <div class = "file">
+            <h2>Select questions for your survey.</h2>
             <div id = "bar">
                 <h3>Creator | Created | Question </h3>
             </div>
@@ -29,7 +37,7 @@
                 <button onClick = "searchFunction()">Search</button><br>
             </div>
 
-            <form action="checkAll()">
+            <form id = "checkBoxes" action="checkAll()">
                 <input type="checkbox" name="checkBox" value="qOne"> Question One<br>
                 <input type="checkbox" name="checkBox" value="qTwo"> Question Two<br>
                 <input type="checkbox" name="checkBox" value="qThree"> Question Three<br>
@@ -42,21 +50,10 @@
                 <input type="checkbox" name="checkBox" value="qTen"> Question Ten<br>
                 <input type="button" value="Submit" onClick = "checkAll()">
             </form>
-
         </div>
 
-        <script type="text/javascript">
-            function checkAll() {
-                var checked = document.getElementsByName('checkBox');
-                var checkedBoxes = [];
-                for (var i=0; i<checked.length; i++){
-                    if (checked[i].checked) {
-                        checkedBoxes.push(checked[i]);
-                    }
-                }
-                return checkedBoxes.length > 0 ? checkedBoxes : null;
-            }   
-        </script>
+    </body>
+
 
         <script type = "text/javascript">
             function searchFunction(){
@@ -64,5 +61,5 @@
                 document.getElementId("createS").innerHTML = search;
             }
         </script>
-</body>
+    </body>
 </html>
