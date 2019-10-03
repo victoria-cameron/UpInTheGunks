@@ -109,6 +109,26 @@ button { /*had to make another one since I kept breaking it*/
   float: right;
 }
 
+table {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #ffffff;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(odd) {
+  background-color: #D7DEF4;
+}
+
+tr:nth-child(even) {
+  background-color: #ECE3E3;
+}
+
 /*Top wrapper*/
 .file {
   position: absolute;
