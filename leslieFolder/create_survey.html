@@ -1,0 +1,101 @@
+﻿<!DOCTYPE html>
+<html lang = "en">
+<body>
+    <head>
+        <title> Create a survey</title> 
+        <script src = "create_survey.js"></script>
+        <meta charset = "utf-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale = 1">
+        <link rel = "stylesheet" href = "gunks.css"/> 
+    </head>
+    <body>
+        <div class = "header">
+            <a href = "index.html">
+                <img src = "SurvyaySmallLogo.jpg" alt = "SurvYay">
+            </a>
+            <h2>Welcome, User!</h2>
+            <button type = "button"> Logout</button>
+        </div>
+
+        <!--SIDE NAV-->
+        <div class="sidenav"> 
+            <button class="dropdown-btn" id="create">Create ></button>
+            <div class="dropdown-container">
+                <a href="create_question.html">Questions</a>
+                <a href="create_survey.html">Surveys</a>
+            </div>
+            
+            <button class="dropdown-btn" id="fill">Fill ></button>
+            <div class="dropdown-container">
+                <a href="#">Fill 1</a>
+                <a href="#">Fill 2</a>
+            </div>
+
+            <button class="dropdown-btn" id="view">View ></button>
+            <div class="dropdown-container">
+                <a href="view_records.html">Records</a>
+                <a href="view_surveys.html">Surveys</a>
+            </div>
+        </div>
+
+        <!--CONTAINER WHERE ALL THE SEPARATE PAGES ARE GOING TO GO-->
+        <div class="index">
+            <span>Welcome, make a site selection to begin!</span>
+            <script type="text/javascript" src="fill_select.js"></script>
+            <script type="text/javascript" src="fill_survey.js"></script>
+        </div>
+
+        <!--This goes into each individual html file
+        <div class="file" id="file">
+            <span>Question: </span>
+        </div>-->
+
+        <script>
+        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+            var dropdown = document.getElementsByClassName("dropdown-btn");
+            var i;
+                
+            for (i = 0; i < dropdown.length; i++) {
+                dropdown[i].addEventListener("click", function() {
+                    this.classList.toggle("active");
+                    var dropdownContent = this.nextElementSibling;
+                    if (dropdownContent.style.display === "block") {
+                        dropdownContent.style.display = "none";
+                    } else {
+                        dropdownContent.style.display = "block";
+                    }
+                });
+            }
+        </script>
+
+        <div class = "index">
+            <h1>Create a survey</h1>
+        </div>
+
+        <div class = "file">
+            <h2>Select questions for your survey.</h2>
+            <div id = "bar">
+                <h3>Creator | Created | Question </h3>
+            </div>
+            <div id = "search" style = "margin-left: 50%">
+                <input type = "text" value = "Filter By" id = "filterBy">
+                <button type = "button" id = "search">Search</button><br>
+            </div>
+
+            <form id = "checkBoxes" action="checkAll()">
+                <input type="checkbox" name="checkBox" value="qOne"> Question One<br>
+                <input type="checkbox" name="checkBox" value="qTwo"> Question Two<br>
+                <input type="checkbox" name="checkBox" value="qThree"> Question Three<br>
+                <input type="checkbox" name="checkBox" value="qFour"> Question Four<br>
+                <input type="checkbox" name="checkBox" value="qFive"> Question Five<br>
+                <input type="checkbox" name="checkBox" value="qSix"> Question Six<br>
+                <input type="checkbox" name="checkBox" value="qSeven"> Question Seven<br>
+                <input type="checkbox" name="checkBox" value="qEight"> Question Eight<br>
+                <input type="checkbox" name="checkBox" value="qNine"> Question Nine<br>
+                <input type="checkbox" name="checkBox" value="qTen"> Question Ten<br>
+                <input type="button" value="Submit" onClick = "checkAll()">
+            </form>
+        </div>
+    </body>
+</body>
+</html>
