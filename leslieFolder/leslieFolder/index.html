@@ -1,21 +1,22 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
     <head>
-	<link rel="stylesheet" href="gunks.css">
-        <title>Surv-YAY View Records</title>
+        <link rel="stylesheet" href="gunks.css">
+        <title>Surv-YAY Homepage</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-	<script type="text/javascript" src="fill_select.html"></script>
     </head>
     <body>
-	<div class="header"> 
-	    <a href="index.html">
-            	<img src="SurvyaySmallLogo.jpg" alt="SurvYay">
-	    </a>
-	    <h2>Welcome, User!</h2>
-	    <button type="button">Logout</button>
+        <!--HEADER-->
+        <div class="header"> 
+            <a href="index.html">
+                    <img src="SurvyaySmallLogo.jpg" alt="SurvYay">
+            </a>
+            <h2>Welcome, User!</h2>
+            <button type="button">Logout</button>
         </div>
 
+        <!--SIDE NAV-->
         <div class="sidenav"> 
             <button class="dropdown-btn" id="create">Create ></button>
             <div class="dropdown-container">
@@ -36,32 +37,17 @@
             </div>
         </div>
 
+        <!--CONTAINER WHERE ALL THE SEPARATE PAGES ARE GOING TO GO-->
         <div class="index">
-            <h1> View Surveys</h1>
-            <table>
-		<tr>
-    		   <th>Title</th>
-    		   <th>Creator</th>
-    		   <th>Created</th>
-    		   <th>Description</th>
-  	        </tr>
-	 	<tr>
-  		   <td>Checking</td>
-    		   <td>If</td>
-        	   <td>This</td>
-    		   <td>Works</td>
-  		</tr>
-	 	<tr>
-  		   <td>Checking</td>
-    		   <td>If</td>
-        	   <td>This</td>
-    		   <td>Works</td>
-  		</tr>
-	    </table>
-	    <a href="view_select.html">
-		<button type="button">&laquo;Back</button>
-	    </a>
-	</div>
+            <span>Welcome, make a site selection to begin!</span>
+            <script type="text/javascript" src="fill_select.js"></script>
+            <script type="text/javascript" src="fill_survey.js"></script>
+        </div>
+
+        <!--This goes into each individual html file
+        <div class="file" id="file">
+            <span>Question: </span>
+        </div>-->
 
         <script>
         /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
@@ -80,5 +66,6 @@
                 });
             }
         </script>
+
     </body>
 </html>
