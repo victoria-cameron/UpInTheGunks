@@ -33,8 +33,8 @@
                 <h3>Creator | Created | Question </h3>
             </div>
             <div id = "search" style = "margin-left: 50%">
-                <input type = "search" value = "Filter By" id = "filterBy">
-                <button onClick = "searchFunction()">Search</button><br>
+                <input type = "text" value = "Filter By" id = "filterBy">
+                <button type = "button" id = "search">Search</button><br>
             </div>
 
             <form id = "checkBoxes" action="checkAll()">
@@ -51,15 +51,6 @@
                 <input type="button" value="Submit" onClick = "checkAll()">
             </form>
         </div>
-
     </body>
-
-
-        <script type = "text/javascript">
-            function searchFunction(){
-                var search = document.getElementId("filterBy").placeHolder;
-                document.getElementId("createS").innerHTML = search;
-            }
-        </script>
-    </body>
+</body>
 </html>
