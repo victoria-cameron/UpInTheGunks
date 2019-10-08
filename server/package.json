@@ -1,0 +1,24 @@
+{
+  "name": "survyay!",
+  "version": "0.1.0",
+  "description": "A simple website built with Node, Express",
+  "main": "server.js",
+  "scripts": {
+    "start": "npx nodemon server.js"
+  },
+  "author": "Victoria Cameron",
+  "license": "MIT",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "consolidate": "^0.15.1",
+    "cors": "^2.8.5",
+    "express": "^4.16.3",
+    "mysql": "^2.17.1",
+    "path": "^0.12.7",
+    "pug": "^2.0.3",
+    "swig": "^1.4.2"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.0"
+  }
+}
