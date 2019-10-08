@@ -33,6 +33,30 @@ app.get('/create_question', (req, res) => {
     });
 });
 
+app.get('/create_survey', (req, res) => {
+    res.render('create_survey.html', {
+        title: 'Create Survey'
+    });
+});
+
+app.get('/fill_survey', (req, res) => {
+    res.render('fill_survey.html', {
+        title: 'Fill Survey'
+    });
+});
+
+app.get('/view_surveys', (req, res) => {
+    res.render('view_surveys.html', {
+        title: 'View Survey'
+    });
+});
+
+app.get('/view_records', (req, res) => {
+    res.render('view_records.html', {
+        title: 'View Records'
+    });
+});
+
 const server = app.listen(5000, () => {
     console.log(`Express running → PORT ${server.address().port}`);
 });

@@ -1,77 +1,16 @@
-﻿<!DOCTYPE html>
-<html lang = "en">
-<body>
+﻿<html lang = "en">
+
     <head>
-        <title> Create a survey</title> 
-        <script src = "create_survey.js"></script>
         <meta charset = "utf-8">
         <meta name = "viewport" content = "width=device-width, initial-scale = 1">
-        <link rel = "stylesheet" href = "gunks.css"/> 
+        <link rel = "stylesheet" href = "css/gunks.css"/> 
     </head>
     <body>
-        <div class = "header">
-            <a href = "index.html">
-                <img src = "SurvyaySmallLogo.jpg" alt = "SurvYay">
-            </a>
-            <h2>Welcome, User!</h2>
-            <button type = "button"> Logout</button>
-        </div>
-
-        <!--SIDE NAV-->
-        <div class="sidenav"> 
-            <button class="dropdown-btn" id="create">Create ></button>
-            <div class="dropdown-container">
-                <a href="create_question.html">Questions</a>
-                <a href="create_survey.html">Surveys</a>
-            </div>
-            
-            <button class="dropdown-btn" id="fill">Fill ></button>
-            <div class="dropdown-container">
-                <a href="fill_survey.html">Surveys</a>
-            </div>
-
-            <button class="dropdown-btn" id="view">View ></button>
-            <div class="dropdown-container">
-                <a href="view_records.html">Records</a>
-                <a href="view_surveys.html">Surveys</a>
-            </div>
-        </div>
-
-        <!--CONTAINER WHERE ALL THE SEPARATE PAGES ARE GOING TO GO-->
-        <div class="index">
-            <span>Welcome, make a site selection to begin!</span>
-            <script type="text/javascript" src="fill_select.js"></script>
-            <script type="text/javascript" src="fill_survey.js"></script>
-        </div>
-
-        <!--This goes into each individual html file
-        <div class="file" id="file">
-            <span>Question: </span>
-        </div>-->
-
-        <script>
-        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-            var dropdown = document.getElementsByClassName("dropdown-btn");
-            var i;
-                
-            for (i = 0; i < dropdown.length; i++) {
-                dropdown[i].addEventListener("click", function() {
-                    this.classList.toggle("active");
-                    var dropdownContent = this.nextElementSibling;
-                    if (dropdownContent.style.display === "block") {
-                        dropdownContent.style.display = "none";
-                    } else {
-                        dropdownContent.style.display = "block";
-                    }
-                });
-            }
-        </script>
-
-        <div class = "index">
+        <div>
             <h1>Create a survey</h1>
         </div>
 
-        <div class = "file">
+        <div>
             <h2>Select questions for your survey.</h2>
             <div id = "bar">
                 <h3>Creator | Created | Question </h3>
@@ -96,5 +35,44 @@
             </form>
         </div>
     </body>
-</body>
 </html>
+
+<script>
+    function checkAll() {
+        var checked = document.getElementsByName('checkBoxes');
+        var checkedBoxes = [];
+            for (var i=0; i<checked.length; i++){
+                if (checked[i].checked) {
+                    checkedBoxes.push(checked[i]);
+                }
+            }
+        var fs = require('fs');
+        var data ={};
+        data.table = checkedBoxes;
+        for(var i = 0; i < checkedBoxes.length; i++){
+    	    var obj = { id: i, checkBox};
+    	    data.table.push(obj);
+        }
+        fs.writeFile("input.json", JSON.stringify(data), function(err){
+    	    if(err)throw err;
+    	    console.log('data');
+        });
+        return checkedBoxes.length > 0 ? checkedBoxes : null;
+    }
+    function searchFunction(){
+        var search = document.getElementId("search");
+        var data = document.getElementId("checkBox");
+
+        search.onclick = function(){
+    	    var input = document.getElementById("filterBy");
+    	    for(var i = 0; i < checkedBoxes.length; i++){
+    		    if(checkedBoxes[i] == search){
+    			    alert(data[i]);
+    		    }else{
+    			    alert("not found");
+    		    }
+    	    }
+        }
+    }
+
+</script>
