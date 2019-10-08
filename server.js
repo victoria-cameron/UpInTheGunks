@@ -27,6 +27,12 @@ app.get('/index', (req, res) => {
     });
 });
 
+app.get('/create_question', (req, res) => {
+    res.render('create_question.html', {
+        title: 'Create Question'
+    });
+});
+
 const server = app.listen(5000, () => {
     console.log(`Express running → PORT ${server.address().port}`);
 });
