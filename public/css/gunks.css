@@ -34,6 +34,7 @@ h1 {
 }
 
 .header h2 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: black;
   position: relative;
   font-size: 20pt;
@@ -139,17 +140,8 @@ button { /*had to make another one since I kept breaking it*/
   float: right;
 }
 
-#create_question {
-  position: absolute;
-  z-index: 1;
+#create_question, #create_survey, #fill_select, #fill_survey, #view_records, #view_select, #view_surveys {
   background-color: #DFE4E8;
-  left: 140px;
-  width: 85%;
-  height: 800px;
-  top: 210px;
-  font-size: 20px;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  float: right;
 }
 
 table {
@@ -175,12 +167,11 @@ tr:nth-child(even) {
 /*Top wrapper*/
 .file {
   position: absolute;
-  z-index: 2;
+  /*z-index: 2;*/
   background-color: #ECE3E3;
-  left: 150px;
-  width: 80%;
-  height: 600px;
-  top: 350px;
+  left: 30px;
+  width: 90%;
+  height: 90%;
   font-size: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
