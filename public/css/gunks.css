@@ -126,7 +126,20 @@ button { /*had to make another one since I kept breaking it*/
 
 
 /*Middle wrapper*/
-.index {
+#index {
+  position: absolute;
+  z-index: 1;
+  background-color: #DFE4E8;
+  left: 140px;
+  width: 85%;
+  height: 800px;
+  top: 210px;
+  font-size: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  float: right;
+}
+
+#create_question {
   position: absolute;
   z-index: 1;
   background-color: #DFE4E8;
