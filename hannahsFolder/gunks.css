@@ -33,7 +33,7 @@ h1 {
   border-bottom: 1px solid black;
 }
 
-.header h2 { /*the welcome user part so no regular h2*/
+.header h2 {
   color: black;
   position: relative;
   font-size: 20pt;
@@ -48,7 +48,7 @@ h3 {
   font-style: normal;
 }
 
-.header button { /*the logout button*/
+.header button {
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-color: #9DCE5B;
   color: black;
@@ -59,6 +59,22 @@ h3 {
   width: 130px;
   border-radius: 5px;
   font-size: 15pt;
+}
+
+.viewButton {
+  display: inline-block;
+  width: 250px;
+  border: 1px solid lightblue;
+  background: #A2B8C5;
+  overflow-x: hidden;
+  padding: 25px 50px;
+  border-radius: 5px;
+  text-align: center;
+  text-decoration: none;
+  font-size: 25px;
+  color: black;
+  margin: 50px 55px;
+  cursor: pointer;
 }
 
 button { /*had to make another one since I kept breaking it*/
@@ -87,20 +103,34 @@ button { /*had to make another one since I kept breaking it*/
   border-radius: 5px;
 }
 
-.sidenav a {
+.sidenav a, .dropdown-btn {
   padding: 15px 10px 6px 16px;
   text-decoration: none;
   font-size: 20px;
   color: black;
   display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
 }
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+  background-color: rgb(172, 199, 136);
+  padding-left: 8px;
+}
+
 
 /*Middle wrapper*/
 .index {
   position: absolute;
   z-index: 1;
   background-color: #DFE4E8;
-  left: 143px;
+  left: 140px;
   width: 85%;
   height: 800px;
   top: 210px;
@@ -134,29 +164,13 @@ tr:nth-child(even) {
   position: absolute;
   z-index: 2;
   background-color: #ECE3E3;
-  left: 155px;
+  left: 150px;
   width: 80%;
-  height: 650px;
-  top: 305px;
+  height: 600px;
+  top: 350px;
   font-size: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
-}
-
-.viewButton {
-  display: inline-block;
-  width: 250px;
-  border: 1px solid lightblue;
-  background: #A2B8C5;
-  overflow-x: hidden;
-  padding: 25px 50px;
-  border-radius: 5px;
-  text-align: center;
-  text-decoration: none;
-  font-size: 25px;
-  color: black;
-  margin: 50px 55px;
-  cursor: pointer;
 }
 
 /* Style the list inside the menu */

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang = "en">
+<body>
+    <head>
+        <title> Admin Space</title> 
+        <script src = "create_question.js"></script>
+        <meta charset = "utf-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale = 1">
+        <link rel = "stylesheet" href = "gunks.css"/> 
+    </head>
+    <body>
+        <div class = "header">
+            <a href = "index.html">
+                <img src = "SurvyaySmallLogo.jpg" alt = "SurvYay">
+            </a>
+            <h2>Welcome, user!</h2>
+            <button type = "button"> Logout</button>
+        </div>
+
+        <div class="sidenav">
+            <button type="button" id="create">Create ></button>
+            <button type="button" id="fill">Fill ></button>
+            <button type="button" id="view">View ></button>
+        </div>
+
+        <div class = "index" id = "adminSpace">
+            <h1>Admin Space</h1>
+            <h2>Create new user:</h2>
+            <label>New user ID:</label>
+            <input type="text" name="newUser"><br><br>
+            <label>New user password:</label>
+            <input type="text" name="newUserPassword"><br><br>
+            <button type="button" id="Submit">Submit ></button><br>
+            <h2>Update user:</h2>
+            <label>User ID:</label>
+            <input type="text" id="updateUser"><br><br>
+            <label>Set new password:</label>
+            <input type="text" id="updateUserPassword"><br><br>
+            <label>Set new privledges:</label>
+            <input type="text" id="updateUserPrivledges"><br><br>
+            <button type="button" id="Submit">Submit ></button><br>
+            <h2>Upload an image for the project:</h2>
+            <label>Image:</label>
+            <input type="image" id="image"><br>
+            <button type="button" id ="submit">Submit ></button>
+        </div>
+    </body>
+</body>
+</html>
+<script type = "text/javascript">
+   var new_user;
+   var new_password;
+   document.getElemenetById('adminSpace').addEvenetListener("click", function(){
+    newUser(document.getElemenetById('newUser').value,(document.getElemenetById('newPassword').value);
+   }, false);   
+
+</script>

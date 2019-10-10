@@ -1,20 +1,23 @@
-<!DOCTYPE html>
-<html lang = "en">
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1">
+    <link rel="stylesheet" href="css/gunks.css" />
+</head>
 <body>
-    <head>
-        <title> Create a Question</title> 
-        <script src = "create_question.js"></script>
-        <meta charset = "utf-8">
-        <meta name = "viewport" content = "width=device-width, initial-scale = 1">
-        <link rel = "stylesheet" href = "gunks.css"/> 
-    </head>
-    <body>
-        <div class = "header">
-            <a href = "index.html">
-                <img src = "SurvyaySmallLogo.jpg" alt = "SurvYay">
-            </a>
-            <h2>Welcome, user!</h2>
-            <button type = "button"> Logout</button>
+
+        <link rel="stylesheet" href="gunks.css">
+        <title>Surv-YAY View Records</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="fill_select.html"></script>
+
+        <div class="header"> 
+        <a href="index.html">
+                <img src="SurvyaySmallLogo.jpg" alt="SurvYay">
+        </a>
+        <h2>Welcome, User!</h2>
+        <button type="button">Logout</button>
         </div>
 
         <div class="sidenav">
@@ -23,20 +26,36 @@
             <button type="button" id="view">View ></button>
         </div>
 
-        <div class = "index">
-            <h1>Create Question</h1>
-        </div>
+    <div>
+        <h1>Create Question</h1>
+    </div>
 
-        <div class = "file">
-            <label>Question:</label><br><br>
-            <textarea rows = "4" cols = "50"> 
-            </textarea> 
-            <br><br>
-            <label>Type: </label><br>
-            <input type = "text" name = "type"><br><br>
-            <button type="button" id="Submit">Submit ></button>
-        </div>
-    </body>
+    <div>
+        <label align = "center">Question:</label><br><br>
+        <textarea align = "center" rows="4" cols="50"> 
+        </textarea>
+        <br><br>
+        <label >Type:  </label><br>
+        <input type="text" name="type" padding = "50"><br><br>
+        <button type="button" id="Submit">Submit ></button>
+    </div>
 </body>
 </html>
+
+<script >
+    function createQuestion(){
+        var quest = q.value.length;
+        if(quest == 0){
+            alert("Empty question not valid");
+        }else{
+            var question = document.getElementById("createQ");
+        }
+        var questionT = qt.value.length;
+        if(questionT == 0){
+            alert("Empty question type not valid");
+        }else{
+            var questionType = document.getElementById("createQ");
+        }   
+    }
+</script>
 
