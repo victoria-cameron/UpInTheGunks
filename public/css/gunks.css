@@ -5,6 +5,8 @@
   font-size: 35px;
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 95%;
+  height: 150px;
 }
 
 .header img { /*this is for the logo*/

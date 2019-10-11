@@ -1,46 +1,39 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <script src="login.js"></script>
-        <link rel="stylesheet" href="/Users/mollysmith/Documents/GitHub/UpInTheGunks/public/css/gunks.css"/> <!--TODO: change link-->
-        <title>Surv-YAY Login</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body>
-        <header> 
-            <img src="/Users/mollysmith/Documents/GitHub/UpInTheGunks/public/images/SurvyaySmallLogo.jpg" alt="SurvYay" style="width:400px;height:150px;"> <!--TODO: change link-->
-        </header>
-
-        <div class="container">
-            <div class="main">
-                <h2>Login</h2>
-                <form id="form_id" method="post" name="myform">
-                    <label>Account: </label>
-                    <input type="text" name="username" id="username"/>
-                    <label>Password: </label>
-                    <input type="password" name="password" id="password"/>
-                    <input type="button" value="Login" id="submit" onclick="valiate()"/>
-                </form>
-            </div>
-        </div>
-    </body>
-</html>
-
-<!--
-    <!DOCTYPE html>
-
 <head>
     <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1">
+    <link rel="stylesheet" href="css/gunks.css" />
     <!--script(src='jquery.js')-->
-<!--    <script>
+   <!--<script>
             (function() {
                 ("#includedContent").load("testh.html");
             });
-        </script>
+    </script>-->
     </head>
-    <div>Project:<input id="prod" type="text" name="project" value="A0001"><br>Username:<input id="user" type="text" name="username" value="_tjoy"><br>Password:<input id="pass" type="text" name="password" value="surveysRkool"><br><br><input id="log" type="submit"
-            value="LogIn"><br></div>
-    <div><textarea id="userinfo" rows="4" cols="50">nothing yet</textarea></div>
+    <body>
+        <!--HEADER-->
+        <div class="header">
+                <a href="index.html">
+                    <img src="images/SurvyaySmallLogo.jpg" alt="SurvYay">
+                </a>
+        </div>
+    
+    <div>
+        <h2 style="text-align: center">Login</h2>
+    </div>
+
+    <div style="text-align: center">Project:<input id="prod" type="text" name="project" value="A0001">
+                                <br>Username:<input id="user" type="text" name="username" value="_tjoy">
+                                <br>Password:<input id="pass" type="text" name="password" value="surveysRkool"><br>
+                                <br><input id="log" type="submit"value="LogIn"><br>
+    </div>
+
+    <div style="text-align: center">
+        <textarea id="userinfo" rows="4" cols="50">nothing yet</textarea>
+    </div>
+
     <div id="includedContent"></div>
     <script type="text/javascript">
         var subd_user;
@@ -60,7 +53,7 @@
                 subd_pass = document.getElementById('pass').value,
                 subd_prod = gathered_prod
     
-            var userURL = ('http://localhost:3000/api/users/single/' + gathered_prod + '/' + gathered_id)
+            var userURL = ('http://10.10.9.145:3000/api/users/single/' + gathered_prod + '/' + gathered_id)
     
             fetch(userURL)
                 .then((user_res) => {
@@ -97,7 +90,7 @@
         function validator() {
             console.log("made it")
             if (subd_pass == real_pass) {
-                window.location = '/main';
+                window.location = '/index';
             } else if (subd_pass != real_pass) {
                 goAgain();
                 console.log("whats going on here");
@@ -108,8 +101,9 @@
     
         function goAgain() {
             if (subd_pass == real_pass) {
-                window.location = '/main';
+                window.location = '/index';
             }
         }
     </script>
--->
+    </body>
+</html>

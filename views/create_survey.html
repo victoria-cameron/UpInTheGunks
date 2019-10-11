@@ -8,16 +8,18 @@
     <body id="create_survey">
         <div>
             <h1>Create a survey</h1>
+            <h2>Select questions for your survey.</h2>
         </div>
 
-        <div>
-            <h2>Select questions for your survey.</h2>
+        <div id = "search" style = "margin-left: 50%">
+            <input type = "text" value = "Filter By" id = "filterBy">
+            <button type = "button" id = "search">Search</button><br>
+        </div>
+
+        <div class="file">
+            
             <div id = "bar">
                 <h3>Creator | Created | Question </h3>
-            </div>
-            <div id = "search" style = "margin-left: 50%">
-                <input type = "text" value = "Filter By" id = "filterBy">
-                <button type = "button" id = "search">Search</button><br>
             </div>
 
             <form id = "checkBoxes" action="checkAll()">
