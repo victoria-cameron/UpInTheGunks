@@ -2,19 +2,19 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale = 1">
-    <link rel="stylesheet" href="css/gunks.css" />
+    <link rel="stylesheet" href="css/gunks.css">
 </head>
 <body>
 
         <link rel="stylesheet" href="gunks.css">
-        <title>Surv-YAY View Records</title>
+        <title>Surv-YAY Create Question</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script type="text/javascript" src="fill_select.html"></script>
+        <script type="text/javascript" src="create_question.html"></script>
 
         <div class="header"> 
         <a href="index.html">
-                <img src="SurvyaySmallLogo.jpg" alt="SurvYay">
+        <img src="SurvyaySmallLogo.jpg" alt="SurvYay">
         </a>
         <h2>Welcome, User!</h2>
         <button type="button">Logout</button>
@@ -31,31 +31,54 @@
     </div>
 
     <div>
-        <label align = "center">Question:</label><br><br>
-        <textarea align = "center" rows="4" cols="50"> 
-        </textarea>
-        <br><br>
-        <label >Type:  </label><br>
-        <input type="text" name="type" padding = "50"><br><br>
-        <button type="button" id="Submit">Submit ></button>
+        <label>Question: </label><br><br>
+        <input type = "text" id = "q"><br><br>
+        <label> Type:  </label><br>
+        <input type="text" name="type" >
+        <button type="button" id="submit">Submit ></button><br><br>
+        <button type = "button" id = "get"> Get ></button><br><br>
+        <textarea id = "displayspot" type = "textarea" rows="4" cols="50"></textarea><br><br>
     </div>
 </body>
 </html>
 
 <script >
-    function createQuestion(){
-        var quest = q.value.length;
-        if(quest == 0){
-            alert("Empty question not valid");
-        }else{
-            var question = document.getElementById("createQ");
-        }
-        var questionT = qt.value.length;
-        if(questionT == 0){
-            alert("Empty question type not valid");
-        }else{
-            var questionType = document.getElementById("createQ");
-        }   
+var testText = "Q";
+document.getElementById("submit").addEventListener("click", function(){
+    postQuestion(document.getElementId("q").value);}, false);
+document.getElementId("get").addEventListener("click", function(){
+    getQuestion();}, false);
+
+function postQuestion(gotText){
+    console.log(gotText);
+    event.preventDefault();
+    let tittle = gotText;
+
+    fetch('http://10.10.9.145:3000/api/questions/add', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({Ques_text:tittle})
+    }).then((res) => res.json())
+    .then((data) =>  console.log(data))
+    .catch((err)=>console.log(err))
+
+function getQuestion(){
+    fetch('http://10.10.9.145:3000/api/questions')
+    .then((res_1) => { return res_1.json() })
+    .then((data_1) => {
+        let result = ``;
+        data_1.forEach((question) => {
+        const { QuesID, Ques_text} = question
+        result +=
+        `QuesID: ${QuesID} 
+            Question Text : ${Ques_text} \n ` ;
+                
+        document.getElementById('displayspot').innerHTML = result;
+            });
+        })
+    
     }
+}
+
 </script>
 
