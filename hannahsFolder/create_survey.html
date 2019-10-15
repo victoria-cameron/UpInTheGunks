@@ -6,6 +6,25 @@
         <link rel = "stylesheet" href = "css/gunks.css"/> 
     </head>
     <body>
+
+        <link rel="stylesheet" href="gunks.css">
+        <title>Surv-YAY View Records</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="create_survey.html"></script>
+        <div class="header"> 
+        <a href="index.html">
+        <img src="SurvyaySmallLogo.jpg" alt="SurvYay">
+        </a>
+        <h2>Welcome, User!</h2>
+        <button type="button">Logout</button>
+        </div>
+
+        <div class="sidenav">
+            <button type="button" id="create">Create ></button>
+            <button type="button" id="fill">Fill ></button>
+            <button type="button" id="view">View ></button>
+        </div>
         <div>
             <h1>Create a survey</h1>
         </div>
@@ -38,6 +57,21 @@
 </html>
 
 <script>
+    function getQuestion(){
+        fetch('http://10.10.9.145:3000/api/questions')
+        .then((res_1) => { return res_1.json() })
+        .then((data_1) => {
+            let result = ``;
+            data_1.forEach((question) => {
+                const { QuesID, Ques_text} = question
+                result +=
+                `QuesID: ${QuesID} 
+                        Question Text : ${Ques_text} \n ` ;
+                
+                document.getElementById('checkBoxes').innerHTML = result;
+            });
+        })
+    }
     function checkAll() {
         var checked = document.getElementsByName('checkBoxes');
         var checkedBoxes = [];
