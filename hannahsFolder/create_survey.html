@@ -81,17 +81,31 @@
                 }
             }
         var fs = require('fs');
-        var data ={};
-        data.table = checkedBoxes;
+        var surv ={};
+        surv.table = checkedBoxes;
         for(var i = 0; i < checkedBoxes.length; i++){
             var obj = { id: i, checkBox};
             data.table.push(obj);
         }
-        fs.writeFile("input.json", JSON.stringify(data), function(err){
+        JSON.stringify(data), function(err){
             if(err)throw err;
-            console.log('data');
-        });
-        return checkedBoxes.length > 0 ? checkedBoxes : null;
+            console.log('surv');
+        };
+        console.log('surv');
+    }
+    function postSurvey(surv){
+        console.log(surv);
+        event.preventDefault();
+        let tittle = surv;
+
+        fetch('http://10.10.9.145:3000/api/surveys/add_question', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({QuesID:surv})
+        }).then((res) => res.json())
+        .then((data) =>  console.log(data))
+        .catch((err)=>console.log(err))
+
     }
     function searchFunction(){
         var search = document.getElementId("search");
