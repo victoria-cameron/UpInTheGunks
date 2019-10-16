@@ -8,7 +8,7 @@
     <body id="view_records">
         <div>
 			<h1> View Records</h1>
-			<button type="button" id="list">List Surveys</button>
+			<button type="button" id="list_records">List Surveys</button>
 			<br>
 			<br>
             <!-- <table>
@@ -31,7 +31,7 @@
 					<td>Works</td>
 				</tr>
 			</table> -->
-			<textarea id='test' rows=20 cols=75></textarea>
+			<textarea id='display_Records' rows=20 cols=75></textarea>
 		
         </div>
     </body>
@@ -40,7 +40,7 @@
 
 
 <script>
-	document.getElementById("list").addEventListener("click", function() {
+	document.getElementById("list_records").addEventListener("click", function() {
     getRecords();
     }, false);
 
@@ -56,9 +56,9 @@
 				Interview Filler: ${Filled_by} \n
 				Date Filled: ${Date_filled} \n
 				Survey Filled: ${SurvID} \n
-				Interview Title ${InteTitle} \n\n` ;
+				Interview Title: ${InteTitle} \n\n` ;
 				
-				document.getElementById('test').innerHTML = result;
+				document.getElementById('display_Records').innerHTML = result;
 			});
 		})
 
