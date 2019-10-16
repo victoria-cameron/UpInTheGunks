@@ -1,27 +1,109 @@
 ﻿<!DOCTYPE html>
 <html>
-    <head>
-        <script src="login.js"></script>
-        <link rel="stylesheet" href="gunks.css"/>
-        <title>Surv-YAY Login</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
+<head>
+    <title>Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1">
+    <link rel="stylesheet" href="css/gunks.css" />
+    <!--script(src='jquery.js')-->
+   <!--<script>
+            (function() {
+                ("#includedContent").load("testh.html");
+            });
+    </script>-->
     </head>
     <body>
-        <header> 
-            <img src="SurvyaySmallLogo.jpg" alt="SurvYay" style="width:400px;height:150px;">
-        </header>
-
-        <div class="container">
-            <div class="main">
-                <h2>Login</h2>
-                <form id="form_id" method="post" name="myform">
-                    <label>Account: </label>
-                    <input type="text" name="username" id="username"/>
-                    <label>Password: </label>
-                    <input type="password" name="password" id="password"/>
-                    <input type="button" value="Login" id="submit" onclick="valiate()"/>
-                </form>
-            </div>
+        <!--HEADER-->
+        <div class="header">
+                <a href="index.html">
+                    <img src="images/SurvyaySmallLogo.jpg" alt="SurvYay">
+                </a>
         </div>
+    
+    <div>
+        <h2 style="text-align: center">Login</h2>
+    </div>
+
+    <div style="text-align: center">Project:<input id="prod" type="text" name="project" value="A0001">
+                                <br>Username:<input id="user" type="text" name="username" value="_tjoy">
+                                <br>Password:<input id="pass" type="text" name="password" value="surveysRkool"><br>
+                                <br><input id="log" type="submit"value="LogIn"><br>
+    </div>
+
+    <div style="text-align: center">
+        <textarea id="userinfo" rows="4" cols="50">nothing yet</textarea>
+    </div>
+
+    <div id="includedContent"></div>
+    <script type="text/javascript">
+        var subd_user;
+        var subd_pass;
+        var subd_prod;
+        var real_user;
+        var real_pass;
+        var real_role;
+    
+        document.getElementById('log').addEventListener("click", function() {
+            logIn(document.getElementById('prod').value, document.getElementById('user').value);
+        }, false);
+    
+    
+        function logIn(gathered_prod, gathered_id) {
+            subd_user = gathered_id,
+            subd_pass = document.getElementById('pass').value,
+            subd_prod = gathered_prod
+    
+            var userURL = ('http://10.10.9.145:3000/api/users/single/' + gathered_prod + '/' + gathered_id)
+    
+            fetch(userURL)
+                .then((user_res) => {
+                    return user_res.json()
+                })
+                .then((user_data) => {
+                    let user_result = ``;
+                    user_data.forEach((user) => {
+                        const {
+                            UserID,
+                            Fir_Name,
+                            Las_Name,
+                            Email,
+                            Password,
+                            ProdID,
+                            Role
+                        } = user
+                        user_result +=
+                            `UserID: ${UserID} 
+                        FN : ${Fir_Name} \n 
+                        LN : ${Las_Name} \n 
+                        EM : ${Email} \n 
+                        PS : ${Password} \n 
+                        PD : ${ProdID} \n
+                        RL : ${Role}`;
+                        real_pass = Password;
+                        real_user = UserID;
+                        real_role = Role;
+                        console.log(real_pass + subd_pass);
+                    })
+                }).then(validator());
+        }
+    
+        function validator() {
+            console.log("made it")
+            if (subd_pass == real_pass) {
+                window.location = '/index';
+            } else if (subd_pass != real_pass) {
+                goAgain();
+                console.log("whats going on here");
+    
+                document.getElementById('userinfo').innerHTML = "sorry boss"
+            }
+        }
+    
+        function goAgain() {
+            if (subd_pass == real_pass) {
+                window.location = '/index';
+            }
+        }
+    </script>
     </body>
 </html>

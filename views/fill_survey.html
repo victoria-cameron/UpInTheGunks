@@ -1,16 +1,136 @@
-﻿
-<html lang="en">
+﻿<html lang="en">
     <head>
         <link rel="stylesheet" href="css/gunks.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body>
+    <body id="fill_survey">
 
 	<div>
        	     <h1>Fill Survey</h1>
-             <h3>The survey will appear here.</h3>
-	</div>
+             <h3>Select the survey you will be filling.</h3>
+    </div>
+    
+    <div id = "search" style = "margin-left: 50%">
+            <input type = "text" value = "Filter By" id = "filterBy">
+            <button type = "button" id = "search">Search</button><br>
+    </div>
+
+    <div class="file">
+            
+            <div id = "bar">
+                <h3 style="text-align: center">Creator | Created | Title | Description </h3>
+                <!--<div id = "search" style = "margin-right: 50%">-->
+                <button type = "button" id = "select">Select</button><br>
+                <!--</div>-->
+                <textarea id="displayspot" rows="4" cols="50">nothing yet</textarea>
+            </div>
+    </div>
+
+          
+
+    <!-- The Modal 
+    <div id="myModal" class="modal" value="Click me">
+
+         Modal content 
+        <div class="modal-content" >
+          <span class="close">&times;</span>
+          <p>Some text in the Modal..</p>
+        </div>
+      
+    </div>-->
+    
+    <script type="text/javascript">
+        document.getElementById("select").addEventListener("click", function() {
+            showSurveyList();
+        }, false);
+
+        function showSurveyList() {
+            fetch('http://10.10.9.145:3000/api/surveys')
+                .then(surveyList => surveyList.json())
+                .then(data_1 => {
+                    let result = ``;
+                    data_1.forEach((survey) => {
+                        const {
+                            SurvID,
+                            SurvCreated,
+                            SurvCreator,
+                            SurvTitle,
+                            SurvDescription
+                        } = survey
+                        result +=
+                            `SurvID: ${SurvID} 
+                             Created: ${SurvCreated}
+                             Creator: ${SurvCreator}
+                             Title: ${SurvTitle}
+                             Description: ${SurvDescription}`;
+                        document.getElementById('displayspot').innerHTML = "result";
+                    });
+                })
+        }
+
+    
+    //-------------------------------------MODAL-------------------------------------------------------
+        /* Get the modal
+        var modal = document.getElementById("myModal");
+        
+        // Get the button that opens the modal
+        var btn = document.getElementById("select");
+        
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal 
+        btn.onclick = function() {
+            showSurveyList();
+        }
+        
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+        //-------------------------------------------------------------------------------------------------
+
+        //---------------------------------------API-------------------------------------------------------
+        function showSurveyList() {
+            /*var surveyList = ('http://10.10.9.145:3000/api/surveys/gather/2' );
+
+            fetch(surveyList)
+                .then((surveys) => {
+                    return surveys.json();
+                })
+                .then((data_1) => {
+                    let result = ``;
+                    data_1.forEach((survey) => {
+                        const {
+                            SurvID,
+                            SurvTitle,
+                            SurvDescription,
+                            SurvCreator
+                        } = listItem
+                        result += 
+                        `SurvID: ${SurvID} 
+                         Survey Title : ${SurvTitle} \n 
+                         Survey Description : ${SurvDescription} \n
+                         Survey Creator : ${SurvCreator}`;
+
+                         document.getElementById('myModal').value = "It worked";
+                         modal.style.display = "block";
+                    //});
+                //})
+                
+        }*/
+
+
+    </script>
+
 
     </body>
 </html>

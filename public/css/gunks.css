@@ -5,6 +5,8 @@
   font-size: 35px;
   color: white;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  width: 95%;
+  height: 150px;
 }
 
 .header img { /*this is for the logo*/
@@ -34,6 +36,7 @@ h1 {
 }
 
 .header h2 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: black;
   position: relative;
   font-size: 20pt;
@@ -126,17 +129,21 @@ button { /*had to make another one since I kept breaking it*/
 
 
 /*Middle wrapper*/
-.index {
+#index {
   position: absolute;
   z-index: 1;
   background-color: #DFE4E8;
   left: 140px;
-  width: 85%;
+  width: 1501px;
   height: 800px;
   top: 210px;
   font-size: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   float: right;
+}
+
+#create_question, #create_survey, #fill_select, #fill_survey, #view_records, #view_select, #view_surveys {
+  background-color: #DFE4E8;
 }
 
 table {
@@ -162,12 +169,11 @@ tr:nth-child(even) {
 /*Top wrapper*/
 .file {
   position: absolute;
-  z-index: 2;
+  /*z-index: 2;*/
   background-color: #ECE3E3;
-  left: 150px;
-  width: 80%;
-  height: 600px;
-  top: 350px;
+  left: 30px;
+  width: 90%;
+  height: 90%;
   font-size: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
@@ -177,6 +183,44 @@ tr:nth-child(even) {
 nav ul {
   list-style-type: none;
   padding: 0;
+}
+
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto; /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%; /* Could be more or less, depending on screen size */
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
 }
 
 article {
