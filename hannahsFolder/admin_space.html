@@ -26,11 +26,15 @@
         <div class = "index" id = "adminSpace">
             <h1>Admin Space</h1>
             <h2>Create new user:</h2>
-            <label>New user ID:</label>
-            <input type="text" name="newUser"><br><br>
-            <label>New user password:</label>
-            <input type="text" name="newUserPassword"><br><br>
-            <button type="button" id="Submit">Submit ></button><br>
+            <label>Email:</label>
+            <input type="text" id="newUserE"><br><br>
+            <label>First name:</label>
+            <input type="text" id="newUserF"><br><br>
+            <label>Last name:</label>
+            <input type="text" id="newUserL"><br><br>
+            <label>Password:</label>
+            <input type="text" id="newUserPassword"><br><br>
+            <button type="button" id="SubmitN" onclick="createUser()">Submit ></button><br>
             <h2>Update user:</h2>
             <label>User ID:</label>
             <input type="text" id="updateUser"><br><br>
@@ -48,10 +52,20 @@
 </body>
 </html>
 <script type = "text/javascript">
-   var new_user;
-   var new_password;
-   document.getElemenetById('adminSpace').addEvenetListener("click", function(){
-    newUser(document.getElemenetById('newUser').value,(document.getElemenetById('newPassword').value);
-   }, false);   
+document.getElementId("SubmitN").addEventListener("click", function(){
+    postUser(document.getElementById("newUser").value);}, false);
+function postUser(gotText){
+    console.log(gotText);
+    event.preventDefault();
+    let tittle = gotText;
+
+    fetch('http://10.10.9.145:3000/api/questions/add', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({UserID:tittle})
+    }).then((res) => res.json())
+    .then((data) =>  console.log(data))
+    .catch((err)=>console.log(err))
+}
 
 </script>
