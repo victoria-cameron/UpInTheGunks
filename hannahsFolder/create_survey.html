@@ -25,19 +25,13 @@
             <button type="button" id="fill">Fill ></button>
             <button type="button" id="view">View ></button>
         </div>
-        <div>
-            <h1>Create a survey</h1>
-        </div>
 
-        <div>
+        <div class = "index">
+            <h1>Create a survey</h1>
             <h2>Select questions for your survey.</h2>
-            <div id = "bar">
-                <h3>Creator | Created | Question </h3>
-            </div>
-            <div id = "search" style = "margin-left: 50%">
-                <input type = "text" value = "Filter By" id = "filterBy">
-                <button type = "button" id = "search">Search</button><br>
-            </div>
+            <label>Creator | Created | Question </label>
+            <input type = "text" value = "Filter By" id = "filterBy">
+            <button type = "button" id = "search">Search</button><br>
 
             <form id = "checkBoxes" action="checkAll()">
                 <input type="checkbox" name="checkBox" value="qOne"> Question One<br>
@@ -50,8 +44,8 @@
                 <input type="checkbox" name="checkBox" value="qEight"> Question Eight<br>
                 <input type="checkbox" name="checkBox" value="qNine"> Question Nine<br>
                 <input type="checkbox" name="checkBox" value="qTen"> Question Ten<br>
-                <input type="button" value="Submit" onClick = "checkAll()">
             </form>
+            <button type="button"> Submit ></button>
         </div>
     </body>
 </html>
