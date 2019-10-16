@@ -7,28 +7,60 @@
     </head>
     <body id="view_records">
         <div>
-            <h1> View Records</h1>
-            <table>
-		<tr>
-    		   <th>Creator</th>
-    		   <th>Name</th>
-    		   <th>Category</th>
-    		   <th>Survey</th>
-  	        </tr>
-	 	<tr>
-  		   <td>Checking</td>
-    		   <td>If</td>
-        	   <td>This</td>
-    		   <td>Works</td>
-  		</tr>
-	 	<tr>
-  		   <td>Checking</td>
-    		   <td>If</td>
-        	   <td>This</td>
-    		   <td>Works</td>
-  		</tr>
-	    </table>
-		<button type="button">&laquo;Back</button>
+			<h1> View Records</h1>
+			<button type="button" id="list">List Surveys</button>
+			<br>
+			<br>
+            <!-- <table>
+				<tr>
+					<th>Creator</th>
+					<th>Name</th>
+					<th>Category</th>
+					<th>Survey</th>
+				</tr>
+				<tr>
+				<td>Checking</td>
+					<td>If</td>
+					<td>This</td>
+					<td>Works</td>
+				</tr>
+				<tr>
+				<td>Checking</td>
+					<td>If</td>
+					<td>This</td>
+					<td>Works</td>
+				</tr>
+			</table> -->
+			<textarea id='test' rows=20 cols=75></textarea>
+		
         </div>
     </body>
 </html>
+
+
+
+<script>
+	document.getElementById("list").addEventListener("click", function() {
+    getRecords();
+    }, false);
+
+	function getRecords(){
+		fetch('http://10.10.9.145:3000/api/interviews')
+		.then((res_1) => { return res_1.json() })
+		.then((data_1) => {
+			let result = ``;
+			data_1.forEach((record) => {
+				const { InteID, Filled_by, Date_filled, SurvID, InteTitle} = record
+				result +=
+				`Interview ID: ${InteID} 
+				Interview Filler: ${Filled_by} \n
+				Date Filled: ${Date_filled} \n
+				Survey Filled: ${SurvID} \n
+				Interview Title ${InteTitle} \n\n` ;
+				
+				document.getElementById('test').innerHTML = result;
+			});
+		})
+
+	}
+</script>
