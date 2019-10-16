@@ -26,18 +26,15 @@
             <button type="button" id="view">View ></button>
         </div>
 
-    <div>
+    <div class = "index">
         <h1>Create Question</h1>
-    </div>
-
-    <div>
         <label>Question: </label><br><br>
         <input type = "text" id = "q"><br><br>
         <label> Type:  </label><br>
         <input type="text" name="type" >
         <button type="button" id="submit">Submit ></button><br><br>
-        <button type = "button" id = "get"> Get ></button><br><br>
-        <textarea id = "displayspot" type = "textarea" rows="4" cols="50"></textarea><br><br>
+        <!--<button type = "button" id = "get"> Get ></button><br><br>-->
+        <!--<textarea id = "displayspot" type = "textarea" rows="4" cols="50"></textarea><br><br>-->
     </div>
 </body>
 </html>
@@ -61,7 +58,7 @@ function postQuestion(gotText){
     }).then((res) => res.json())
     .then((data) =>  console.log(data))
     .catch((err)=>console.log(err))
-
+}
 function getQuestion(){
     fetch('http://10.10.9.145:3000/api/questions')
     .then((res_1) => { return res_1.json() })
@@ -74,11 +71,10 @@ function getQuestion(){
             Question Text : ${Ques_text} \n ` ;
                 
         document.getElementById('displayspot').innerHTML = result;
-            });
-        })
-    
-    }
+        });
+    })
 }
+
 
 </script>
 
