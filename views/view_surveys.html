@@ -1,37 +1,78 @@
 ﻿
-<html lang="en">
+    <html lang="en">
     <head>
-	<link rel="stylesheet" href="css/gunks.css">
+        <link rel="stylesheet" href="css/gunks.css">
+        <title>Surv-YAY View Surveys</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body>
-        <div>
-            <h1> View Surveys</h1>
-            <table>
-		<tr>
-    		   <th>Title</th>
-    		   <th>Creator</th>
-    		   <th>Created</th>
-    		   <th>Description</th>
-  	        </tr>
-	 	<tr>
-  		   <td>Checking</td>
-    		   <td>If</td>
-        	   <td>This</td>
-    		   <td>Works</td>
-  		</tr>
-	 	<tr>
-  		   <td>Checking</td>
-    		   <td>If</td>
-        	   <td>This</td>
-    		   <td>Works</td>
-  		</tr>
-	    </table>
-		<button type="button">&laquo;Back</button>
-	</div>
-    </body>
-</html>
-<script>
+    <body id="view_surveys">
+        <!--HEADER-->
+        <div class="header">
+            <a href="index.html">
+                <img src="images/SurvyaySmallLogo.jpg" alt="SurvYay">
+            </a>
+            <h2>Welcome, User!</h2>
+            <button type="button">Logout</button>
+        </div>
 
+        <!--SIDE NAV-->
+        <div class="sidenav">
+            <button class="dropdown-btn" id="create">Create ></button>
+            <div class="dropdown-container">
+                <a href="#" onclick="load_tab('create_question')">Questions</a>
+                <a href="#" onclick="load_tab('create_survey')">Surveys</a>
+            </div>
+
+            <button class="dropdown-btn" id="fill">Fill ></button>
+            <div class="dropdown-container">
+                <a href="#" onclick="load_tab('fill_survey')">Surveys</a>
+            </div>
+
+            <button class="dropdown-btn" id="view">View ></button>
+            <div class="dropdown-container">
+                <a href="#" onclick="load_tab('view_records')">Records</a>
+                <a href="#" onclick="load_tab('view_surveys')">Surveys</a>
+            </div>
+        </div>
+
+        <div id="content" style="height:auto; width:auto ">
+            <div>
+                <h1> View Surveys</h1>
+                <table>
+                    <tr>
+                        <th>Title</th>
+                        <th>Creator</th>
+                        <th>Created</th>
+                        <th>Description</th>
+                    </tr>
+                </table>
+                <button type="button">&laquo;Back</button>
+            </div>
+        </div>
+    </body>
+    </html>
+
+<script>
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    var dropdown = document.getElementsByClassName("dropdown-btn");
+    var i;
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+    }
+    function load_tab(tab) {
+        var dest = 'views/' + tab
+        console.log(dest);
+        /*document.getElementById("index").innerHTML = '<iframe type="text/html" src=' + tab + ' frameborder=0 sandbox id=create_question></iframe>';*/
+        document.getElementById("index").innerHTML = '<object type="text/html" data=' + tab + ' width=100% height=100%></object>';
+        /*document.getElementsByClassName("content").innerHTML = '<object type="text/html" data=' + tab + ' ></object>';*/
+    }
 </script>
