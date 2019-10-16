@@ -1,0 +1,84 @@
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1">
+    <link rel="stylesheet" href="css/gunks.css">
+</head>
+<body>
+
+        <link rel="stylesheet" href="gunks.css">
+        <title>Surv-YAY Create Question</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="create_question.html"></script>
+
+        <div class="header"> 
+        <a href="index.html">
+        <img src="SurvyaySmallLogo.jpg" alt="SurvYay">
+        </a>
+        <h2>Welcome, User!</h2>
+        <button type="button">Logout</button>
+        </div>
+
+        <div class="sidenav">
+            <button type="button" id="create">Create ></button>
+            <button type="button" id="fill">Fill ></button>
+            <button type="button" id="view">View ></button>
+        </div>
+
+    <div>
+        <h1>Create Question</h1>
+    </div>
+
+    <div>
+        <label>Question: </label><br><br>
+        <input type = "text" id = "q"><br><br>
+        <label> Type:  </label><br>
+        <input type="text" name="type" >
+        <button type="button" id="submit">Submit ></button><br><br>
+        <button type = "button" id = "get"> Get ></button><br><br>
+        <textarea id = "displayspot" type = "textarea" rows="4" cols="50"></textarea><br><br>
+    </div>
+</body>
+</html>
+
+<script >
+var testText = "Q";
+document.getElementById("submit").addEventListener("click", function(){
+    postQuestion(document.getElementId("q").value);}, false);
+document.getElementId("get").addEventListener("click", function(){
+    getQuestion();}, false);
+
+function postQuestion(gotText){
+    console.log(gotText);
+    event.preventDefault();
+    let tittle = gotText;
+
+    fetch('http://10.10.9.145:3000/api/questions/add', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({Ques_text:tittle})
+    }).then((res) => res.json())
+    .then((data) =>  console.log(data))
+    .catch((err)=>console.log(err))
+
+function getQuestion(){
+    fetch('http://10.10.9.145:3000/api/questions')
+    .then((res_1) => { return res_1.json() })
+    .then((data_1) => {
+        let result = ``;
+        data_1.forEach((question) => {
+        const { QuesID, Ques_text} = question
+        result +=
+        `QuesID: ${QuesID} 
+            Question Text : ${Ques_text} \n ` ;
+                
+        document.getElementById('displayspot').innerHTML = result;
+            });
+        })
+    
+    }
+}
+
+</script>
+
