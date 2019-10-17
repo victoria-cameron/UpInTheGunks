@@ -13,29 +13,39 @@
     <div class="file">
         <label>Question: </label><br><br>
         <input type = "text" id = "q"><br><br>
-        <label> Type:  </label><br>
-        <input type="text" name="type" >
+        <label> Type:  </label><br><br>
+        <input type="text" id="type" ><br><br>
         <button type="button" id="submit">Submit ></button><br><br>
     </div>     
 </body>
 </html>
 
 <script >
-var testText = "Q";
 document.getElementById("submit").addEventListener("click", function(){
-    postQuestion(document.getElementById("q").value);}, false);
+    postQuestion((document.getElementById("q").value),(document.getElementById("type").value));}, false);
     //document.getElementId("get").addEventListener("click", function(){
    // getQuestion();}, false);
 
-function postQuestion(gotText){
+function postQuestion(gotText, gotType){
     console.log(gotText);
+    console.log(gotType);
     event.preventDefault();
     let tittle = gotText;
+    let type = gotType;
 
     fetch('http://10.10.9.145:3000/api/questions/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({Ques_text:tittle})
+    }).then((res) => res.json())
+    .then((data) =>  console.log(data))
+    .catch((err)=>console.log(err))
+
+    fetch('http://10.10.9.145:3000/api/questions/add_choice', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({Choi_text:type,
+                              QuesID:1})
     }).then((res) => res.json())
     .then((data) =>  console.log(data))
     .catch((err)=>console.log(err))
