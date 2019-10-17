@@ -11,46 +11,37 @@
              <h3>Select the survey you will be filling.</h3>
     </div>
     
-    <div id = "search" style = "margin-left: 50%">
+    <div id = "search" style = "margin-left: 80%">
             <input type = "text" value = "Filter By" id = "filterBy">
             <button type = "button" id = "search">Search</button><br>
     </div>
 
     <div class="file">
+        <table id="surveyTable">
+
+        </table>
             
-            <div id = "bar">
+           <!-- <div id = "bar">
                 <h3 style="text-align: center">Creator | Created | Title | Description </h3>
-                <!--<div id = "search" style = "margin-right: 50%">-->
+                <div id = "search" style = "margin-right: 50%">
                 <button type = "button" id = "select">Select</button><br>
-                <!--</div>-->
-                <textarea id="displayspot" rows="4" cols="50">nothing yet</textarea>
-            </div>
+                </div>
+            </div>-->
     </div>
-
-          
-
-    <!-- The Modal 
-    <div id="myModal" class="modal" value="Click me">
-
-         Modal content 
-        <div class="modal-content" >
-          <span class="close">&times;</span>
-          <p>Some text in the Modal..</p>
-        </div>
-      
-    </div>-->
     
     <script type="text/javascript">
-        document.getElementById("select").addEventListener("click", function() {
-            showSurveyList();
-        }, false);
+        //document.getElementById("select").addEventListener("click", function() {
+        //    showSurveyList();
+        //}, false);
 
-        function showSurveyList() {
-            fetch('http://10.10.9.145:3000/api/surveys')
-                .then(surveyList => surveyList.json())
-                .then(data_1 => {
+       // function showSurveyList() {
+            var test = document.getElementById('displayspot');
+            var url = 'http://10.10.9.145:3000/api/surveys';
+            fetch(url) // Connection to api
+                .then(surveyList => surveyList.json()) // Transform data into json
+                .then(function(data) {
                     let result = ``;
-                    data_1.forEach((survey) => {
+                    data.forEach((survey) => {
                         const {
                             SurvID,
                             SurvCreated,
@@ -58,15 +49,31 @@
                             SurvTitle,
                             SurvDescription
                         } = survey
-                        result +=
-                            `SurvID: ${SurvID} 
-                             Created: ${SurvCreated}
-                             Creator: ${SurvCreator}
-                             Title: ${SurvTitle}
-                             Description: ${SurvDescription}`;
-                        document.getElementById('displayspot').innerHTML = "result";
+                        result = [ 
+                            `SurvID: ${SurvID}`, 
+                            `Created: ${SurvCreated}`,
+                            `Creator: ${SurvCreator}`,
+                            `Title: ${SurvTitle}`,
+                            `Description: ${SurvDescription}`];
+
+                        document.getElementById("surveyTable").innerHTML = makeTableHTML(result);
                     });
+
                 })
+        //}
+
+        function makeTableHTML(myArray) {
+            var result = "<table border=1>";
+            for(var i=0; i<myArray.length; i++) {
+                result += "<tr>";
+                for(var j=0; j<myArray[i].length; j++){
+                    result += "<td>"+myArray[i][j]+"</td>";
+                }
+                result += "</tr>";
+            }
+            result += "</table>";
+            
+            return result;
         }
 
     
