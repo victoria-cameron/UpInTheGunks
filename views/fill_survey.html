@@ -39,7 +39,7 @@
         fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
             .then(function(data) {
-                let result = ``;
+                let result = [];
                 data.forEach((survey) => {
                     const {
                         SurvID,
@@ -48,31 +48,28 @@
                         SurvTitle,
                         SurvDescription
                     } = survey
-                    result = 
-                        `${SurvCreator}
-                         ${SurvCreated}
-                         ${SurvTitle}
-                         ${SurvDescription}`;
-                    var cols = ["Creator ", "Created ", "Title ", "Description "];
-                    document.getElementById("surveyTable").innerHTML = makeTableHTML(cols);
+                    result = [
+                        `${SurvCreator}`,
+                         `${SurvCreated}`,
+                         `${SurvTitle}`,
+                         `${SurvDescription}`];
+                    let idk = JSON.stringify(result);
+                    //document.getElementById("surveyTable").innerHTML = makeTableHTML();
+                    makeTableHTML(result);
                 });
 
             })
         //}
 
-        function makeTableHTML(hi) {
-            var result = document.getElementById("surveyTable");
-            for(var i=0; i<hi.length; i++) {
-                result += "<tr>"+hi[i]+"</tr>";
-                /*for(var j=0; j<cols[i].length; j++){
-                    result += "<td>"+cols[i][j]+"</td>";
-                }
-
-                result += "</tr>";*/
-            }
-            result += "</table>";
+        function makeTableHTML(info) {
             
-            return result;
+            var cols = ["Creator", "Created", "Title", "Description"];
+            var survTable =  document.getElementById("surveyTable");
+            var newRow = survTable.insertRow(0);
+            for (var i = 0; i < info.length; i++) {
+                var newCell = newRow.insertCell(i);
+                newCell.innerHTML = info[i];
+            }
         }
 
     </script>
