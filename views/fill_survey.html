@@ -1,45 +1,46 @@
-﻿<html lang="en">
-    <head>
-        <link rel="stylesheet" href="css/gunks.css">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body id="fill_survey">
+﻿﻿
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/gunks.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body id="fill_survey">
 
-	<div>
-       	     <h1>Fill Survey</h1>
-             <h3>Select the survey you will be filling.</h3>
+    <div>
+        <h1>Fill Survey</h1>
+        <h3>Select the survey you will be filling.</h3>
     </div>
-    
-    <div id = "search" style = "margin-left: 80%">
-            <input type = "text" value = "Filter By" id = "filterBy">
-            <button type = "button" id = "search">Search</button><br>
+
+    <div id="search" style="margin-left: 80%">
+        <input type="text" value="Filter By" id="filterBy">
+        <button type="button" id="search">Search</button><br>
     </div>
 
     <div class="file" id="tableForm">
         <!--<h3 style="text-align: center">Creator | Created | Title | Description </h3>-->
         <table id="surveyTable"></table>
-            
-           <!-- <div id = "bar">
-                <h3 style="text-align: center">Creator | Created | Title | Description </h3>
-                <div id = "search" style = "margin-right: 50%">
-                <button type = "button" id = "select">Select</button><br>
-                </div>
-            </div>-->
+
+        <!-- <div id = "bar">
+             <h3 style="text-align: center">Creator | Created | Title | Description </h3>
+             <div id = "search" style = "margin-right: 50%">
+             <button type = "button" id = "select">Select</button><br>
+             </div>
+         </div>-->
     </div>
-    
+
     <script type="text/javascript">
         //document.getElementById("select").addEventListener("click", function() {
         //    showSurveyList();
         //}, false);
 
-       // function showSurveyList() {
+        // function showSurveyList() {
         //var test = document.getElementById('surveyTable');
         var url = 'http://10.10.9.145:3000/api/surveys';
         fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
-            .then(function(data) {
-                let result = [];
+            .then(function (data) {
+                let result = ``;
                 data.forEach((survey) => {
                     const {
                         SurvID,
@@ -48,34 +49,37 @@
                         SurvTitle,
                         SurvDescription
                     } = survey
-                    result = [
-                        `${SurvCreator}`,
-                         `${SurvCreated}`,
-                         `${SurvTitle}`,
-                         `${SurvDescription}`];
-                    let idk = JSON.stringify(result);
-                    //document.getElementById("surveyTable").innerHTML = makeTableHTML();
-                    makeTableHTML(result);
+                    result =
+                        `${SurvCreator}
+                             ${SurvCreated}
+                             ${SurvTitle}
+                             ${SurvDescription}`;
+                    var cols = ["Creator ", "Created ", "Title ", "Description "];
+                    document.getElementById("surveyTable").innerHTML = makeTableHTML(cols);
                 });
 
             })
         //}
 
-        function makeTableHTML(info) {
-            
-            var cols = ["Creator", "Created", "Title", "Description"];
-            var survTable =  document.getElementById("surveyTable");
-            var newRow = survTable.insertRow(0);
-            for (var i = 0; i < info.length; i++) {
-                var newCell = newRow.insertCell(i);
-                newCell.innerHTML = info[i];
+        function makeTableHTML(hi) {
+            var result = document.getElementById("surveyTable");
+            for (var i = 0; i < hi.length; i++) {
+                result += "<tr>" + hi[i] + "</tr>";
+                /*for(var j=0; j<cols[i].length; j++){
+                    result += "<td>"+cols[i][j]+"</td>";
+                }
+
+                result += "</tr>";*/
             }
+            result += "</table>";
+
+            return result;
         }
 
     </script>
 
 
-    </body>
+</body>
 </html>
 
 <script>
