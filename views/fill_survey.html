@@ -1,138 +1,89 @@
-﻿<html lang="en">
-    <head>
-        <link rel="stylesheet" href="css/gunks.css">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
-    <body id="fill_survey">
-
-	<div>
-       	     <h1>Fill Survey</h1>
-             <h3>Select the survey you will be filling.</h3>
-    </div>
-    
-    <div id = "search" style = "margin-left: 50%">
-            <input type = "text" value = "Filter By" id = "filterBy">
-            <button type = "button" id = "search">Search</button><br>
+﻿﻿
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/gunks.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body id="fill_survey" onload="showSurveyList();"> <!--Allows you to run the function when the page loads-->
+    <div>
+        <h1>Fill Survey</h1>
+        <h3>Select the survey you will be filling.</h3>
     </div>
 
-    <div class="file">
-            
-            <div id = "bar">
-                <h3 style="text-align: center">Creator | Created | Title | Description </h3>
-                <!--<div id = "search" style = "margin-right: 50%">-->
-                <button type = "button" id = "select">Select</button><br>
-                <!--</div>-->
-                <textarea id="displayspot" rows="4" cols="50">nothing yet</textarea>
-            </div>
-    </div>
-
-          
-
-    <!-- The Modal 
-    <div id="myModal" class="modal" value="Click me">
-
-         Modal content 
-        <div class="modal-content" >
-          <span class="close">&times;</span>
-          <p>Some text in the Modal..</p>
-        </div>
-      
+    <!--<div id="search" style="margin-left: 80%">
+        <input type="text" value="Filter By" id="filterBy">
+        <button type="button" id="search">Search</button><br>
     </div>-->
-    
+
+    <div class="file" id="tableForm">
+        <!--<h3 style="text-align: center">Creator | Created | Title | Description </h3>-->
+        <table id="surveyTable"></table>
+
+        <!-- <div id = "bar">
+             <h3 style="text-align: center">Creator | Created | Title | Description </h3>
+             <div id = "search" style = "margin-right: 50%">
+             <button type = "button" id = "select">Select</button><br>
+             </div>
+         </div>-->
+    </div>
+
     <script type="text/javascript">
-        document.getElementById("select").addEventListener("click", function() {
-            showSurveyList();
-        }, false);
+        //document.getElementById("select").addEventListener("click", function() {
+        //    showSurveyList();
+        //}, false);
 
         function showSurveyList() {
-            fetch('http://10.10.9.145:3000/api/surveys')
-                .then(surveyList => surveyList.json())
-                .then(data_1 => {
-                    let result = ``;
-                    data_1.forEach((survey) => {
+            var test = document.getElementById('surveyTable');
+            var url = 'http://10.10.9.145:3000/api/surveys';
+            fetch(url) // Connection to api
+                .then(surveyList => surveyList.json()) // Transform data into json
+                .then(function (data) {
+                    let surveyResult = ``;
+                    data.forEach((survey) => {
                         const {
                             SurvID,
                             SurvCreated,
                             SurvCreator,
                             SurvTitle,
-                            SurvDescription
-                        } = survey
-                        result +=
-                            `SurvID: ${SurvID} 
-                             Created: ${SurvCreated}
-                             Creator: ${SurvCreator}
-                             Title: ${SurvTitle}
-                             Description: ${SurvDescription}`;
-                        document.getElementById('displayspot').innerHTML = "result";
+                            SurvDescription } = survey
+                        var tabber = document.createElement("button"); //creates a button that can be clicked (Will be what takes you to the actuall filling of the survey)
+                        var tabberValue = document.createTextNode(SurvID); //Makes the survey ID the text of the button, can be any field (I would make it the title)
+                        tabber.appendChild(tabberValue); //Adds the value to the button
+                        surveyResult +=
+                            tabber.outerHTML + `\t
+                             ${SurvTitle} <br>
+                             &emsp;&emsp;&emsp;&emsp; Creator: ${SurvCreator} <br>
+                             &emsp;&emsp;&emsp;&emsp; Created: ${SurvCreated} <br>
+                             &emsp;&emsp;&emsp;&emsp; Description: ${SurvDescription} <br><br>`; //Makes the individual look of a survey for the list and adds it to the results that are gonna be printed
+                        //var cols = ["Creator ", "Created ", "Title ", "Description "];
+                        //document.getElementById("surveyTable").innerHTML = makeTableHTML(cols);
+                        document.getElementById("tableForm").innerHTML = surveyResult; //Prints our results 
                     });
+
                 })
         }
 
-    
-    //-------------------------------------MODAL-------------------------------------------------------
-        /* Get the modal
-        var modal = document.getElementById("myModal");
-        
-        // Get the button that opens the modal
-        var btn = document.getElementById("select");
-        
-        // Get the <span> element that closes the modal
-        var span = document.getElementsByClassName("close")[0];
+        function makeTableHTML(hi) {
+            var result = document.getElementById("surveyTable");
+            for (var i = 0; i < hi.length; i++) {
+                result += "<tr>" + hi[i] + "</tr>";
+                /*for(var j=0; j<cols[i].length; j++){
+                    result += "<td>"+cols[i][j]+"</td>";
+                }
 
-        // When the user clicks on the button, open the modal 
-        btn.onclick = function() {
-            showSurveyList();
-        }
-        
-        // When the user clicks on <span> (x), close the modal
-        span.onclick = function() {
-            modal.style.display = "none";
-        }
-        
-        // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
-            if (event.target == modal) {
-                modal.style.display = "none";
+                result += "</tr>";*/
             }
+            result += "</table>";
+
+            return result;
         }
-        //-------------------------------------------------------------------------------------------------
-
-        //---------------------------------------API-------------------------------------------------------
-        function showSurveyList() {
-            /*var surveyList = ('http://10.10.9.145:3000/api/surveys/gather/2' );
-
-            fetch(surveyList)
-                .then((surveys) => {
-                    return surveys.json();
-                })
-                .then((data_1) => {
-                    let result = ``;
-                    data_1.forEach((survey) => {
-                        const {
-                            SurvID,
-                            SurvTitle,
-                            SurvDescription,
-                            SurvCreator
-                        } = listItem
-                        result += 
-                        `SurvID: ${SurvID} 
-                         Survey Title : ${SurvTitle} \n 
-                         Survey Description : ${SurvDescription} \n
-                         Survey Creator : ${SurvCreator}`;
-
-                         document.getElementById('myModal').value = "It worked";
-                         modal.style.display = "block";
-                    //});
-                //})
-                
-        }*/
 
 
     </script>
 
 
-    </body>
+</body>
 </html>
 
 <script>

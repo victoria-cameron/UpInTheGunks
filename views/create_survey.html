@@ -35,27 +35,11 @@
                 <input type="checkbox" name="checkBox" value="qTen"> Question Ten<br>
                 <input type="button" value="Submit" onClick = "checkAll()">
             </form>
-            <button type="button"> Submit ></button>
         </div>
     </body>
 </html>
 
 <script>
-    function getQuestion(){
-        fetch('http://10.10.9.145:3000/api/questions')
-        .then((res_1) => { return res_1.json() })
-        .then((data_1) => {
-            let result = ``;
-            data_1.forEach((question) => {
-                const { QuesID, Ques_text} = question
-                result +=
-                `QuesID: ${QuesID} 
-                        Question Text : ${Ques_text} \n ` ;
-                
-                document.getElementById('checkBoxes').innerHTML = result;
-            });
-        })
-    }
     function checkAll() {
         var checked = document.getElementsByName('checkBoxes');
         var checkedBoxes = [];
@@ -65,44 +49,32 @@
                 }
             }
         var fs = require('fs');
-        var surv ={};
-        surv.table = checkedBoxes;
+        var data ={};
+        data.table = checkedBoxes;
         for(var i = 0; i < checkedBoxes.length; i++){
-            var obj = { id: i, checkBox};
-            data.table.push(obj);
+    	    var obj = { id: i, checkBox};
+    	    data.table.push(obj);
         }
-        JSON.stringify(data), function(err){
-            if(err)throw err;
-            console.log('surv');
-        };
-        console.log('surv');
-    }
-    function postSurvey(surv){
-        console.log(surv);
-        event.preventDefault();
-        let tittle = surv;
-
-        fetch('http://10.10.9.145:3000/api/surveys/add_question', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({QuesID:surv})
-        }).then((res) => res.json())
-        .then((data) =>  console.log(data))
-        .catch((err)=>console.log(err))
-
+        fs.writeFile("input.json", JSON.stringify(data), function(err){
+    	    if(err)throw err;
+    	    console.log('data');
+        });
+        return checkedBoxes.length > 0 ? checkedBoxes : null;
     }
     function searchFunction(){
         var search = document.getElementId("search");
         var data = document.getElementId("checkBox");
+
         search.onclick = function(){
-            var input = document.getElementById("filterBy");
-            for(var i = 0; i < checkedBoxes.length; i++){
-                if(checkedBoxes[i] == search){
-                    alert(data[i]);
-                }else{
-                    alert("not found");
-                }
-            }
+    	    var input = document.getElementById("filterBy");
+    	    for(var i = 0; i < checkedBoxes.length; i++){
+    		    if(checkedBoxes[i] == search){
+    			    alert(data[i]);
+    		    }else{
+    			    alert("not found");
+    		    }
+    	    }
         }
-    } 
+    }
+
 </script>
