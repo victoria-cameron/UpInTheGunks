@@ -1,0 +1,144 @@
+.header { /*made it into a container to make lives easier*/
+  background-color: #33443C;
+  padding: 30px;
+  text-align: right;
+  font-size: 35px;
+  color: white;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.header img { /*this is for the logo*/
+  float: left;
+  width: 400px;
+  height: 150px;
+}
+
+/*Outer wrapper*/
+body { 
+  background: #D7DEF4;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 12pt;
+  font-weight: normal;
+  font-style: normal;
+  z-index: 0;
+  position: relative;
+}
+
+h1 {
+  color: black;
+  font-size: 24pt;
+  font-weight: normal;
+  font-style: normal;
+  border-bottom: 1px solid black;
+}
+
+h2 {
+  color: black;
+  font-size: 20pt;
+  font-weight: normal;
+  font-style: normal;
+}
+
+h3 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-size: 16pt;
+  font-weight: normal;
+  font-style: normal;
+}
+
+button {
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #9DCE5B;
+  color: black;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 130px;
+  border-radius: 5px;
+  font-size: 15pt;
+}
+
+/* Creates two columns/boxes that float next to each other */
+.sidenav {
+  float:left;
+  width: 140px;
+  /*position: fixed;*/
+  top: 350px;
+  left: 10px;
+  background: #9DCE5B;
+  overflow-x: hidden;
+  padding: 8px 0;
+  border-radius: 5px;
+}
+
+.sidenav a, .dropdown-btn {
+  padding: 15px 10px 6px 16px;
+  text-decoration: none;
+  font-size: 20px;
+  color: black;
+  display: block;
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+  display: none;
+  background-color: rgb(172, 199, 136);
+  padding-left: 8px;
+}
+
+
+/*Middle wrapper*/
+.index {
+  position: absolute;
+  z-index: 1;
+  background-color: #DFE4E8;
+  left: 140px;
+  width: 85%;
+  height: 800px;
+  top: 206px;
+  font-size: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  float: right;
+}
+
+/*Top wrapper*/
+.file {
+  position: absolute;
+  z-index: 2;
+  background-color: #ECE3E3;
+  left: 150px;
+  width: 80%;
+  height: 600px;
+  top: 350px;
+  font-size: 20px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 20px;
+}
+
+/* Style the list inside the menu */
+nav ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+article {
+  float: left;
+  padding: 20px;
+  width: 70%;
+  background-color: #f1f1f1;
+}
+
+footer {
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
+
