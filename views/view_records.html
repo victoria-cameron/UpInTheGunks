@@ -5,18 +5,22 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body id="display_records">
+    <body id="display_records" onload="getRecords();">
         <div>
             <h1> View Records</h1>
-            <table id="list_records">
-                <tr>
-                    <th>Creator</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Survey</th>
-                </tr>
-            </table>
-            <br>
+            <div class="file" id="recordsview">
+
+            </div>
+
+            <!--<table id="list_records">
+            <tr>
+                <th>Creator</th>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Survey</th>
+            </tr>
+        </table>
+        <br> -->
             <br>
             <!--<textarea id='display_surveys' rows=20 cols=100></textarea>-->
         </div>
@@ -26,9 +30,6 @@
 
 
 <script>
-	document.getElementById("list_records").addEventListener("click", function() {
-    getRecords();
-    }, false);
 
 	function getRecords(){
 		fetch('http://10.10.9.145:3000/api/interviews')
@@ -37,14 +38,12 @@
 			let result = ``;
 			data_1.forEach((record) => {
 				const { InteID, Filled_by, Date_filled, SurvID, InteTitle} = record
-				result +=
-				`Interview ID: ${InteID} 
-				Interview Filler: ${Filled_by} \n
-				Date Filled: ${Date_filled} \n
-				Survey Filled: ${SurvID} \n
-				Interview Title: ${InteTitle} \n\n` ;
-				
-				document.getElementById('display_Records').innerHTML = result;
+                result +=
+                    `<b>${InteTitle}</b><br>
+                    &emsp;&emsp;&emsp;&emsp; Survey ID: ${SurvID} <br>
+                    &emsp;&emsp;&emsp;&emsp; Filled By: ${Filled_by} <br>
+                    &emsp;&emsp;&emsp;&emsp; Date Filled: ${Date_filled} <br><br> `				
+				document.getElementById('recordsview').innerHTML = result;
 			});
 		})
 

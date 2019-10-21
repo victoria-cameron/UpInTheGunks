@@ -1,89 +1,124 @@
-﻿﻿
 <html lang="en">
-<head>
-    <link rel="stylesheet" href="css/gunks.css">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
-<body id="fill_survey" onload="showSurveyList();"> <!--Allows you to run the function when the page loads-->
-    <div>
-        <h1>Fill Survey</h1>
-        <h3>Select the survey you will be filling.</h3>
-    </div>
+    <head>
+        <link rel="stylesheet" href="css/gunks.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    <body id="fill_survey">
 
-    <!--<div id="search" style="margin-left: 80%">
-        <input type="text" value="Filter By" id="filterBy">
-        <button type="button" id="search">Search</button><br>
-    </div>-->
+	<div>
+       	     <h1>Fill Survey</h1>
+             <h3>Select the survey you will be filling.</h3>
+    </div>
+    
+    <div id = "search" style = "margin-left: 80%">
+            <input type = "text" value = "Filter By" id = "filterBy">
+            <button type = "button" id = "search">Search</button><br>
+    </div>
 
     <div class="file" id="tableForm">
         <!--<h3 style="text-align: center">Creator | Created | Title | Description </h3>-->
-        <table id="surveyTable"></table>
-
-        <!-- <div id = "bar">
-             <h3 style="text-align: center">Creator | Created | Title | Description </h3>
-             <div id = "search" style = "margin-right: 50%">
-             <button type = "button" id = "select">Select</button><br>
-             </div>
-         </div>-->
+        <table id="columnTable"> <!--Table for the column headers-->
+            <col width="125px" />
+            <col width="350px" />
+            <col width="375px" />
+            <col width="500px" />
+            <tr style="background-color: #ECE3E3">
+                <th>Creator</th>
+                <th>Created</th> 
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </table>
+        <table id="surveyTable"> <!--Table for data from api-->
+            <col width="125px" />
+            <col width="350px" />
+            <col width="375px" />
+            <col width="500px" />
+        </table>
+        
     </div>
-
+    
     <script type="text/javascript">
-        //document.getElementById("select").addEventListener("click", function() {
-        //    showSurveyList();
-        //}, false);
+        
+        document.getElementById("surveyTable").addEventListener("click", function() {
+            highlight_row();
+        }, false);
 
-        function showSurveyList() {
-            var test = document.getElementById('surveyTable');
-            var url = 'http://10.10.9.145:3000/api/surveys';
-            fetch(url) // Connection to api
-                .then(surveyList => surveyList.json()) // Transform data into json
-                .then(function (data) {
-                    let surveyResult = ``;
-                    data.forEach((survey) => {
-                        const {
-                            SurvID,
-                            SurvCreated,
-                            SurvCreator,
-                            SurvTitle,
-                            SurvDescription } = survey
-                        var tabber = document.createElement("button"); //creates a button that can be clicked (Will be what takes you to the actuall filling of the survey)
-                        var tabberValue = document.createTextNode(SurvID); //Makes the survey ID the text of the button, can be any field (I would make it the title)
-                        tabber.appendChild(tabberValue); //Adds the value to the button
-                        surveyResult +=
-                            tabber.outerHTML + `\t
-                             ${SurvTitle} <br>
-                             &emsp;&emsp;&emsp;&emsp; Creator: ${SurvCreator} <br>
-                             &emsp;&emsp;&emsp;&emsp; Created: ${SurvCreated} <br>
-                             &emsp;&emsp;&emsp;&emsp; Description: ${SurvDescription} <br><br>`; //Makes the individual look of a survey for the list and adds it to the results that are gonna be printed
-                        //var cols = ["Creator ", "Created ", "Title ", "Description "];
-                        //document.getElementById("surveyTable").innerHTML = makeTableHTML(cols);
-                        document.getElementById("tableForm").innerHTML = surveyResult; //Prints our results 
-                    });
+        document.getElementById("surveyTable").addEventListener("dblclick", function() {
+            pullUpSurvey();
+        }, false);
 
-                })
-        }
+       // function showSurveyList() {
+        //var test = document.getElementById('surveyTable');
+        var url = 'http://10.10.9.145:3000/api/surveys';
+        fetch(url) // Connection to api
+            .then(surveyList => surveyList.json()) // Transform data into json
+            .then(function(data) {
+                let result = [];
+                data.forEach((survey) => {
+                    const {
+                        SurvID,
+                        SurvCreated,
+                        SurvCreator,
+                        SurvTitle,
+                        SurvDescription
+                    } = survey
+                    result = [
+                        `${SurvCreator}`,
+                         `${SurvCreated}`,
+                         `${SurvTitle}`,
+                         `${SurvDescription}`];
+                    let idk = JSON.stringify(result);
+                    //document.getElementById("surveyTable").innerHTML = makeTableHTML();
+                    makeTableHTML(result);
+                });
 
-        function makeTableHTML(hi) {
-            var result = document.getElementById("surveyTable");
-            for (var i = 0; i < hi.length; i++) {
-                result += "<tr>" + hi[i] + "</tr>";
-                /*for(var j=0; j<cols[i].length; j++){
-                    result += "<td>"+cols[i][j]+"</td>";
-                }
+            })
+        //}
 
-                result += "</tr>";*/
+        function makeTableHTML(info) {
+            var survTable =  document.getElementById("surveyTable");
+            var newRow = survTable.insertRow(0);
+            for (var i = 0; i < info.length; i++) {
+                var newCell = newRow.insertCell(i);
+                newCell.innerHTML = info[i];
             }
-            result += "</table>";
-
-            return result;
         }
 
+        function highlight_row() {
+            var table = document.getElementById('surveyTable');
+            var cells = table.getElementsByTagName('td');
+            
+            for (var i = 0; i < cells.length; i++) {
+                // Take each cell
+                var cell = cells[i];
+                // do something on onclick event for cell
+                cell.onclick = function () {
+                    // Get the row id where the cell exists
+                    var rowId = this.parentNode.rowIndex;
+                    
+                    var rowsNotSelected = table.getElementsByTagName('tr');
+                    for (var row = 0; row < rowsNotSelected.length; row++) {
+                        rowsNotSelected[row].style.backgroundColor = "";
+                        rowsNotSelected[row].classList.remove('selected');
+                    }
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+                    rowSelected.style.backgroundColor = "gray";
+                    rowSelected.className += " selected";
+                }
+            }
+        }
+
+        function pullUpSurvey() { //This is where I need to figure out how to pull up a survey
+            /*var url = 'http://10.10.9.145:3000/api/surveys/single/' + {SurvId};*/
+            document.write("It worked");
+        }
 
     </script>
 
 
-</body>
+    </body>
 </html>
 
 <script>
