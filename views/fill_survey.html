@@ -45,6 +45,10 @@
             highlight_row();
         }, false);
 
+        document.getElementById("surveyTable").addEventListener("dblclick", function() {
+            pullUpSurvey();
+        }, false);
+
        // function showSurveyList() {
         //var test = document.getElementById('surveyTable');
         var url = 'http://10.10.9.145:3000/api/surveys';
@@ -116,6 +120,10 @@
                     rowSelected.className += " selected";
                 }
             }
+        }
+
+        function pullUpSurvey() { //This is where I need to figure out how to pull up a survey
+            document.write("it worked");
         }
 
     </script>
