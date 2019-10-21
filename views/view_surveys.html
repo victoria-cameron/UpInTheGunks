@@ -1,49 +1,52 @@
 ﻿
-<html lang="en">
+    <html lang="en">
     <head>
-	<link rel="stylesheet" href="css/gunks.css">
+        <link rel="stylesheet" href="css/gunks.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body id="display_surveys">
+    <body id="display_surveys" onload="getSurveys();">
         <div>
             <h1> View Surveys</h1>
-            <table id="list_surveys">
-                <tr>
-                    <th>Title</th>
-                    <th>Creator</th>
-                    <th>Created</th>
-                    <th>Description</th>
-                </tr>
-            </table>
-            <br>
+            <div class="file" id="surveysview">
+
+            </div>
+            <!--<table id="list_surveys">
+                    <tr>
+                        <th>Title</th>
+                        <th>Creator</th>
+                        <th>Created</th>
+                        <th>Description</th>
+                    </tr>
+                </table>
+                <br>-->
             <br>
             <!--<textarea id='display_surveys' rows=20 cols=100></textarea>-->
         </div>
     </body>
-</html>
+    </html>
 
 <script>
-	document.getElementById("list_surveys").addEventListener("click", function() {
-    getRecords();
-    }, false);
 
-	function getRecords(){
+	function getSurveys(){
 		fetch('http://10.10.9.145:3000/api/surveys')
 		.then((res_1) => { return res_1.json() })
 		.then((data_1) => {
-			let result = ``;
-			data_1.forEach((record) => {
-				const { SurvID, SurvCreated, SurvCreator, SurvTitle, SurvDescription} = record
-				result +=
-				`Survey ID: ${SurvID} \n
-				Title: ${SurvTitle} \n
-				Description: ${SurvDescription} \n 
-				Date Created: ${SurvCreated} \n
-				Creator: ${SurvCreator} \n\n` ;
-				
-				document.getElementById('display_surveys').innerHTML = result;
-			});
+			let result_1 = ``;
+			data_1.forEach((rec_1) => {
+                const { SurvID, SurvCreated, SurvCreator, SurvTitle, SurvDescription } = rec_1
+                var openSurv = document.createElement("button");
+                var openValue = document.createTextNode(SurvTitle);
+                openSurv.appendChild(openValue);
+
+                result_1 +=
+                    openSurv.outerHTML + `<br>
+                    &emsp;&emsp;&emsp;&emsp; Creator: ${SurvCreator} <br>
+                    &emsp;&emsp;&emsp;&emsp; Created: ${SurvCreated} <br>
+                    &emsp;&emsp;&emsp;&emsp; Description: ${SurvDescription} <br><br>`;
+
+                document.getElementById('surveysview').innerHTML = result_1;
+            });
 		})
 
 	}
