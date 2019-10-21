@@ -5,17 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
-<body id="fill_survey">
-
+<body id="fill_survey" onload="showSurveyList();"> <!--Allows you to run the function when the page loads-->
     <div>
         <h1>Fill Survey</h1>
         <h3>Select the survey you will be filling.</h3>
     </div>
 
-    <div id="search" style="margin-left: 80%">
+    <!--<div id="search" style="margin-left: 80%">
         <input type="text" value="Filter By" id="filterBy">
         <button type="button" id="search">Search</button><br>
-    </div>
+    </div>-->
 
     <div class="file" id="tableForm">
         <!--<h3 style="text-align: center">Creator | Created | Title | Description </h3>-->
@@ -34,32 +33,36 @@
         //    showSurveyList();
         //}, false);
 
-        // function showSurveyList() {
-        //var test = document.getElementById('surveyTable');
-        var url = 'http://10.10.9.145:3000/api/surveys';
-        fetch(url) // Connection to api
-            .then(surveyList => surveyList.json()) // Transform data into json
-            .then(function (data) {
-                let result = ``;
-                data.forEach((survey) => {
-                    const {
-                        SurvID,
-                        SurvCreated,
-                        SurvCreator,
-                        SurvTitle,
-                        SurvDescription
-                    } = survey
-                    result =
-                        `${SurvCreator}
-                             ${SurvCreated}
-                             ${SurvTitle}
-                             ${SurvDescription}`;
-                    var cols = ["Creator ", "Created ", "Title ", "Description "];
-                    document.getElementById("surveyTable").innerHTML = makeTableHTML(cols);
-                });
+        function showSurveyList() {
+            var test = document.getElementById('surveyTable');
+            var url = 'http://10.10.9.145:3000/api/surveys';
+            fetch(url) // Connection to api
+                .then(surveyList => surveyList.json()) // Transform data into json
+                .then(function (data) {
+                    let surveyResult = ``;
+                    data.forEach((survey) => {
+                        const {
+                            SurvID,
+                            SurvCreated,
+                            SurvCreator,
+                            SurvTitle,
+                            SurvDescription } = survey
+                        var tabber = document.createElement("button"); //creates a button that can be clicked (Will be what takes you to the actuall filling of the survey)
+                        var tabberValue = document.createTextNode(SurvID); //Makes the survey ID the text of the button, can be any field (I would make it the title)
+                        tabber.appendChild(tabberValue); //Adds the value to the button
+                        surveyResult +=
+                            tabber.outerHTML + `\t
+                             ${SurvTitle} <br>
+                             &emsp;&emsp;&emsp;&emsp; Creator: ${SurvCreator} <br>
+                             &emsp;&emsp;&emsp;&emsp; Created: ${SurvCreated} <br>
+                             &emsp;&emsp;&emsp;&emsp; Description: ${SurvDescription} <br><br>`; //Makes the individual look of a survey for the list and adds it to the results that are gonna be printed
+                        //var cols = ["Creator ", "Created ", "Title ", "Description "];
+                        //document.getElementById("surveyTable").innerHTML = makeTableHTML(cols);
+                        document.getElementById("tableForm").innerHTML = surveyResult; //Prints our results 
+                    });
 
-            })
-        //}
+                })
+        }
 
         function makeTableHTML(hi) {
             var result = document.getElementById("surveyTable");
@@ -75,6 +78,7 @@
 
             return result;
         }
+
 
     </script>
 
