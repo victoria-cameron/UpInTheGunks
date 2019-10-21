@@ -23,18 +23,39 @@
 </html>
 
 <script >
-    function createQuestion(){
-        var quest = q.value.length;
-        if(quest == 0){
-            alert("Empty question not valid");
-        }else{
-            var question = document.getElementById("createQ");
-        }
-        var questionT = qt.value.length;
-        if(questionT == 0){
-            alert("Empty question type not valid");
-        }else{
-            var questionType = document.getElementById("createQ");
-        }	
+document.getElementById("submit").addEventListener("click", function(){
+    postQuestion(document.getElementId("q").value);}, false);
+document.getElementId("get").addEventListener("click", function(){
+    getQuestion();}, false);
+
+function postQuestion(gotText){
+    console.log(gotText);
+    event.preventDefault();
+    let tittle = gotText;
+
+    fetch('http://10.10.9.145:3000/api/questions/add', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({Ques_text:tittle})
+    }).then((res) => res.json())
+    .then((data) =>  console.log(data))
+    .catch((err)=>console.log(err))
+
+function getQuestion(){
+    fetch('http://10.10.9.145:3000/api/questions')
+    .then((res_1) => { return res_1.json() })
+    .then((data_1) => {
+        let result = ``;
+        data_1.forEach((question) => {
+        const { QuesID, Ques_text} = question
+        result +=
+        `QuesID: ${QuesID} 
+            Question Text : ${Ques_text} \n ` ;
+                
+        document.getElementById('displayspot').innerHTML = result;
+            });
+        })
+    
     }
+}
 </script>
