@@ -86,18 +86,6 @@
             }
         }
 
-        function selectSurvey() {
-            //document.write(document.getElementById("surveyTable").rows.length);
-            var x = document.getElementsByTagName("tr");
-            var txt = "";
-            var i;
-            for (i = 0; i < x.length; i++) {
-                txt = txt + "The index of Row "+(i+1)+" is: "+x[i].rowIndex+"<br>";
-            }
-            document.write(txt);
-
-        }
-
         function highlight_row() {
             var table = document.getElementById('surveyTable');
             var cells = table.getElementsByTagName('td');
@@ -123,7 +111,8 @@
         }
 
         function pullUpSurvey() { //This is where I need to figure out how to pull up a survey
-            document.write("it worked");
+            /*var url = 'http://10.10.9.145:3000/api/surveys/single/' + {SurvId};*/
+            document.write("It worked");
         }
 
     </script>
