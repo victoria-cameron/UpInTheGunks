@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang = "en">
+<body>
+    <head>
+        <title> Admin Space</title> 
+        <script src = "create_question.js"></script>
+        <meta charset = "utf-8">
+        <meta name = "viewport" content = "width=device-width, initial-scale = 1">
+        <link rel = "stylesheet" href = "gunks.css"/> 
+    </head>
+    <body>
+        <div class = "header">
+            <a href = "index.html">
+                <img src = "SurvyaySmallLogo.jpg" alt = "SurvYay">
+            </a>
+            <h2>Welcome, user!</h2>
+            <button type = "button"> Logout</button>
+        </div>
+
+        <div class="sidenav">
+            <button type="button" id="create">Create ></button>
+            <button type="button" id="fill">Fill ></button>
+            <button type="button" id="view">View ></button>
+        </div>
+
+        <div class = "index" id = "adminSpace">
+            <h1>Admin Space</h1>
+
+            <h2>Create new user:</h2>
+            <label>First name:</label>
+            <input type="text" id="firstN"><br><br>
+            <label>Last name:</label>
+            <input type="text" id="lastN"><br><br>
+            <label>Email:</label>
+            <input type="text" id="email"><br><br>
+            <label>New user password:</label>
+            <input type="text" id="newUserPassword"><br><br>
+            <button type="button" id="submitU">Submit ></button><br>
+
+            <h2>Update user:</h2>
+            <label>User ID:</label>
+            <input type="text" id="updateUser"><br><br>
+            <label>Set new password:</label>
+            <input type="text" id="updateUserPassword"><br><br>
+            <label>Set new privledges:</label>
+            <input type="text" id="updateUserPrivledges"><br><br>
+            <button type="button" id="Submit">Submit ></button><br>
+
+            <h2>Upload an image for the project:</h2>
+            <label>Image:</label>
+            <input type="image" id="image"><br>
+            <button type="button" id ="submit">Submit ></button>
+        </div>
+    </body>
+</body>
+</html>
+
+<script type = "text/javascript">
+var first = document.getElemenetById('firstN').value;
+var last = document.getElemenetById('lastN').value;
+var email = document.getElemenetById('email').value;
+var password = document.getElemenetById('newUserPassword').value;
+document.getElemenetById('submitU').addEvenetListener("click", function(){
+    newUser(first, last, email, password);}, false);   
+function newUser(getFirst, getLast, getEmail, getPassword){
+console.log(getFirst);
+console.log(getLast);
+console.log(getEmail);
+console.log(getPassword);
+event.preventDefault();
+let firstName = getFirst;
+let lastName = getLast;
+let userEmail = getEmail;
+let userPassword = getPassword;
+fetch('http://10.10.9.145:3000/api/users/add', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({Fir_Name:firstName,
+                              Las_Name:lastName,
+                              Email:userEmail,
+                              Password:userPassword})
+    }).then((res) => res.json())
+    .then((data) =>  console.log(data))
+    .catch((err)=>console.log(err))
+}
+</script>
