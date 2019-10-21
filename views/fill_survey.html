@@ -18,20 +18,36 @@
 
     <div class="file" id="tableForm">
         <!--<h3 style="text-align: center">Creator | Created | Title | Description </h3>-->
-        <table id="surveyTable"></table>
-            
-           <!-- <div id = "bar">
-                <h3 style="text-align: center">Creator | Created | Title | Description </h3>
-                <div id = "search" style = "margin-right: 50%">
-                <button type = "button" id = "select">Select</button><br>
-                </div>
-            </div>-->
+        <table id="columnTable"> <!--Table for the column headers-->
+            <col width="125px" />
+            <col width="350px" />
+            <col width="375px" />
+            <col width="500px" />
+            <tr style="background-color: #ECE3E3">
+                <th>Creator</th>
+                <th>Created</th> 
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </table>
+        <table id="surveyTable"> <!--Table for data from api-->
+            <col width="125px" />
+            <col width="350px" />
+            <col width="375px" />
+            <col width="500px" />
+        </table>
+        
     </div>
     
     <script type="text/javascript">
-        //document.getElementById("select").addEventListener("click", function() {
-        //    showSurveyList();
-        //}, false);
+        
+        document.getElementById("surveyTable").addEventListener("click", function() {
+            highlight_row();
+        }, false);
+
+        document.getElementById("surveyTable").addEventListener("dblclick", function() {
+            pullUpSurvey();
+        }, false);
 
        // function showSurveyList() {
         //var test = document.getElementById('surveyTable');
@@ -62,14 +78,41 @@
         //}
 
         function makeTableHTML(info) {
-            
-            var cols = ["Creator", "Created", "Title", "Description"];
             var survTable =  document.getElementById("surveyTable");
             var newRow = survTable.insertRow(0);
             for (var i = 0; i < info.length; i++) {
                 var newCell = newRow.insertCell(i);
                 newCell.innerHTML = info[i];
             }
+        }
+
+        function highlight_row() {
+            var table = document.getElementById('surveyTable');
+            var cells = table.getElementsByTagName('td');
+            
+            for (var i = 0; i < cells.length; i++) {
+                // Take each cell
+                var cell = cells[i];
+                // do something on onclick event for cell
+                cell.onclick = function () {
+                    // Get the row id where the cell exists
+                    var rowId = this.parentNode.rowIndex;
+                    
+                    var rowsNotSelected = table.getElementsByTagName('tr');
+                    for (var row = 0; row < rowsNotSelected.length; row++) {
+                        rowsNotSelected[row].style.backgroundColor = "";
+                        rowsNotSelected[row].classList.remove('selected');
+                    }
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+                    rowSelected.style.backgroundColor = "gray";
+                    rowSelected.className += " selected";
+                }
+            }
+        }
+
+        function pullUpSurvey() { //This is where I need to figure out how to pull up a survey
+            /*var url = 'http://10.10.9.145:3000/api/surveys/single/' + {SurvId};*/
+            document.write("It worked");
         }
 
     </script>
