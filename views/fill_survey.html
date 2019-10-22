@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body id="fill_survey">
+    <body id="fill_survey" onload="getSurveysURL()">
 
 	<div>
        	     <h1>Fill Survey</h1>
@@ -40,19 +40,19 @@
     </div>
     
     <script type="text/javascript">
+        var heyo = [];
         
         document.getElementById("surveyTable").addEventListener("click", function() {
             highlight_row();
         }, false);
 
         document.getElementById("surveyTable").addEventListener("dblclick", function() {
-            pullUpSurvey();
+            getSurveyID();
         }, false);
-
-       // function showSurveyList() {
-        //var test = document.getElementById('surveyTable');
-        var url = 'http://10.10.9.145:3000/api/surveys';
-        fetch(url) // Connection to api
+        
+        function getSurveysURL() {
+            var url = 'http://10.10.9.145:3000/api/surveys';
+            fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
             .then(function(data) {
                 let result = [];
@@ -66,16 +66,15 @@
                     } = survey
                     result = [
                         `${SurvCreator}`,
-                         `${SurvCreated}`,
-                         `${SurvTitle}`,
-                         `${SurvDescription}`];
-                    let idk = JSON.stringify(result);
-                    //document.getElementById("surveyTable").innerHTML = makeTableHTML();
+                        `${SurvCreated}`,
+                        `${SurvTitle}`,
+                        `${SurvDescription}`];
+                    heyo.unshift(SurvID);
                     makeTableHTML(result);
                 });
 
             })
-        //}
+        }
 
         function makeTableHTML(info) {
             var survTable =  document.getElementById("surveyTable");
@@ -110,9 +109,57 @@
             }
         }
 
-        function pullUpSurvey() { //This is where I need to figure out how to pull up a survey
-            /*var url = 'http://10.10.9.145:3000/api/surveys/single/' + {SurvId};*/
-            document.write("It worked");
+        function getSurveyID() { //This is where I need to figure out how to pull up a survey
+            var table = document.getElementById('surveyTable');
+            var cells = table.getElementsByTagName('td');
+            
+            for (var i = 0; i < cells.length; i++) {
+                // Take each cell
+                var cell = cells[i];
+                // do something on onclick event for cell
+                cell.onclick = function () {
+                    // Get the row id where the cell exists
+                    var rowId = this.parentNode.rowIndex;
+                    
+                    var rowsNotSelected = table.getElementsByTagName('tr');
+                    for (var row = 0; row < rowsNotSelected.length; row++) {
+                        rowsNotSelected[row].style.backgroundColor = "";
+                        rowsNotSelected[row].classList.remove('selected');
+                    }
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+                    var idValue = heyo[rowId]
+                    var url = 'http://10.10.9.145:3000/api/surveys/gather/' + idValue.toString();
+                    pullUpSurvey(url);
+                    //document.write(url);
+                    //rowSelected.style.backgroundColor = "gray";
+                    //rowSelected.className += " selected";
+                }
+            }
+        }
+
+        function pullUpSurvey(survURL) {
+            fetch(survURL) // Connection to api
+            .then(singleSurveyList => singleSurveyList.json()) // Transform data into json
+            .then(function(singleSurveyData) {
+                let singleSurveyResult = [];
+                singleSurveyData.forEach((singleSurvey) => {
+                    const {
+                        SurvID,
+                        SurvCreated,
+                        SurvCreator,
+                        SurvTitle,
+                        SurvDescription,
+                        QuesID,
+                        Ques_text,
+                        ChoiID,
+                        Choi_text
+                    } = singleSurvey
+                    singleSurveyResult = [
+                        `${Ques_text}`];
+                    document.write(singleSurveyResult);
+                });
+
+            })
         }
 
     </script>
