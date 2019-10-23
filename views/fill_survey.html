@@ -7,17 +7,16 @@
     <body id="fill_survey" onload="getSurveysURL()">
 
 	<div>
-       	     <h1>Fill Survey</h1>
-             <h3>Select the survey you will be filling.</h3>
+       	<h1>Fill Survey</h1>
+        <h3>Select the survey you will be filling.</h3>
     </div>
     
     <div id = "search" style = "margin-left: 80%">
-            <input type = "text" value = "Filter By" id = "filterBy">
-            <button type = "button" id = "search">Search</button><br>
+        <input type = "text" value = "Filter By" id = "filterBy">
+        <button type = "button" id = "search">Search</button><br>
     </div>
 
     <div class="file" id="tableForm">
-        <!--<h3 style="text-align: center">Creator | Created | Title | Description </h3>-->
         <table id="columnTable"> <!--Table for the column headers-->
             <col width="125px" />
             <col width="350px" />
@@ -36,6 +35,8 @@
             <col width="375px" />
             <col width="500px" />
         </table>
+
+        <div id="singSurv"></div>
         
     </div>
     
@@ -130,9 +131,6 @@
                     var idValue = heyo[rowId]
                     var url = 'http://10.10.9.145:3000/api/surveys/gather/' + idValue.toString();
                     pullUpSurvey(url);
-                    //document.write(url);
-                    //rowSelected.style.backgroundColor = "gray";
-                    //rowSelected.className += " selected";
                 }
             }
         }
@@ -152,14 +150,27 @@
                         QuesID,
                         Ques_text,
                         ChoiID,
-                        Choi_text
+                        Choi_text,
+                        Choi_text_id
                     } = singleSurvey
-                    singleSurveyResult = [
-                        `${Ques_text}`];
-                    document.write(singleSurveyResult);
+                    singleSurveyResult = [[
+                        `${Ques_text}`,
+                        `${Choi_text}`,
+                        `${Choi_text_id}`
+                    ]];
+                    formatResults(singleSurveyResult); 
                 });
 
             })
+        }
+
+        function formatResults(re) {
+            if (re[0][2] == 1) {
+                var x = document.createElement("INPUT");
+                x.setAttribute("type", "text");
+                document.getElementById("fill_survey").innerHTML = re; // Need to update index
+            }
+            
         }
 
     </script>
@@ -167,7 +178,3 @@
 
     </body>
 </html>
-
-<script>
-
-</script>
