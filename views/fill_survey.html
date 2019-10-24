@@ -7,7 +7,7 @@
     <body id="fill_survey" onload="getSurveysURL()">
 
 	<div>
-       	<h1>Fill Survey</h1>
+       	<h1 id="pageHeader">Fill Survey</h1>
         <h3>Select the survey you will be filling.</h3>
     </div>
     
@@ -50,8 +50,10 @@
         document.getElementById("surveyTable").addEventListener("dblclick", function() {
             getSurveyID();
         }, false);
+
+        // TODO: add "de-highlighter"
         
-        function getSurveysURL() {
+        function getSurveysURL() { // This is the function that gets the survey info 
             var url = 'http://10.10.9.145:3000/api/surveys';
             fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
@@ -77,7 +79,7 @@
             })
         }
 
-        function makeTableHTML(info) {
+        function makeTableHTML(info) { // This is the function that takes the survey info and puts it in a table
             var survTable =  document.getElementById("surveyTable");
             var newRow = survTable.insertRow(0);
             for (var i = 0; i < info.length; i++) {
@@ -135,7 +137,7 @@
             }
         }
 
-        function pullUpSurvey(survURL) {
+        function pullUpSurvey(survURL) { // This is supposed to get all the questions for a specified survey
             fetch(survURL) // Connection to api
             .then(singleSurveyList => singleSurveyList.json()) // Transform data into json
             .then(function(singleSurveyData) {
@@ -164,13 +166,25 @@
             })
         }
 
-        function formatResults(re) {
-            if (re[0][2] == 1) {
-                var x = document.createElement("INPUT");
-                x.setAttribute("type", "text");
-                document.getElementById("fill_survey").innerHTML = re; // Need to update index
+        function formatResults(re) { // This will output the questions for a specified survey
+
+            document.getElementById("fill_survey").innerHTML = "";
+            var newHeader = document.createElement("H1");
+            newHeader.innerText = "Bring Out Your Dead";
+            document.body.appendChild(newHeader);
+  
+            for (i = 0; i < re.length; i++) {
+                var para = document.createElement("DIV");
+                para.innerText = re[0][i]; // Insert text
+                document.body.appendChild(para); 
+
+                if (re[i][2] == 1){ 
+                    var radioBtn = document.createElement("INPUT");
+                    radioBtn.setAttribute("type", "radio");
+                    document.body.appendChild(radioBtn);
+
+                }
             }
-            
         }
 
     </script>
