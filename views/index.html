@@ -13,7 +13,7 @@
                 <img src="images/SurvyaySmallLogo.jpg" alt="SurvYay">
             </a>
             <h2>Welcome, User!</h2>
-            <button type="button">Logout</button> <!--TODO: Add functionality to logout button-->
+            <button type="button" onclick=logout()>Logout</button> <!--TODO: Add functionality to logout button-->
         </div>
 
         <!--SIDE NAV-->
@@ -72,5 +72,9 @@
         var dest = 'views/' + tab
         console.log(dest);
         document.getElementById("index").innerHTML = '<object type="text/html" data=' + tab + ' width=100% height=100%></object>';
+    }
+
+    function logout(){
+        window.location = '/';
     }
 </script>
