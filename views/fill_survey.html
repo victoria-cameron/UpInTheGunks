@@ -162,8 +162,7 @@
                     ]];
                     formatResults(singleSurveyResult); 
                 });
-
-            })
+            })           
         }
 
         function formatResults(re) { // This will output the questions for a specified survey
@@ -172,6 +171,8 @@
             var newHeader = document.createElement("H1");
             newHeader.innerText = "Bring Out Your Dead";
             document.body.appendChild(newHeader);
+
+            
   
             for (i = 0; i < re.length; i++) {
                 var para = document.createElement("DIV");
@@ -182,7 +183,10 @@
                     var radioBtn = document.createElement("INPUT");
                     radioBtn.setAttribute("type", "radio");
                     document.body.appendChild(radioBtn);
-
+                } else if (re[i][2] == 2) {
+                    var txtBox = document.createElement("INPUT");
+                    txtBox.setAttribute("type", "text");
+                    document.body.appendChild(txtBox);
                 }
             }
         }
