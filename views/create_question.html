@@ -14,8 +14,8 @@
         <h2> Question:</h2>
         <input type = "text" id = "q"><br><br>
         <h2>Question type: </h2>
-        <input type="radio" id = "multCh"> Multiple choice </input><br><br>
-        <input type="radio" id = "textBox"> Text box </input><br><br>
+        <input type="radio" name = "type" id = "textBox" checked> Text box </input><br><br>
+        <input type="radio" name = "type" id = "multCh"> Multiple choice </input><br><br>
         <h2>Add multiple choice answers:</h2>
         <label> A. </label>
         <input type = "text" id = "a"><br><br>
@@ -32,80 +32,84 @@
 </html>
 
 <script >
-var uQuestion = document.getElementById("q").value;
-var type = document.getElementById("multCh");
-var type1 = document.getElementById("textBox");
-var result = ``;
-var newResult = ``;
+var questionOp = []; // array of multiple choice answers
+var result = ``; // empty string of QuesID result
+var typeT = document.getElementById("textBox");
+var typeMu = document.getElementById("multCh");
+
 document.getElementById("submit").addEventListener("click", function(){
-    postQuestion(uQuestion);}, false);
-document.getElementById("submit").addEventListener("click", function(){
-    getQuestion(uQuestion);}, false);
-document.getElementById("submit").addEventListener("click", function(){
-    postType(type, type1, result);}, false);
+    postQuestion((document.getElementById("q").value), // user question input
+                  (document.getElementById("multCh")), // multiple choice question
+                  (document.getElementById("textBox")), // text box question
+                  (document.getElementById("a").value), // multi choice A
+                  (document.getElementById("b").value), // multi choice B
+                  (document.getElementById("c").value), // multi choice C
+                  (document.getElementById("d").value));}, false); // multi choice D
 
-function add(){
-    var element = document.createElement("input");
-
-    element.setAttribute("type", "text");
-
-    var foo = document.getElementById("file");
-    foo.appendChild(element);
-}
-
-function postQuestion(gotText){
+function postQuestion(gotText, gotTypeM, gotTypeT, ai, bi, ci, di){
+    let text = gotText; // text of question
     console.log(gotText);
     event.preventDefault();
-    let tittle = gotText;
+    let typeMu = gotTypeM; // multi choice question
+    let typeTe = gotTypeT // text box question
+    let textB = 'text'; // text box 
+    let a = ai;
+    let b = bi;
+    let c = ci;
+    let d = di;
+    var newResult = 1; // the QuesID as an int
 
+    // posting the question text
     fetch('http://10.10.9.145:3000/api/questions/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({Ques_text:tittle})
+        body: JSON.stringify({Ques_text:text})
     }).then((res) => res.json())
     .then((data) =>  console.log(data))
     .catch((err)=>console.log(err))
-}
-function getQuestion(gotText, gotType){
-    event.preventDefault();
-    let title = gotType;
+
+    // getting the question ID
     fetch('http://10.10.9.145:3000/api/questions')
     .then((res_1) => { return res_1.json() })
     .then((data_1) => {
         data_1.forEach((question) => {
-        const { QuesID, Ques_text} = question
-            if(Ques_text == gotText){
-                result = `${QuesID} ` ;
-                newResult = parseInt(result);
-                document.getElementById('displayspot').innerHTML = newResult;
-            }     
+            const { QuesID, Ques_text} = question
+                if(Ques_text == text){
+                    result = `${QuesID} ` ;
+                    document.getElementById('displayspot').innerHTML = result;
+                    newResult = parseInt(result);
+                }     
         });
-
     })
-}
-
-function postType(gotType, gotType1, newResult){
-    event.preventDefault();
-    let title = gotType;
-    let title1 = gotType1;
-    if(title.checked){ // multiple choice
+    // posting the type of question (multiple choice/ text box)
+    if(typeT.checked){ // just a text box 
         fetch('http://10.10.9.145:3000/api/questions/add_choice', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({QuesID:newResult,
-                              Choi_text:'text'})
+                              Choi_text:textB,
+                              Choi_text_id:2})
+        }).then((res) => res.json())
+        .then((data) =>  console.log(data))
+        .catch((err)=>console.log(err)) 
+        alert(newResult);
+    }else if(typeMu.checked){ // multiple choice 
+        // pushing all multiple choice questions to an array
+        questionOp.push(a);
+        questionOp.push(b);
+        questionOp.push(c);
+        questionOp.push(d);
+
+        // posting the multi choice answers 
+        fetch('http://10.10.9.145:3000/api/questions/add_choice', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({QuesID:newResult,
+                              Choi_text:textB,
+                              Choi_text_id:1})
         }).then((res) => res.json())
         .then((data) =>  console.log(data))
         .catch((err)=>console.log(err))
-    }else if(title1.checked){ // just a text box
-        fetch('http://10.10.9.145:3000/api/questions/add_choice', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({QuesID:newResult,
-                              Choi_text:'text'})
-        }).then((res) => res.json())
-        .then((data) =>  console.log(data))
-        .catch((err)=>console.log(err))      
     }
 }
 </script>
