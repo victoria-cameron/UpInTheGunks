@@ -5,36 +5,24 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body id="view_surveys">
+    <body id="display_surveys">
         <div>
             <h1> View Surveys</h1>
-            <!-- <table>
-		<tr>
-    		   <th>Title</th>
-    		   <th>Creator</th>
-    		   <th>Created</th>
-    		   <th>Description</th>
-  	        </tr>
-	 	<tr>
-  		   <td>Checking</td>
-    		   <td>If</td>
-        	   <td>This</td>
-    		   <td>Works</td>
-  		</tr>
-	 	<tr>
-  		   <td>Checking</td>
-    		   <td>If</td>
-        	   <td>This</td>
-    		   <td>Works</td>
-  		</tr>
-	    </table> -->
-		<button type="button" id="list_surveys">View Surveys</button>
-		<br>
-		<br>
-		<textarea id='display_surveys' rows=20 cols=100></textarea>
-	</div>
+            <table id="list_surveys">
+                <tr>
+                    <th>Title</th>
+                    <th>Creator</th>
+                    <th>Created</th>
+                    <th>Description</th>
+                </tr>
+            </table>
+            <br>
+            <br>
+            <!--<textarea id='display_surveys' rows=20 cols=100></textarea>-->
+        </div>
     </body>
 </html>
+
 <script>
 	document.getElementById("list_surveys").addEventListener("click", function() {
     getRecords();
