@@ -45,6 +45,12 @@ app.get('/fill_survey', (req, res) => {
     });
 });
 
+app.get('/fill_select', (req, res) => {
+    res.render('fill_select.html', {
+        title: 'Fill Select'
+    });
+});
+
 app.get('/view_surveys', (req, res) => {
     res.render('view_surveys.html', {
         title: 'View Survey'
