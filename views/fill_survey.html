@@ -42,6 +42,8 @@
     
     <script type="text/javascript">
         var heyo = [];
+        var everythingElse = [];
+        var surveyTitle = "";
         
         document.getElementById("surveyTable").addEventListener("click", function() {
             highlight_row();
@@ -155,31 +157,34 @@
                         Choi_text,
                         Choi_text_id
                     } = singleSurvey
-                    singleSurveyResult = [[
+                    singleSurveyResult = [
                         `${Ques_text}`,
                         `${Choi_text}`,
                         `${Choi_text_id}`
-                    ]];
-                    formatResults(singleSurveyResult); 
+                    ]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
+                    everythingElse.unshift(singleSurveyResult);
+                    surveyTitle = SurvTitle;
+                    //everythingElse.unshift(SurvTitle);
                 });
+                formatResults(surveyTitle, everythingElse); 
             })           
         }
 
-        function formatResults(re) { // This will output the questions for a specified survey
+        function formatResults(title, re) { // This will output the questions for a specified survey
 
             document.getElementById("fill_survey").innerHTML = "";
             var newHeader = document.createElement("H1");
-            newHeader.innerText = "Bring Out Your Dead";
+            newHeader.innerText = title;
             document.body.appendChild(newHeader);
 
-            
-  
-            for (i = 0; i < re.length; i++) {
+            for (var i = 0; i < re.length; i++) {
                 var para = document.createElement("DIV");
-                para.innerText = re[0][i]; // Insert text
+                para.setAttribute("id", i.toString());
+                para.innerText = re[i][0]; // Insert text
                 document.body.appendChild(para); 
+                
 
-                if (re[i][2] == 1){ 
+               /*if (re[i][2] == 1){ 
                     var radioBtn = document.createElement("INPUT");
                     radioBtn.setAttribute("type", "radio");
                     document.body.appendChild(radioBtn);
@@ -187,7 +192,7 @@
                     var txtBox = document.createElement("INPUT");
                     txtBox.setAttribute("type", "text");
                     document.body.appendChild(txtBox);
-                }
+                }*/
             }
         }
 
