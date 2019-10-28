@@ -17,7 +17,7 @@
         </div>
 
         <div class="file" id="tableForm">
-            <!--<h3 style="text-align: center">Interviewee | Filled | Interview Title | Survey Title </h3>-->
+            <!--<h3 style="text-align: center">Interviewer | Filled | Interview Title | Survey Title </h3>-->
             <table id="columnTable">
                 <!--Table for the column headers-->
                 <col width="125px" />
@@ -25,7 +25,7 @@
                 <col width="375px" />
                 <col width="500px" />
                 <tr style="background-color: #ECE3E3">
-                    <th>Interviewee</th>
+                    <th>Interviewer</th>
                     <th>Filled</th>
                     <th>Interview Title</th>
                     <th>Survey Title</th>
@@ -47,7 +47,7 @@
             }, false);
 
             document.getElementById("surveyTable").addEventListener("dblclick", function () {
-                pullUpSurvey();
+                pullUpInterview();
             }, false);
 
             var url = 'http://10.10.9.145:3000/api/interviews';
