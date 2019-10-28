@@ -148,9 +148,9 @@
                     singleSurveyData.forEach((singleSurvey) => {
                            const {
                                SurvID,
-                               SurvCreated,
-                               SurvCreator,
                                SurvTitle,
+                               SurvCreator,
+                               SurvCreated,
                                SurvDescription,
                                QuesID,
                                Ques_text,
@@ -159,13 +159,12 @@
                                Choi_text_id
                            } = singleSurvey
                            singleSurveyResult = [
-                               `${SurvTitle}`,
-                               `${SurvCreator}`,
-                               `${SurvCreated}`,
+                           //    `${SurvTitle}`,
+                           //    `${SurvCreator}`,
+                           //    `${SurvCreated}`,
                                `${Ques_text}`,
                                `${Choi_text}`,
-                               `${Choi_text_id}`
-                           ]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
+                               `${Choi_text_id}`]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
                            everythingElse.unshift(singleSurveyResult);
                            surveyTitle = SurvTitle;
                            //everythingElse.unshift(SurvTitle);
@@ -174,11 +173,11 @@
                         })
         }
 
-        function formatResults(title, re) { // This will output the questions for a specified survey
+        function formatResults(title, body) { // This will output the questions for a specified survey
                     document.getElementById("fill_survey").innerHTML = "";
                     var newHeader = document.createElement("H1");
                     newHeader.innerText = title;
-                    document.body.appendChild(newHeader);
+                    /*document.body.appendChild(newHeader);
                     for (var i = 0; i < re.length; i++) {
                         var para = document.createElement("DIV");
                         para.setAttribute("id", i.toString());
@@ -193,8 +192,9 @@
                              var txtBox = document.createElement("INPUT");
                              txtBox.setAttribute("type", "text");
                              document.body.appendChild(txtBox);
-                         }*/
-                    }
+                         }
+                    } */
+            document.getElementById("fill_survey").innerHTML = newHeader.outerHTML + body;
         }
     </script>
 
