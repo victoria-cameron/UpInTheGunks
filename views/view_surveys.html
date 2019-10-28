@@ -1,51 +1,202 @@
-﻿
-<html lang="en">
+﻿<html lang="en">
     <head>
-	<link rel="stylesheet" href="css/gunks.css">
+        <link rel="stylesheet" href="css/gunks.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body id="display_surveys">
-        <div>
-            <h1> View Surveys</h1>
-            <table id="list_surveys">
-                <tr>
-                    <th>Title</th>
-                    <th>Creator</th>
-                    <th>Created</th>
-                    <th>Description</th>
-                </tr>
-            </table>
-            <br>
-            <br>
-            <!--<textarea id='display_surveys' rows=20 cols=100></textarea>-->
-        </div>
+    <body id="fill_survey" onload="getSurveysURL()">
+
+    <div>
+        <h1 id="pageHeader">View Survey</h1>
+        <h3>Select the survey you wish to view.</h3>
+    </div>
+
+    <div id="search" style="margin-left: 80%">
+        <input type="text" value="Filter By" id="filterBy">
+        <button type="button" id="search">Search</button><br>
+    </div>
+
+    <div class="file" id="tableForm">
+        <!--<h3 style="text-align: center">Creator | Created | Title | Description </h3>-->
+        <table id="columnTable"> <!--Table for the column headers-->
+            <col width="125px" />
+            <col width="350px" />
+            <col width="375px" />
+            <col width="500px" />
+            <tr style="background-color: #ECE3E3">
+                <th>Creator</th>
+                <th>Created</th>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+        </table>
+        <table id="surveyTable"> <!--Table for data from api-->
+            <col width="125px" />
+            <col width="350px" />
+            <col width="375px" />
+            <col width="500px" />
+        </table>
+        <div id="singSurv"></div>
+    </div>
+
+
+
+    <script type="text/javascript">
+        var heyo = []; //Thanks Molly for your great code!
+        var everythingElse = [];
+        var surveyTitle = "";
+
+        document.getElementById("surveyTable").addEventListener("click", function () {
+            highlight_row();
+        }, false);
+
+        document.getElementById("surveyTable").addEventListener("dblclick", function () {
+            getSurveyID();
+        }, false);
+
+        function getSurveysURL() { // This is the function that gets the survey info
+            var url = 'http://10.10.9.145:3000/api/surveys';
+            fetch(url) // Connection to api
+            .then(surveyList => surveyList.json()) // Transform data into json
+            .then(function (data) {
+                 let result = [];
+                 data.forEach((survey) => {
+                     const {
+                        SurvID,
+                        SurvCreated,
+                        SurvCreator,
+                        SurvTitle,
+                        SurvDescription
+                     } = survey
+                     result = [
+                         `${SurvCreator}`,
+                         `${SurvCreated}`,
+                         `${SurvTitle}`,
+                         `${SurvDescription}`];
+                     let idk = JSON.stringify(result);
+                     heyo.unshift(SurvID);
+                     //document.getElementById("surveyTable").innerHTML = makeTableHTML();
+                     makeTableHTML(result);
+                    });
+            })
+        }
+
+        function makeTableHTML(info) {
+            var survTable =  document.getElementById("surveyTable");
+            var newRow = survTable.insertRow(0);
+            for (var i = 0; i < info.length; i++) {
+                var newCell = newRow.insertCell(i);
+                newCell.innerHTML = info[i];
+            }
+        }
+
+        function highlight_row() {
+            var table = document.getElementById('surveyTable');
+            var cells = table.getElementsByTagName('td');
+
+            for (var i = 0; i < cells.length; i++) {
+                // Take each cell
+                var cell = cells[i];
+                // do something on onclick event for cell
+                cell.onclick = function () {
+                    // Get the row id where the cell exists
+                    var rowId = this.parentNode.rowIndex;
+
+                    var rowsNotSelected = table.getElementsByTagName('tr');
+                    for (var row = 0; row < rowsNotSelected.length; row++) {
+                        rowsNotSelected[row].style.backgroundColor = "";
+                        rowsNotSelected[row].classList.remove('selected');
+                    }
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+                    rowSelected.style.backgroundColor = "gray";
+                    rowSelected.className += " selected";
+                }
+            }
+        }
+
+        function getSurveyID() { //This is where I need to figure out how to pull up a survey
+            var table = document.getElementById('surveyTable');
+            var cells = table.getElementsByTagName('td');
+
+            for (var i = 0; i < cells.length; i++) {
+            // Take each cell
+                var cell = cells[i];
+                // do something on onclick event for cell
+                cell.onclick = function () {
+                    // Get the row id where the cell exists
+                    var rowId = this.parentNode.rowIndex;
+
+                    var rowsNotSelected = table.getElementsByTagName('tr');
+                    for (var row = 0; row < rowsNotSelected.length; row++) {
+                            rowsNotSelected[row].style.backgroundColor = "";
+                            rowsNotSelected[row].classList.remove('selected');
+                    }
+                    var rowSelected = table.getElementsByTagName('tr')[rowId];
+                    var idValue = heyo[rowId]
+                    var url = 'http://10.10.9.145:3000/api/surveys/gather/' + idValue.toString();
+                    pullUpSurvey(url);
+                    }
+                }
+            }
+
+        function pullUpSurvey(survURL) { //This is where I need to figure out how to pull up a survey
+                /*document.write("It worked");*/
+                fetch(survURL) // Connection to api
+                .then(singleSurveyList => singleSurveyList.json()) // Transform data into json
+                .then(function (singleSurveyData) {
+                    let singleSurveyResult = [];
+                    singleSurveyData.forEach((singleSurvey) => {
+                           const {
+                               SurvID,
+                               SurvCreated,
+                               SurvCreator,
+                               SurvTitle,
+                               SurvDescription,
+                               QuesID,
+                               Ques_text,
+                               ChoiID,
+                               Choi_text,
+                               Choi_text_id
+                           } = singleSurvey
+                           singleSurveyResult = [
+                               `${SurvTitle}`,
+                               `${SurvCreator}`,
+                               `${SurvCreated}`,
+                               `${Ques_text}`,
+                               `${Choi_text}`,
+                               `${Choi_text_id}`
+                           ]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
+                           everythingElse.unshift(singleSurveyResult);
+                           surveyTitle = SurvTitle;
+                           //everythingElse.unshift(SurvTitle);
+                           });
+                           formatResults(surveyTitle, everythingElse);
+                        })
+        }
+
+        function formatResults(title, re) { // This will output the questions for a specified survey
+                    document.getElementById("fill_survey").innerHTML = "";
+                    var newHeader = document.createElement("H1");
+                    newHeader.innerText = title;
+                    document.body.appendChild(newHeader);
+                    for (var i = 0; i < re.length; i++) {
+                        var para = document.createElement("DIV");
+                        para.setAttribute("id", i.toString());
+                        para.innerText = re[i][0]; // Insert text
+                        document.body.appendChild(para);
+
+                        /*if (re[i][2] == 1){ 
+                             var radioBtn = document.createElement("INPUT");
+                             radioBtn.setAttribute("type", "radio");
+                             document.body.appendChild(radioBtn);
+                         } else if (re[i][2] == 2) {
+                             var txtBox = document.createElement("INPUT");
+                             txtBox.setAttribute("type", "text");
+                             document.body.appendChild(txtBox);
+                         }*/
+                    }
+        }
+    </script>
+
     </body>
 </html>
-
-<script>
-	document.getElementById("list_surveys").addEventListener("click", function() {
-    getRecords();
-    }, false);
-
-	function getRecords(){
-		fetch('http://10.10.9.145:3000/api/surveys')
-		.then((res_1) => { return res_1.json() })
-		.then((data_1) => {
-			let result = ``;
-			data_1.forEach((record) => {
-				const { SurvID, SurvCreated, SurvCreator, SurvTitle, SurvDescription} = record
-				result +=
-				`Survey ID: ${SurvID} \n
-				Title: ${SurvTitle} \n
-				Description: ${SurvDescription} \n 
-				Date Created: ${SurvCreated} \n
-				Creator: ${SurvCreator} \n\n` ;
-				
-				document.getElementById('display_surveys').innerHTML = result;
-			});
-		})
-
-	}
-</script>
-
