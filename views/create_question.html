@@ -33,9 +33,12 @@
 
 <script >
 var questionOp = []; // array of multiple choice answers
-var result = ``; // empty string of QuesID result
 var typeT = document.getElementById("textBox");
 var typeMu = document.getElementById("multCh");
+var a = "";
+var b = "";
+var c = "";
+var d = "";
 
 document.getElementById("submit").addEventListener("click", function(){
     postQuestion((document.getElementById("q").value), // user question input
@@ -47,17 +50,11 @@ document.getElementById("submit").addEventListener("click", function(){
                   (document.getElementById("d").value));}, false); // multi choice D
 
 function postQuestion(gotText, gotTypeM, gotTypeT, ai, bi, ci, di){
-    let text = gotText; // text of question
+    let text = document.getElementById("q").value; // text of question
     console.log(gotText);
     event.preventDefault();
     let typeMu = gotTypeM; // multi choice question
     let typeTe = gotTypeT // text box question
-    let textB = 'text'; // text box 
-    let a = ai;
-    let b = bi;
-    let c = ci;
-    let d = di;
-    var newResult = 1; // the QuesID as an int
 
     // posting the question text
     fetch('http://10.10.9.145:3000/api/questions/add', {
@@ -65,28 +62,27 @@ function postQuestion(gotText, gotTypeM, gotTypeT, ai, bi, ci, di){
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({Ques_text:text})
     }).then((res) => res.json())
-    .then((data) =>  console.log(data))
+    .then((data) =>  addChoice(data.insertId, typeMu, typeTe))
     .catch((err)=>console.log(err))
-
-    // getting the question ID
-    fetch('http://10.10.9.145:3000/api/questions')
-    .then((res_1) => { return res_1.json() })
-    .then((data_1) => {
-        data_1.forEach((question) => {
-            const { QuesID, Ques_text} = question
-                if(Ques_text == text){
-                    result = `${QuesID} ` ;
-                    document.getElementById('displayspot').innerHTML = result;
-                    newResult = parseInt(result);
-                }     
-        });
-    })
+}
+function addChoice(inID, mul, tex){
+    id = inID; // quesID
+    textBox = tex; // text box choice 
+    multiChoice = mul; // multi choice 
+    let textB = 'text'; // text box text
+    let muuul = 'multi';
+    a = document.getElementById("a").value;
+    b = document.getElementById("b").value;
+    c = document.getElementById("c").value;
+    d = document.getElementById("d").value;
+    console.log(a);
+    console.log(id);
     // posting the type of question (multiple choice/ text box)
-    if(typeT.checked){ // just a text box 
+    if(textBox.checked){ // just a text box 
         fetch('http://10.10.9.145:3000/api/questions/add_choice', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({QuesID:newResult,
+        body: JSON.stringify({QuesID:id,
                               Choi_text:textB,
                               Choi_text_id:2})
         }).then((res) => res.json())
