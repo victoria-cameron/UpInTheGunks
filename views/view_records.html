@@ -79,7 +79,6 @@
                                 `${SurvTitle}`];
                             let idk = JSON.stringify(result);
                             heyo.unshift(SurvID);
-                            //document.getElementById("surveyTable").innerHTML = makeTableHTML();
                             makeTableHTML(result);
                         });
 
@@ -99,12 +98,9 @@
             var table = document.getElementById('surveyTable');
             var cells = table.getElementsByTagName('td');
             
-            for (var i = 0; i < cells.length; i++) {
-                // Take each cell
-                var cell = cells[i];
-                // do something on onclick event for cell
-                cell.onclick = function () {
-                // Get the row id where the cell exists
+            for (var i = 0; i < cells.length; i++) { // Take each cell
+                var cell = cells[i]; // do something on onclick event for cell
+                cell.onclick = function () { // Get the row id where the cell exists
                 var rowId = this.parentNode.rowIndex;
                     
                 var rowsNotSelected = table.getElementsByTagName('tr');
@@ -123,12 +119,9 @@
             var table = document.getElementById('surveyTable');
             var cells = table.getElementsByTagName('td');
 
-            for (var i = 0; i < cells.length; i++) {
-            // Take each cell
-                var cell = cells[i];
-                // do something on onclick event for cell
-                cell.onclick = function () {
-                    // Get the row id where the cell exists
+            for (var i = 0; i < cells.length; i++) { // Take each cell
+                var cell = cells[i]; // do something on onclick event for cell
+                cell.onclick = function () { // Get the row id where the cell exists
                     var rowId = this.parentNode.rowIndex;
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
@@ -145,7 +138,6 @@
         }
 
         function pullUpInterview(survURL) { //This is where I need to figure out how to pull up a survey
-                /*document.write("It worked");*/
                 fetch(survURL) // Connection to api
                 .then(singleSurveyList => singleSurveyList.json()) // Transform data into json
                 .then(function (singleSurveyData) {
@@ -168,12 +160,14 @@
                                Choi_text_id
                            } = singleSurvey
                            singleSurveyResult = [
+                               `${InteTitle}`,
+                               `${Filled_by}`,
+                               `${Date_filled}`,
                                `${Ques_text}`,
                                `${Choi_text}`,
-                               `${Choi_text_id}`]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
+                               `${Choi_text_id}`]; 
                            everythingElse.unshift(singleSurveyResult);
                            surveyTitle = SurvTitle;
-                           //everythingElse.unshift(SurvTitle);
                     });
                     formatResults(surveyTitle, everythingElse);
                 })
