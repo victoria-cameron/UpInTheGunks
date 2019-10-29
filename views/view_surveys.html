@@ -4,8 +4,8 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body id="fill_survey" onload="getSurveysURL()">
 
+    <body id="fill_survey" onload="getSurveysURL()">
     <div>
         <h1 id="pageHeader">View Survey</h1>
         <h3>Select the survey you wish to view.</h3>
@@ -137,7 +137,7 @@
                     pullUpSurvey(url);
                     }
                 }
-            }
+        }
 
         function pullUpSurvey(survURL) { //This is where I need to figure out how to pull up a survey
                 /*document.write("It worked");*/
@@ -159,43 +159,24 @@
                                Choi_text_id
                            } = singleSurvey
                            singleSurveyResult = [
-                           //    `${SurvTitle}`,
-                           //    `${SurvCreator}`,
-                           //    `${SurvCreated}`,
                                `${Ques_text}`,
                                `${Choi_text}`,
                                `${Choi_text_id}`]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
                            everythingElse.unshift(singleSurveyResult);
                            surveyTitle = SurvTitle;
                            //everythingElse.unshift(SurvTitle);
-                           });
+                    });
                            formatResults(surveyTitle, everythingElse);
-                        })
+                })
         }
 
         function formatResults(title, body) { // This will output the questions for a specified survey
-                    document.getElementById("fill_survey").innerHTML = "";
-                    var newHeader = document.createElement("H1");
-                    newHeader.innerText = title;
-                    /*document.body.appendChild(newHeader);
-                    for (var i = 0; i < re.length; i++) {
-                        var para = document.createElement("DIV");
-                        para.setAttribute("id", i.toString());
-                        para.innerText = re[i][0]; // Insert text
-                        document.body.appendChild(para);
-
-                        /*if (re[i][2] == 1){ 
-                             var radioBtn = document.createElement("INPUT");
-                             radioBtn.setAttribute("type", "radio");
-                             document.body.appendChild(radioBtn);
-                         } else if (re[i][2] == 2) {
-                             var txtBox = document.createElement("INPUT");
-                             txtBox.setAttribute("type", "text");
-                             document.body.appendChild(txtBox);
-                         }
-                    } */
-            document.getElementById("fill_survey").innerHTML = newHeader.outerHTML + body;
+                document.getElementById("fill_survey").innerHTML = "";
+                var newHeader = document.createElement("H1");
+                newHeader.innerText = title;
+                document.getElementById("fill_survey").innerHTML = newHeader.outerHTML + body;
         }
+
     </script>
 
     </body>
