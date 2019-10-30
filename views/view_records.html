@@ -55,7 +55,7 @@
             }, false);
 
             function getRecordsURL() { // This is the function that gets the survey info
-                var url = 'http://10.10.9.145:3000/api/interviews';
+                var url = 'http://148.100.149.70:3000/api/interviews';
                 fetch(url) // Connection to api
                     .then(surveyList => surveyList.json()) // Transform data into json
                     .then(function (data) {
@@ -126,14 +126,14 @@
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
                     for (var row = 0; row < rowsNotSelected.length; row++) {
-                            rowsNotSelected[row].style.backgroundColor = "";
-                            rowsNotSelected[row].classList.remove('selected');
+                        rowsNotSelected[row].style.backgroundColor = "";
+                        rowsNotSelected[row].classList.remove('selected');
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
                     var idValue = heyo[rowId]
-                    var url = 'http://10.10.9.145:3000/api/interviews/gather/' + idValue.toString();
+                    var url = 'http://148.100.149.70:3000/api/interviews/gather/' + idValue.toString();
                     pullUpInterview(url);
-                }
+                };
             }
         }
 
