@@ -11,70 +11,72 @@
             <h2>Select questions for your survey.</h2>
         </div>
 
-        <div id = "search" style = "margin-left: 50%">
-            <input type = "text" value = "Filter By" id = "filterBy">
-            <button type = "button" id = "search">Search</button><br>
-        </div>
-
-        <div class="file">
-            
-            <div id = "bar">
-                <h3>Creator | Created | Question </h3>
-            </div>
-
-            <form id = "checkBoxes" action="checkAll()">
-                <input type="checkbox" name="checkBox" value="qOne"> Question One<br>
-                <input type="checkbox" name="checkBox" value="qTwo"> Question Two<br>
-                <input type="checkbox" name="checkBox" value="qThree"> Question Three<br>
-                <input type="checkbox" name="checkBox" value="qFour"> Question Four<br>
-                <input type="checkbox" name="checkBox" value="qFive"> Question Five<br>
-                <input type="checkbox" name="checkBox" value="qSix"> Question Six<br>
-                <input type="checkbox" name="checkBox" value="qSeven"> Question Seven<br>
-                <input type="checkbox" name="checkBox" value="qEight"> Question Eight<br>
-                <input type="checkbox" name="checkBox" value="qNine"> Question Nine<br>
-                <input type="checkbox" name="checkBox" value="qTen"> Question Ten<br>
-                <input type="button" value="Submit" onClick = "checkAll()">
-            </form>
+        <div class="file" id = "tableForm">
+            <table id = "columnTable"> <!-- table for column headers -->
+                <col width="20px" />
+                <col width="500px" />
+                <tr style="background-color: #ECE3E3">
+                    <th>Question ID</th>
+                    <th>Question</th>
+                </tr>
+            </table>
+            <table id = "questionTable"> <!-- table of questions from api -->
+                <col width="20px" />
+                <col width="500px" />
+            </table>
+            <div id = "sigSurv"></div>
+            <button type="button" id="submit" > Submit > </button>
         </div>
     </body>
 </html>
 
 <script>
-    function checkAll() {
-        var checked = document.getElementsByName('checkBoxes');
-        var checkedBoxes = [];
-            for (var i=0; i<checked.length; i++){
-                if (checked[i].checked) {
-                    checkedBoxes.push(checked[i]);
-                }
-            }
-        var fs = require('fs');
-        var data ={};
-        data.table = checkedBoxes;
-        for(var i = 0; i < checkedBoxes.length; i++){
-    	    var obj = { id: i, checkBox};
-    	    data.table.push(obj);
-        }
-        fs.writeFile("input.json", JSON.stringify(data), function(err){
-    	    if(err)throw err;
-    	    console.log('data');
+var chosen = [];
+var moreCh = [];
+var check = [];
+getQuestions();
+document.getElementById("submit").addEventListener("click", function(){
+    submitQuestions();}, false);
+
+function getQuestions(check){
+    //var text = document.createTextNode("checkbox");
+    fetch('http://148.100.149.70:3000/api/questions')
+    .then((res_1) => { return res_1.json() })
+    .then((data_1) => {
+        let result = [];
+        data_1.forEach((question) => {
+            const { QuesID, Ques_text} = question
+            result = [
+            `QuesID: ${QuesID}
+                Question Text : ${Ques_text} ` ];  
+            chosen.unshift(QuesID);
+            makeTable(result);
         });
-        return checkedBoxes.length > 0 ? checkedBoxes : null;
-    }
-    function searchFunction(){
-        var search = document.getElementId("search");
-        var data = document.getElementId("checkBox");
+    })
+}
 
-        search.onclick = function(){
-    	    var input = document.getElementById("filterBy");
-    	    for(var i = 0; i < checkedBoxes.length; i++){
-    		    if(checkedBoxes[i] == search){
-    			    alert(data[i]);
-    		    }else{
-    			    alert("not found");
-    		    }
-    	    }
+function makeTable(data){
+    var ques = document.getElementById("questionTable");
+    var newRow = ques.insertRow(0);
+    //(newRow).append("<input type = 'checkbox'/>")
+    for(var i = 0; i < data.length; i++){
+        var newCell = newRow.insertCell(i);
+        newCell.innerHTML = data[i];
+        var checkbox = document.createElement("input");
+        checkbox.type = 'checkbox';
+        checkbox.id = 'tncheckbox' + i;
+        newCell.appendChild(checkbox);
+    }
+}
+
+function submitQuestions(){
+    var chkd = document.getElementById("questionTable");
+    var chkdb = chkd.getElementsByTagName('checkbox');
+    for(var i = 0; i < chkdb.length; i++){
+        if(chkdb[i].checked){
+            check.push(chkdb[i]);
         }
     }
-
+    alert(check);
+}
 </script>
