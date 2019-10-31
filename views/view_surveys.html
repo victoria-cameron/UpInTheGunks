@@ -7,7 +7,7 @@
 
     <body id="view_survey" onload="getSurveysURL()">
     <div>
-        <h1 id="pageHeader">View Survey</h1>
+        <h1 id="pageHeader">View Surveys</h1>
         <h3>Select the survey you wish to view.</h3>
     </div>
 
@@ -114,12 +114,9 @@
             var table = document.getElementById('surveyTable');
             var cells = table.getElementsByTagName('td');
 
-            for (var i = 0; i < cells.length; i++) {
-            // Take each cell
-                var cell = cells[i];
-                // do something on onclick event for cell
-                cell.oclick = function () {
-                    // Get the row id where the cell exists
+            for (var i = 0; i < cells.length; i++) { // Take each cell
+                var cell = cells[i]; // do something on onclick event for cell
+                cell.oclick = function () { // Get the row id where the cell exists
                     var rowId = this.parentNode.rowIndex;
 
                     var rowsNotSelected = table.getElementsByTagName('tr');

@@ -62,15 +62,15 @@
                         let result = [];
                         data.forEach((interview) => {
                             const {
-                                InteID,
-                                Filled_by,
-                                Date_filled,
                                 SurvID,
-                                InteTitle,
-                                SurvCreated,
-                                SurvCreator,
                                 SurvTitle,
-                                SurvDescription
+                                SurvCreator,
+                                SurvCreated,
+                                SurvDescription,
+                                InteID,
+                                InteTitle,
+                                Filled_by,
+                                Date_filled
                             } = interview
                             result = [
                                 `${Filled_by}`,
@@ -81,7 +81,6 @@
                             heyo.unshift(SurvID);
                             makeTableHTML(result);
                         });
-
                     })
             }
 
@@ -137,8 +136,8 @@
             }
         }
 
-        function pullUpInterview(survURL) { //This is where I need to figure out how to pull up a survey
-                fetch(survURL) // Connection to api
+        function pullUpInterview(InteURL) { //This is where I need to figure out how to pull up a survey
+                fetch(InteURL) // Connection to api
                 .then(singleSurveyList => singleSurveyList.json()) // Transform data into json
                 .then(function (singleSurveyData) {
                     let singleSurveyResult = [];
