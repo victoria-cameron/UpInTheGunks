@@ -88,24 +88,6 @@ function addChoice(inID, mul, tex){
         }).then((res) => res.json())
         .then((data) =>  console.log(data))
         .catch((err)=>console.log(err)) 
-<<<<<<< HEAD
-    }else if(multiChoice.checked){ // multiple choice 
-        // multiple choice questions into array
-        questionOp = [a, b, c, d];
-        // looping throughh array for post
-        questionOp.forEach((choice) => {
-            // posting the multi choice answers 
-            fetch('http://10.10.9.145:3000/api/questions/add_choice', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({QuesID:id,
-                                  Choi_text:choice,
-                                  Choi_text_id:1})
-            }).then((res) => res.json())
-            .then((data) =>  console.log(data))
-            .catch((err)=>console.log(err))
-        })
-=======
         alert("A Question has been added to the database!");
     }else if(typeMu.checked){ // multiple choice 
         // pushing all multiple choice questions to an array
@@ -124,7 +106,6 @@ function addChoice(inID, mul, tex){
         }).then((res) => res.json())
         .then((data) =>  console.log(data))
         .catch((err)=>console.log(err))
->>>>>>> ab978fc7265d8bec52a969a9ca40f3cca69a5503
     }
 }
 </script>

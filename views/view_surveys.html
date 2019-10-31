@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     </head>
-    <body id="fill_survey" onload="getSurveysURL()">
 
+    <body id="view_survey" onload="getSurveysURL()">
     <div>
-        <h1 id="pageHeader">View Survey</h1>
+        <h1 id="pageHeader">View Surveys</h1>
         <h3>Select the survey you wish to view.</h3>
     </div>
 
@@ -55,7 +55,7 @@
         }, false);
 
         function getSurveysURL() { // This is the function that gets the survey info
-            var url = 'http://10.10.9.145:3000/api/surveys';
+            var url = 'http://148.100.149.70:3000/api/surveys';
             fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
             .then(function (data) {
@@ -75,7 +75,6 @@
                          `${SurvDescription}`];
                      let idk = JSON.stringify(result);
                      heyo.unshift(SurvID);
-                     //document.getElementById("surveyTable").innerHTML = makeTableHTML();
                      makeTableHTML(result);
                     });
             })
@@ -94,12 +93,9 @@
             var table = document.getElementById('surveyTable');
             var cells = table.getElementsByTagName('td');
 
-            for (var i = 0; i < cells.length; i++) {
-                // Take each cell
-                var cell = cells[i];
-                // do something on onclick event for cell
-                cell.onclick = function () {
-                    // Get the row id where the cell exists
+            for (var i = 0; i < cells.length; i++) { // Take each cell
+                var cell = cells[i]; // do something on onclick event for cell
+                cell.onclick = function () { // Get the row id where the cell exists
                     var rowId = this.parentNode.rowIndex;
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
@@ -118,12 +114,9 @@
             var table = document.getElementById('surveyTable');
             var cells = table.getElementsByTagName('td');
 
-            for (var i = 0; i < cells.length; i++) {
-            // Take each cell
-                var cell = cells[i];
-                // do something on onclick event for cell
-                cell.onclick = function () {
-                    // Get the row id where the cell exists
+            for (var i = 0; i < cells.length; i++) { // Take each cell
+                var cell = cells[i]; // do something on onclick event for cell
+                cell.oclick = function () { // Get the row id where the cell exists
                     var rowId = this.parentNode.rowIndex;
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
@@ -133,14 +126,13 @@
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
                     var idValue = heyo[rowId]
-                    var url = 'http://10.10.9.145:3000/api/surveys/gather/' + idValue.toString();
+                    var url = 'http://148.100.149.70:3000/api/surveys/gather/' + idValue.toString();
                     pullUpSurvey(url);
                     }
                 }
-            }
+        }
 
         function pullUpSurvey(survURL) { //This is where I need to figure out how to pull up a survey
-                /*document.write("It worked");*/
                 fetch(survURL) // Connection to api
                 .then(singleSurveyList => singleSurveyList.json()) // Transform data into json
                 .then(function (singleSurveyData) {
@@ -148,9 +140,9 @@
                     singleSurveyData.forEach((singleSurvey) => {
                            const {
                                SurvID,
-                               SurvCreated,
-                               SurvCreator,
                                SurvTitle,
+                               SurvCreator,
+                               SurvCreated,
                                SurvDescription,
                                QuesID,
                                Ques_text,
@@ -159,43 +151,23 @@
                                Choi_text_id
                            } = singleSurvey
                            singleSurveyResult = [
-                               `${SurvTitle}`,
-                               `${SurvCreator}`,
-                               `${SurvCreated}`,
                                `${Ques_text}`,
                                `${Choi_text}`,
-                               `${Choi_text_id}`
-                           ]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
+                               `${Choi_text_id}`]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
                            everythingElse.unshift(singleSurveyResult);
                            surveyTitle = SurvTitle;
-                           //everythingElse.unshift(SurvTitle);
-                           });
-                           formatResults(surveyTitle, everythingElse);
-                        })
+                    });
+                    formatResults(surveyTitle, everythingElse);
+                })
         }
 
-        function formatResults(title, re) { // This will output the questions for a specified survey
-                    document.getElementById("fill_survey").innerHTML = "";
-                    var newHeader = document.createElement("H1");
-                    newHeader.innerText = title;
-                    document.body.appendChild(newHeader);
-                    for (var i = 0; i < re.length; i++) {
-                        var para = document.createElement("DIV");
-                        para.setAttribute("id", i.toString());
-                        para.innerText = re[i][0]; // Insert text
-                        document.body.appendChild(para);
-
-                        /*if (re[i][2] == 1){ 
-                             var radioBtn = document.createElement("INPUT");
-                             radioBtn.setAttribute("type", "radio");
-                             document.body.appendChild(radioBtn);
-                         } else if (re[i][2] == 2) {
-                             var txtBox = document.createElement("INPUT");
-                             txtBox.setAttribute("type", "text");
-                             document.body.appendChild(txtBox);
-                         }*/
-                    }
+        function formatResults(title, body) { // This will output the questions for a specified survey
+            document.getElementById("view_survey").innerHTML = "";
+            var newHeader = document.createElement("H1");
+            newHeader.innerText = title;
+            document.getElementById("view_survey").innerHTML = newHeader.outerHTML + body;
         }
+
     </script>
 
     </body>

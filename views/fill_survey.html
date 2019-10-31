@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
     <head>
         <link rel="stylesheet" href="css/gunks.css">
         <meta charset="utf-8">
@@ -54,7 +54,7 @@
         // TODO: add "de-highlighter"
         
         function getSurveysURL() { // This is the function that gets the survey info 
-            var url = 'http://10.10.9.145:3000/api/surveys';
+            var url = 'http://148.100.149.70:3000/api/surveys';
             fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
             .then(function(data) {
@@ -127,7 +127,7 @@
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
                     var idValue = heyo[rowId]
-                    var url = 'http://10.10.9.145:3000/api/surveys/gather/' + idValue.toString();
+                    var url = 'http://148.100.149.70:3000/api/surveys/gather/' + idValue.toString();
                     pullUpSurvey(url);
                 }
             }
