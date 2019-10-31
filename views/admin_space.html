@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 
 <body>
@@ -17,8 +17,8 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
         
-        <div class="index" id="adminSpace">
-            <h1>Admin Space</h1>
+        <div class="file" id="adminSpace">
+            <h1>Admin Space Testing code</h1>
 
             <h2>Create new user:</h2>
             <label>First name:</label>
@@ -28,14 +28,14 @@
             <label>Email:</label>
             <input type="text" id="email"><br><br>
             <label>New Username (6Characters):</label>
-            <input type="text" id="userName"><br><br>
+            <input type="text" id="userName" maxlength="6"><br><br>
             <label>New user password:</label>
             <input type="text" id="newUserPassword"><br><br>
-            <button type="button" id="submitU">Submit ></button><br>
+            <button type="button" id="submitNewUser">Submit ></button><br>
 
             <h2>Update user:</h2>
             <label>User ID:</label>
-            <input type="text" id="updateUser"><br><br>
+            <input type="text" id="updateUser" maxlength="6"><br><br>
             <label>Set new password:</label>
             <input type="text" id="updateUserPassword"><br><br>
             <label>Set new privledges:</label>
@@ -43,23 +43,23 @@
             <label>Set new Privlages: </label>
             <div class="dropdown show">
                 <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Dropdown link
+                    Dropdown link
                 </a>
-              
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                  <a class="dropdown-item" href="#">Action</a>
-                  <a class="dropdown-item" href="#">Another action</a>
-                  <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-              </div>
-            <br>
-            <br>
-            <button type="button" id="Submit">Submit ></button><br>
 
-            <h2>Upload an image for the project:</h2>
-            <label>Image:</label>
-            <input type="image" id="image"><br>
-            <button type="button" id="submit">Submit ></button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <a class="dropdown-item" href="#">Action</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
+            </div>
+            <br>
+            <br>
+            <button type="button" id="SubmitPass">Submit ></button><br>
+            <!--
+                <h2>Upload an image for the project:</h2>
+                <label>Image:</label>
+                <input type="image" id="image"><br>
+                <button type="button" id="submit">Submit ></button> -->
         </div>
     </body>
 </body>
@@ -72,8 +72,11 @@
     var email = "";
     var user = "";
     var password = "";
-    document.getElementById("submitU").addEventListener("click", function () {
+    document.getElementById("submitNewUser").addEventListener("click", function () {
         newUser();
+    }, false);
+    document.getElementById("submitPass").addEventListener("click", function () {
+        updateUser();
     }, false);
 
     function newUser() {
