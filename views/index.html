@@ -1,20 +1,40 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <link rel="stylesheet" href="css/gunks.css">
-        <title>Surv-YAY Homepage</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
+<head>
+    <link rel="stylesheet" href="css/gunks.css">
+    <title>Surv-YAY Homepage</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
     <body>
-        <!--HEADER-->
-        <div class="header">
-            <a href="index">
-                <img src="images/SurvyaySmallLogo.jpg" alt="SurvYay">
-            </a>
-            <h2>Welcome, User!</h2>
-            <button type="button">Logout</button> <!--TODO: Add functionality to logout button-->
-        </div>
+        <!-- Navigation -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+            <div class="container" id="head_space">
+                <a class="navbar-brand" href="#">
+                    <img src="images/SurvyaySmall Logo.jpg" alt="SurvYay" class="img-responsive">
+                </a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarResponsive">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item active">
+                            <a class="nav-link" href="#">
+                                Log In
+                                <span class="sr-only">(current)</span>
+                            </a>
+                        </li>
+                        <!--<li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>-->
+
+                    </ul>
+                </div>
+            </div>
+        </nav>
 
         <!--SIDE NAV-->
         <div class="sidenav">

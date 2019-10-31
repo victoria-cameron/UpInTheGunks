@@ -5,105 +5,148 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale = 1">
     <link rel="stylesheet" href="css/gunks.css" />
-    <!--script(src='jquery.js')-->
-   <!--<script>
-            (function() {
-                ("#includedContent").load("testh.html");
-            });
-    </script>-->
-    </head>
-    <body>
-        <!--HEADER-->
-        <div class="header">
-                <a href="index.html">
-                    <img src="images/SurvyaySmallLogo.jpg" alt="SurvYay">
-                </a>
-        </div>
-    
-    <div>
-        <h2 style="text-align: center">Login</h2>
-    </div>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark static-top">
+        <div class="container" id="head_space">
+            <a class="navbar-brand" href="#">
+                <img src="images/SurvyaySmall Logo.jpg" alt="SurvYay" class="img-responsive">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarResponsive">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">
+                            Log In
+                            <span class="sr-only">(current)</span>
+                        </a>
+                    </li>
+                    <!--<li class="nav-item">
+                        <a class="nav-link" href="#">About</a>
+                    </li>-->
 
-    <div style="text-align: center">Project:<input id="prod" type="text" name="project" value="A0001">
-                                <br>Username:<input id="user" type="text" name="username" value="_tjoy">
-                                <br>Password:<input id="pass" type="text" name="password" value="surveysRkool"><br>
-                                <br><input id="log" type="submit"value="LogIn"><br>
-    </div>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="card">
+        <article class="card-body" style="width: 50%; margin: 0 auto;">
+            <h4 class="card-title text-center mb-4 mt-1">Sign in</h4>
+            <hr>
+            <p class="text-success text-center">Welcome to Surv-YAY!</p>
+            <form>
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                        </div>
+                        <input name="" class="form-control" placeholder="Project ID" type="text" id="prod">
+                    </div> <!-- input-group.// -->
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-user"></i> </span>
+                        </div>
+                        <input name="" class="form-control" placeholder="Email or login" type="email" id="user">
+                    </div> <!-- input-group.// -->
+                </div> <!-- form-group// -->
+
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text"> <i class="fa fa-lock"></i> </span>
+                        </div>
+                        <input class="form-control" placeholder="******" type="password" id="pass">
+                    </div> <!-- input-group.// -->
+                </div> <!-- form-group// -->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block" id="log"> Login  </button>
+                </div> <!-- form-group// -->
+               <!--<p class="text-center"><a href="#" class="btn">Forgot password?</a></p> -->
+            </form>
+        </article>
+    </div> <!-- card.// -->
+
+
+    <!--
+    <div style="text-align: center">
+        Project:<input id="prod" type="text" name="project" value="A0001">
+        <br>Username:<input id="user" type="text" name="username" value="_tjoy">
+        <br>Password:<input id="pass" type="text" name="password" value="surveysRkool"><br>
+        <br><input id="log" type="submit" value="LogIn"><br>
+    </div> 
 
     <div style="text-align: center">
-        <!--<textarea id="userinfo" rows="4" cols="50">nothing yet</textarea> -->
+        <textarea id="userinfo" rows="4" cols="50">nothing yet</textarea>
     </div>
 
-    <div id="includedContent"></div>
+    <div id="includedContent"></div> -->
+
+
     <script type="text/javascript">
-        var subd_user;
-        var subd_pass;
-        var subd_prod;
-        var real_user;
-        var real_pass;
-        var real_role;
-    
-        document.getElementById('log').addEventListener("click", function() {
-            logIn(document.getElementById('prod').value, document.getElementById('user').value);
+        var subd_user = "";
+        var subd_pass = "";
+        var subd_prod = "";
+        var real_user = "";
+        var real_pass = "";
+        var real_role = "";
+
+        document.getElementById('log').addEventListener("click", function () {
+            logIn();
         }, false);
-    
-    
-        function logIn(gathered_prod, gathered_id) {
-            subd_user = gathered_id,
+
+
+        function logIn() {
+            subd_user = document.getElementById('user').value
             subd_pass = document.getElementById('pass').value,
-            subd_prod = gathered_prod
-    
-            var userURL = ('http://10.10.9.145:3000/api/users/single/' + gathered_prod + '/' + gathered_id)
-    
+                subd_prod = document.getElementById('prod').value
+
+            var userURL = ('http://localhost:3000/api/users/single/' + subd_prod + '/' + subd_user)
+
             fetch(userURL)
                 .then((user_res) => {
                     return user_res.json()
                 })
                 .then((user_data) => {
-                    let user_result = ``;
+                    let user_result = '';
                     user_data.forEach((user) => {
-                        const {
-                            UserID,
-                            Fir_Name,
-                            Las_Name,
-                            Email,
-                            Password,
-                            ProdID,
-                            Role
-                        } = user
+                        const { UserID, Fir_Name, Las_Name, Email, Password, ProdID, Role } = user
+
                         user_result +=
-                            `UserID: ${UserID} 
-                        FN : ${Fir_Name} \n 
-                        LN : ${Las_Name} \n 
-                        EM : ${Email} \n 
-                        PS : ${Password} \n 
-                        PD : ${ProdID} \n
-                        RL : ${Role}`;
+                            `UserID: ${UserID}
+                                                                FN : ${Fir_Name} \n
+                                                                LN : ${Las_Name} \n
+                                                                EM : ${Email} \n
+                                                                PS : ${Password} \n
+                                                                PD : ${ProdID} \n
+                                                                RL : ${Role}`;
                         real_pass = Password;
                         real_user = UserID;
                         real_role = Role;
+                        console.log(user_result)
                         console.log(real_pass + subd_pass);
                     })
-                }).then(validator());
+                }).then(validator(real_pass, subd_pass));
         }
-    
-        function validator() {
+
+        function validator(act_pass, fact_pass) {
             console.log("made it")
-            if (subd_pass == real_pass) {
+            if (act_pass = fact_pass) {
+                console.log("Match")
                 window.location = '/index';
-            } else if (subd_pass != real_pass) {
-                goAgain();
-                console.log("whats going on here");
-    
+            } else {
+                console.log("No Match");
                 document.getElementById('userinfo').innerHTML = "sorry boss"
             }
         }
-    
-        function goAgain() {
-            if (subd_pass == real_pass) {
-                window.location = '/index';
-            }
-        }
+
     </script>
-    </body>
+</body>
 </html>
