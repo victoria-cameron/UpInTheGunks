@@ -7,7 +7,7 @@
 
     <body id="view_survey" onload="getSurveysURL()">
     <div>
-        <h1 id="pageHeader">View Survey</h1>
+        <h1 id="pageHeader">View Surveys</h1>
         <h3>Select the survey you wish to view.</h3>
     </div>
 
@@ -55,7 +55,7 @@
         }, false);
 
         function getSurveysURL() { // This is the function that gets the survey info
-            var url = 'http://10.10.9.145:3000/api/surveys';
+            var url = 'http://148.100.149.70:3000/api/surveys';
             fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
             .then(function (data) {
@@ -114,12 +114,9 @@
             var table = document.getElementById('surveyTable');
             var cells = table.getElementsByTagName('td');
 
-            for (var i = 0; i < cells.length; i++) {
-            // Take each cell
-                var cell = cells[i];
-                // do something on onclick event for cell
-                cell.oclick = function () {
-                    // Get the row id where the cell exists
+            for (var i = 0; i < cells.length; i++) { // Take each cell
+                var cell = cells[i]; // do something on onclick event for cell
+                cell.oclick = function () { // Get the row id where the cell exists
                     var rowId = this.parentNode.rowIndex;
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
@@ -129,7 +126,7 @@
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
                     var idValue = heyo[rowId]
-                    var url = 'http://10.10.9.145:3000/api/surveys/gather/' + idValue.toString();
+                    var url = 'http://148.100.149.70:3000/api/surveys/gather/' + idValue.toString();
                     pullUpSurvey(url);
                     }
                 }
