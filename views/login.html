@@ -54,7 +54,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text"> <i class="fa fa-user"></i> </span>
                         </div>
-                        <input name="" class="form-control" placeholder="Username" type="email" id="user">
+                        <input name="" class="form-control" placeholder="Username" type="text" id="user">
                     </div> <!-- input-group.// -->
                 </div> <!-- form-group// -->
 
@@ -69,8 +69,10 @@
                 <div class="form-group">
                     <button type="submit" class="btn btn-primary btn-block" id="log"> Login  </button>
                 </div> <!-- form-group// -->
-               <!--<p class="text-center"><a href="#" class="btn">Forgot password?</a></p> -->
+
             </form>
+
+            <p class="text-center" id="wrong" style="color: red; display:none">Username or Password Incorrect</p>
         </article>
     </div> <!-- card.// -->
 
@@ -138,11 +140,12 @@
 
         function validator(act_pass, fact_pass) {
             console.log("made it")
-            if (act_pass = fact_pass) {
+            if (act_pass == fact_pass) {
                 console.log("Match")
                 window.location = '/index';
             } else {
                 console.log("No Match");
+                document.getElementById('wrong').style.display = "block";
                 document.getElementById('userinfo').innerHTML = "sorry boss"
             }
         }
