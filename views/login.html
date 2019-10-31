@@ -75,15 +75,13 @@
             <p class="text-center" id="wrong" style="color: red; display:none">Username or Password Incorrect</p>
         </article>
     </div> <!-- card.// -->
-
-
     <!--
     <div style="text-align: center">
         Project:<input id="prod" type="text" name="project" value="A0001">
         <br>Username:<input id="user" type="text" name="username" value="_tjoy">
         <br>Password:<input id="pass" type="text" name="password" value="surveysRkool"><br>
         <br><input id="log" type="submit" value="LogIn"><br>
-    </div> 
+    </div>
 
     <div style="text-align: center">
         <textarea id="userinfo" rows="4" cols="50">nothing yet</textarea>
@@ -121,35 +119,43 @@
                     user_data.forEach((user) => {
                         const { UserID, Fir_Name, Las_Name, Email, Password, ProdID, Role } = user
 
-                        user_result +=
+                        user_result =
                             `UserID: ${UserID}
-                                                                FN : ${Fir_Name} \n
-                                                                LN : ${Las_Name} \n
-                                                                EM : ${Email} \n
-                                                                PS : ${Password} \n
-                                                                PD : ${ProdID} \n
-                                                                RL : ${Role}`;
+                                                                            FN : ${Fir_Name} \n
+                                                                            LN : ${Las_Name} \n
+                                                                            EM : ${Email} \n
+                                                                            PS : ${Password} \n
+                                                                            PD : ${ProdID} \n
+                                                                            RL : ${Role}`;
+
+
+                        var favoritemovie = Role;
+                        sessionStorage.setItem("favoriteMovie", favoritemovie);
+                        //console.log(favoritemovie)
+
                         real_pass = Password;
                         real_user = UserID;
                         real_role = Role;
-                        console.log(user_result)
-                        console.log(real_pass + subd_pass);
+                        //console.log(user_result)
+                        //console.log(real_pass + subd_pass);
+
+                        return [real_pass, subd_pass]
+
                     })
-                }).then(validator(real_pass, subd_pass));
+                }).then((f1, f2) => { validator(f1, f2) });
         }
 
         function validator(act_pass, fact_pass) {
             console.log("made it")
             if (act_pass == fact_pass) {
-                console.log("Match")
+                //console.log("Match")
                 window.location = '/index';
+
             } else {
                 console.log("No Match");
                 document.getElementById('wrong').style.display = "block";
-                document.getElementById('userinfo').innerHTML = "sorry boss"
             }
         }
-
     </script>
-</bodystyle="background:>
+</body>
 </html>
