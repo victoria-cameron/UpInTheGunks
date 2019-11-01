@@ -8,7 +8,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
-<body id="view_record" onload="getRecordsURL()">
+<body id="view_records" onload="getRecordsURL()">
     <div>
         <h1 id="pageHeader">View Records</h1>
         <h3>Select the record you wish to view.</h3>
@@ -184,7 +184,7 @@
         }
 
         function formatResults(title, re) { // This will output the questions for a specified survey
-            document.getElementById("view_record").innerHTML = "";
+            document.getElementById("view_records").innerHTML = "";
             var newHeader = document.createElement("H1");
             newHeader.innerText = title;
             document.body.appendChild(newHeader);
