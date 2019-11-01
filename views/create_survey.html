@@ -8,10 +8,12 @@
     <body id="create_survey">
         <div>
             <h1>Create a survey</h1>
-            <h2>Select questions for your survey.</h2>
         </div>
 
         <div class="file" id = "tableForm">
+            <h2>Survey title:</h2>
+            <input type = "text" id = "survTitle"><br><br>
+            <h2>Choose survey questions:</h2>
             <table id = "columnTable"> <!-- table for column headers -->
                 <col width="20px" />
                 <col width="500px" />
@@ -24,7 +26,8 @@
                 <col width="20px" />
                 <col width="500px" />
             </table>
-            <div id = "sigSurv"></div>
+            <h2>Survey description:</h2>
+            <textarea rows = "4" cols = "50"></textarea><br><br>
             <button type="button" id="submit" > Submit > </button>
         </div>
     </body>
@@ -71,12 +74,27 @@ function makeTable(data){
 
 function submitQuestions(){
     var chkd = document.getElementById("questionTable");
-    var chkdb = chkd.getElementsByTagName('checkbox');
+    var chkdb = chkd.getElementsByTagName('tncheckbox');
     for(var i = 0; i < chkdb.length; i++){
         if(chkdb[i].checked){
             check.push(chkdb[i]);
         }
     }
-    alert(check);
+    console.log(check);
+}
+
+function postSurvey(check){
+    console.log(check);
+    event.preventDefault();
+    let survey = check;
+
+    fetch('http://10.10.9.145:3000/api/questions/add', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({Ques_text:tittle})
+    }).then((res) => res.json())
+    .then((data) =>  console.log(data))
+    .catch((err)=>console.log(err))
+
 }
 </script>
