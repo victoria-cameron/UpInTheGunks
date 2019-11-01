@@ -3,6 +3,10 @@
         <link rel="stylesheet" href="css/gunks.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="canonical" href="https://getbootstrap.com/docs/4.3/examples/checkout/">
+
+        <!-- Bootstrap core CSS -->
+        <link href="/docs/4.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     </head>
     <body id="fill_survey" onload="getSurveysURL()">
 
@@ -39,6 +43,19 @@
         <div id="singSurv"></div>
         
     </div>
+
+    <div class="mb-3">
+        <label for="username">Username</label>
+        <div class="input-group">
+          <div class="input-group-prepend">
+            <span class="input-group-text">@</span>
+          </div>
+          <input type="text" class="form-control" id="username" placeholder="Username" required>
+          <div class="invalid-feedback" style="width: 100%;">
+            Your username is required.
+          </div>
+        </div>
+      </div>
     
     <script type="text/javascript">
         var heyo = [];
@@ -56,7 +73,7 @@
         // TODO: add "de-highlighter"
         
         function getSurveysURL() { // This is the function that gets the survey info 
-            var url = 'http://10.10.9.145:3000/api/surveys';
+            var url = 'http://148.100.149.70:3000/api/surveys';
             fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
             .then(function(data) {
@@ -133,7 +150,7 @@
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
                     var idValue = heyo[rowId]
-                    var url = 'http://10.10.9.145:3000/api/surveys/gather/' + idValue.toString();
+                    var url = 'http://148.100.149.70:3000/api/surveys/gather/' + idValue.toString();
                     pullUpSurvey(url);
                 }
             }
@@ -176,6 +193,8 @@
             var newHeader = document.createElement("H1");
             newHeader.innerText = title;
             document.body.appendChild(newHeader);
+
+            
 
             for (var i = 0; i < re.length; i++) {
                 var para = document.createElement("DIV");
