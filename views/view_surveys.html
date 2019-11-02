@@ -1,11 +1,14 @@
-﻿<html lang="en">
-    <head>
-        <link rel="stylesheet" href="css/gunks.css">
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-    </head>
+﻿﻿<html lang="en">
+<head>
+    <link rel="stylesheet" href="css/gunks.css">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
 
-    <body id="view_survey" onload="getSurveysURL()">
+<body id="view_surveys" onload="getSurveysURL()">
     <div>
         <h1 id="pageHeader">View Surveys</h1>
         <h3>Select the survey you wish to view.</h3>
@@ -16,8 +19,7 @@
         <button type="button" id="search">Search</button><br>
     </div>
 
-    <div class="file" id="tableForm">
-        <!--<h3 style="text-align: center">Creator | Created | Title | Description </h3>-->
+    <div class="file" id="tableForm"> <!--<h3 style="text-align: center">Creator | Created | Title | Description </h3>-->
         <table id="columnTable"> <!--Table for the column headers-->
             <col width="125px" />
             <col width="350px" />
@@ -30,7 +32,8 @@
                 <th>Description</th>
             </tr>
         </table>
-        <table id="surveyTable"> <!--Table for data from api-->
+        <table id="surveyTable">
+            <!--Table for data from api-->
             <col width="125px" />
             <col width="350px" />
             <col width="375px" />
@@ -59,29 +62,29 @@
             fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
             .then(function (data) {
-                 let result = [];
-                 data.forEach((survey) => {
-                     const {
-                        SurvID,
-                        SurvCreated,
-                        SurvCreator,
-                        SurvTitle,
-                        SurvDescription
-                     } = survey
-                     result = [
-                         `${SurvCreator}`,
-                         `${SurvCreated}`,
-                         `${SurvTitle}`,
-                         `${SurvDescription}`];
-                     let idk = JSON.stringify(result);
-                     heyo.unshift(SurvID);
-                     makeTableHTML(result);
-                    });
+                let result = [];
+                data.forEach((survey) => {
+                    const {
+                       SurvID,
+                       SurvCreated,
+                       SurvCreator,
+                       SurvTitle,
+                       SurvDescription
+                    } = survey
+                    result = [
+                        `${SurvCreator}`,
+                        `${SurvCreated}`,
+                        `${SurvTitle}`,
+                        `${SurvDescription}`
+                    ];
+                    heyo.unshift(SurvID);
+                    makeTableHTML(result);
+                });
             })
         }
 
         function makeTableHTML(info) {
-            var survTable =  document.getElementById("surveyTable");
+            var survTable = document.getElementById("surveyTable");
             var newRow = survTable.insertRow(0);
             for (var i = 0; i < info.length; i++) {
                 var newCell = newRow.insertCell(i);
@@ -121,54 +124,71 @@
 
                     var rowsNotSelected = table.getElementsByTagName('tr');
                     for (var row = 0; row < rowsNotSelected.length; row++) {
-                            rowsNotSelected[row].style.backgroundColor = "";
-                            rowsNotSelected[row].classList.remove('selected');
+                        rowsNotSelected[row].style.backgroundColor = "";
+                        rowsNotSelected[row].classList.remove('selected');
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
                     var idValue = heyo[rowId]
                     var url = 'http://148.100.149.70:3000/api/surveys/gather/' + idValue.toString();
                     pullUpSurvey(url);
-                    }
                 }
+            }
         }
 
         function pullUpSurvey(survURL) { //This is where I need to figure out how to pull up a survey
-                fetch(survURL) // Connection to api
-                .then(singleSurveyList => singleSurveyList.json()) // Transform data into json
-                .then(function (singleSurveyData) {
-                    let singleSurveyResult = [];
-                    singleSurveyData.forEach((singleSurvey) => {
-                           const {
-                               SurvID,
-                               SurvTitle,
-                               SurvCreator,
-                               SurvCreated,
-                               SurvDescription,
-                               QuesID,
-                               Ques_text,
-                               ChoiID,
-                               Choi_text,
-                               Choi_text_id
-                           } = singleSurvey
-                           singleSurveyResult = [
-                               `${Ques_text}`,
-                               `${Choi_text}`,
-                               `${Choi_text_id}`]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
-                           everythingElse.unshift(singleSurveyResult);
-                           surveyTitle = SurvTitle;
-                    });
-                    formatResults(surveyTitle, everythingElse);
-                })
+            fetch(survURL) // Connection to api
+            .then(singleSurveyList => singleSurveyList.json()) // Transform data into json
+            .then(function (singleSurveyData) {
+                let singleSurveyResult = [];
+                singleSurveyData.forEach((singleSurvey) => {
+                    const {
+                        SurvID,
+                        SurvTitle,
+                        SurvCreator,
+                        SurvCreated,
+                        SurvDescription,
+                        QuesID,
+                        Ques_text,
+                        ChoiID,
+                        Choi_text,
+                        Choi_text_id
+                    } = singleSurvey
+                    singleSurveyResult = [
+                        `${Ques_text}`,
+                        `${Choi_text}`,
+                        `${Choi_text_id}`
+                    ]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
+                    everythingElse.unshift(singleSurveyResult);
+                    surveyTitle = SurvTitle;
+                });
+                formatResults(surveyTitle, everythingElse);
+            })
         }
 
-        function formatResults(title, body) { // This will output the questions for a specified survey
-            document.getElementById("view_survey").innerHTML = "";
+        function formatResults(title, re) { // This will output the questions for a specified survey
+            document.getElementById("view_surveys").innerHTML = "";
             var newHeader = document.createElement("H1");
             newHeader.innerText = title;
-            document.getElementById("view_survey").innerHTML = newHeader.outerHTML + body;
+            document.body.appendChild(newHeader);
+            for (var i = 0; i < re.length; i++) {
+                var para = document.createElement("DIV");
+                para.setAttribute("id", i.toString());
+                para.innerText = re[i][0]; // Insert text
+                document.body.appendChild(para); 
+                
+               /*if (re[i][2] == 1){ 
+                    var radioBtn = document.createElement("INPUT");
+                    radioBtn.setAttribute("type", "radio");
+                    document.body.appendChild(radioBtn);
+                } else if (re[i][2] == 2) {
+                    var txtBox = document.createElement("INPUT");
+                    txtBox.setAttribute("type", "text");
+                    document.body.appendChild(txtBox);
+                }*/
+            }
         }
 
     </script>
+</body>
 
-    </body>
 </html>
