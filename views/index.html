@@ -48,9 +48,9 @@
         <a href="#" onclick="load_tab('admin_space')" class="list-group-item"><span>Settings</span></a>
     </div>
     <main class="page-content">
-        <div class="container-fluid" id="display">
+        <div class="container-fluid" style="background-color: #D7DEF4; height:1000px">
             <div class="row">
-                <div class="form-group col-md-12" style="background-color: #D7DEF4;">
+                <div class="form-group col-md-12"  id="display" style="height:906px">
                     <h1>Home</h1>
                     <p>Welcome! Make a site selection to begin!</p>
 
@@ -59,43 +59,15 @@
         </div>
     </main>
 
-    <!--SIDE NAV--
-    <div class="sidenav" style="display:inline-block">
-        <button class="dropdown-btn" id="fill">Fill ></button>
-        <div class="dropdown-container">
-            <a href="#" onclick="load_tab('fill_survey')">Surveys</a>
-        </div>
 
-        <button class="dropdown-btn" id="view">View ></button>
-        <div class="dropdown-container">
-            <a href="#" onclick="load_tab('view_records')">Records</a>
-            <a href="#" onclick="load_tab('view_surveys')">Surveys</a>
-        </div>
-
-        <button class="dropdown-btn" id="create">Create ></button>
-        <div class="dropdown-container">
-            <a href="#" onclick="load_tab('create_question')">Questions</a>
-            <a href="#" onclick="load_tab('create_survey')">Surveys</a>
-        </div>
-
-        <button class="dropdown-btn" id="set">Settings ></button>
-        <div class="dropdown-container">
-            <a href="#" onclick="load_tab('admin_space')">Admin</a>
-            <a href="#" onclick="load_tab('admin_space')">User</a>
-        </div>
-    </div> -->
-    <!--CONTAINER WHERE ALL THE SEPARATE PAGES ARE GOING TO GO-->
-    <!--<div  id="content" style="height:auto; width:auto ">-->
-    <!--<div id="index">
-        <h5>Welcome, make a site selection to begin!</h5>
-
-    </div>-->
 
 </body>
 </html>
 
 <script>
     var gathered_role = sessionStorage.getItem("favoriteMovie");
+    //var gathered_role = '4'
+    gathered_role = parseInt(gathered_role);
     console.log(gathered_role);
 
     $(document).ready(function () {
@@ -106,28 +78,26 @@
         });
     });
 
-    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-    /*var dropdown = document.getElementsByClassName("dropdown-btn");
-    var i;
-
-    for (i = 0; i < dropdown.length; i++) {
-        dropdown[i].addEventListener("click", function () {
-            this.classList.toggle("active");
-            var dropdownContent = this.nextElementSibling;
-            if (dropdownContent.style.display === "block") {
-                dropdownContent.style.display = "none";
-            } else {
-                dropdownContent.style.display = "block";
-            }
-        });
-    } */
-
     function load_tab(tab) {
         var dest = 'views/' + tab
         console.log(dest);
-        /*document.getElementById("index").innerHTML = '<iframe type="text/html" src=' + tab + ' frameborder=0 sandbox id=create_question></iframe>';*/
-        document.getElementById("display").innerHTML = '<object type="text/html" data=' + tab + ' width=100% height=100%></object>';
-        /*document.getElementsByClassName("content").innerHTML = '<object type="text/html" data=' + tab + ' ></object>';*/
+        if ( gathered_role >= 7) {
+            open_tab(tab)
+        } else if (gathered_role >= 5) {
+            if (tab != 'admin_space') { open_tab(tab) }
+        } else if (gathered_role >= 4) {
+            if ((tab != 'admin_space' &&tab != 'create_question') ) { open_tab(tab) }
+        } else if (gathered_role >= 3) {
+            if ((tab != 'admin_space' &&tab != 'create_question' &&tab != 'create_survey')) { open_tab(tab) }
+        } else if (gathered_role >= 2) {
+            if ((tab != 'admin_space' &&tab != 'create_question' &&tab != 'create_survey' &&tab != 'fill_survey')) { open_tab(tab) }
+        }else {
+            console.log('No can do.') 
+        }
+    }
+
+    function open_tab(allowed_tab) {
+        document.getElementById("display").innerHTML = '<object type="text/html" data=' + allowed_tab + ' width=100% height=100%></object>';
     }
 </script>
 

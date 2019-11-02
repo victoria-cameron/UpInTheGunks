@@ -1,68 +1,66 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
 
+
+<head>
+    <link rel="stylesheet" href="css/gunks.css">
+    <title>admin_space</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+</head>
 <body>
+    <div style="background-color: #DFE4E8;">
+        <h1>Admin Space</h1>
 
-    <head>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <link rel="stylesheet" href="css/gunks.css">
-        <title>admin_space</title>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+        <h2>Create new user:</h2>
+        <label>First name:</label>
+        <input type="text" id="firstN"><br><br>
+        <label>Last name:</label>
+        <input type="text" id="lastN"><br><br>
+        <label>Email:</label>
+        <input type="text" id="email"><br><br>
+        <label>New Username (6Characters):</label>
+        <input type="text" id="userName" maxlength="6"><br><br>
+        <label>New user password:</label>
+        <input type="text" id="newUserPassword"><br><br>
+        <button type="button" id="submitNewUser">Submit ></button><br>
 
-    </head>
+        <h2>Update user:</h2>
+        <label>User ID:</label>
+        <input type="text" id="updateUser" maxlength="6"><br><br>
+        <label>Set new password:</label>
+        <input type="text" id="updateUserPassword"><br><br>
+        <label>Set new privledges:</label>
+        <input type="text" id="updateUserPrivileges"><br><br>
+        <label>Set new Privileges: </label>
+        <div class="dropdown show">
+            <a id="the_roles" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Available Privileges
+            </a>
 
-    <body>
-        
-        <div class="file" id="adminSpace">
-            <h1>Admin Space Testing code</h1>
-
-            <h2>Create new user:</h2>
-            <label>First name:</label>
-            <input type="text" id="firstN"><br><br>
-            <label>Last name:</label>
-            <input type="text" id="lastN"><br><br>
-            <label>Email:</label>
-            <input type="text" id="email"><br><br>
-            <label>New Username (6Characters):</label>
-            <input type="text" id="userName" maxlength="6"><br><br>
-            <label>New user password:</label>
-            <input type="text" id="newUserPassword"><br><br>
-            <button type="button" id="submitNewUser">Submit ></button><br>
-
-            <h2>Update user:</h2>
-            <label>User ID:</label>
-            <input type="text" id="updateUser" maxlength="6"><br><br>
-            <label>Set new password:</label>
-            <input type="text" id="updateUserPassword"><br><br>
-            <label>Set new privledges:</label>
-            <input type="text" id="updateUserPrivledges"><br><br>
-            <label>Set new Privlages: </label>
-            <div class="dropdown show">
-                <a class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Dropdown link
-                </a>
-
-                <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                    <a class="dropdown-item" href="#">Action</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" id="roles">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <a class="dropdown-item" href="#">Something else here</a>
             </div>
-            <br>
-            <br>
-            <button type="button" id="SubmitPass">Submit ></button><br>
-            <!--
-                <h2>Upload an image for the project:</h2>
-                <label>Image:</label>
-                <input type="image" id="image"><br>
-                <button type="button" id="submit">Submit ></button> -->
         </div>
-    </body>
+        <br>
+        <br>
+        <button type="button" id="submitPass">Submit ></button><br><br>
+    </div>
 </body>
+
+
+
+
 
 </html>
 
@@ -110,4 +108,9 @@
             .catch((err) => console.log(err))
     }
 
+    function getRoles() {
+
+    }
+
 </script>
+

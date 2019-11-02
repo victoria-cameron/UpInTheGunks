@@ -166,9 +166,9 @@ tr:nth-child(even) {
 }
 
 /*Top wrapper*/
-.file {
+/*.file {
   position: absolute;
-  /*z-index: 2;*/
+  /*z-index: 2;
   background-color: #ECE3E3;
   left: 30px;
   width: 90%;
@@ -176,7 +176,7 @@ tr:nth-child(even) {
   font-size: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
-}
+}*/
 
 /* Style the list inside the menu */
 nav ul {

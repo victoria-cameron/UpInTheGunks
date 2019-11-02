@@ -67,7 +67,7 @@
                     </div> <!-- input-group.// -->
                 </div> <!-- form-group// -->
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block" id="log"> Login  </button>
+                    <button type="button" class="btn btn-primary btn-block" id="log"> Login  </button>
                 </div> <!-- form-group// -->
 
             </form>
@@ -75,20 +75,6 @@
             <p class="text-center" id="wrong" style="color: red; display:none">Username or Password Incorrect</p>
         </article>
     </div> <!-- card.// -->
-    <!--
-    <div style="text-align: center">
-        Project:<input id="prod" type="text" name="project" value="A0001">
-        <br>Username:<input id="user" type="text" name="username" value="_tjoy">
-        <br>Password:<input id="pass" type="text" name="password" value="surveysRkool"><br>
-        <br><input id="log" type="submit" value="LogIn"><br>
-    </div>
-
-    <div style="text-align: center">
-        <textarea id="userinfo" rows="4" cols="50">nothing yet</textarea>
-    </div>
-
-    <div id="includedContent"></div> -->
-
 
     <script type="text/javascript">
         var subd_user = "";
@@ -109,24 +95,25 @@
                 subd_prod = document.getElementById('prod').value
 
             var userURL = ('http://localhost:3000/api/users/single/' + subd_prod + '/' + subd_user)
+            //var otherURL = ('http://localhost:3000/api/users/single/A0001/_tjoy')
 
             fetch(userURL)
                 .then((user_res) => {
                     return user_res.json()
                 })
                 .then((user_data) => {
-                    let user_result = '';
+                    var user_result = '';
                     user_data.forEach((user) => {
                         const { UserID, Fir_Name, Las_Name, Email, Password, ProdID, Role } = user
 
                         user_result =
                             `UserID: ${UserID}
-                                                                            FN : ${Fir_Name} \n
-                                                                            LN : ${Las_Name} \n
-                                                                            EM : ${Email} \n
-                                                                            PS : ${Password} \n
-                                                                            PD : ${ProdID} \n
-                                                                            RL : ${Role}`;
+                            FN : ${Fir_Name} \n
+                            LN : ${Las_Name} \n
+                            EM : ${Email} \n
+                            PS : ${Password} \n
+                            PD : ${ProdID} \n
+                            RL : ${Role}`;
 
 
                         var favoritemovie = Role;
@@ -139,16 +126,17 @@
                         //console.log(user_result)
                         //console.log(real_pass + subd_pass);
 
-                        return [real_pass, subd_pass]
+                        return real_pass
 
                     })
-                }).then((f1, f2) => { validator(f1, f2) });
+                }).then((f1) => { validator(f1) });
         }
 
-        function validator(act_pass, fact_pass) {
+        function validator(act_pass) {
             console.log("made it")
-            if (act_pass == fact_pass) {
-                //console.log("Match")
+            act_pass += "change"
+            if (real_pass == subd_pass) {
+                console.log("Match")
                 window.location = '/index';
 
             } else {
