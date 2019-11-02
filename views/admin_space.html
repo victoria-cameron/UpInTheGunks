@@ -16,7 +16,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 </head>
-<body>
+<body id="admin_space" onload="getRoles()">
     <div style="background-color: #DFE4E8;">
         <h1>Admin Space</h1>
 
@@ -65,6 +65,7 @@
 </html>
 
 <script type="text/javascript">
+    var gathered_prod = sessionStorage.getItem("UsersProject");
     var first = "";
     var last = "";
     var email = "";
@@ -83,16 +84,9 @@
         email = document.getElementById('email').value;
         user = document.getElementById('userName').value;
         password = document.getElementById('newUserPassword').value;
-        // console.log(first);
-        // console.log(last);
-        // console.log(email);
-        // console.log(user);
-        // console.log(password);
+
         event.preventDefault();
-        // let firstName = getFirst;
-        // let lastName = getLast;
-        // let userEmail = getEmail;
-        // let userPassword = getPassword;
+
         fetch('http://10.10.9.145:3000/api/users/add_user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -109,7 +103,30 @@
     }
 
     function getRoles() {
+        var roleURL = ('http://localhost:3000/api/access/single/' + 'A0001')
 
+        fetch(roleURL)
+            .then((role_res) => {
+                return role_res.json()
+            })
+            .then((role_data) => {
+                var role_result = '';
+                role_data.forEach((role) => {
+                    const { ProdID, Role, Allowences, Description } = role
+
+                    role_result =
+                        `ProdID: ${ProdID}\n
+                            RL : ${Role} \n
+                            AL : ${Allowences} \n
+                            DS : ${Description}\n`;
+
+                    console.log(role_result);
+                    
+                })
+            })
+    }
+    function what() {
+        console.log("Well nothing works but this does");
     }
 
 </script>
