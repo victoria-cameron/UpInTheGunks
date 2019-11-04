@@ -17,7 +17,7 @@
 
 </head>
 <body id="admin_space" onload="getRoles()">
-    <div style="background-color: #DFE4E8;">
+    <div style="background-color: #DFE4E8; height:906px;">
         <h1>Admin Space</h1>
 
         <h2>Create new user:</h2>
@@ -30,29 +30,26 @@
         <label>New Username (6Characters):</label>
         <input type="text" id="userName" maxlength="6"><br><br>
         <label>New user password:</label>
-        <input type="text" id="newUserPassword"><br><br>
+        <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="newUserPassword">
+        <br><br>
         <button type="button" id="submitNewUser">Submit ></button><br>
 
         <h2>Update user:</h2>
         <label>User ID:</label>
         <input type="text" id="updateUser" maxlength="6"><br><br>
         <label>Set new password:</label>
-        <input type="text" id="updateUserPassword"><br><br>
-        <label>Set new privledges:</label>
-        <input type="text" id="updateUserPrivileges"><br><br>
+        <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="updateUserPassword">
+        <br><br>
         <label>Set new Privileges: </label>
 
 
-        <div class="dropdown">
-            <button class="btn btn-default dropdown-toggle" style="width: 200px;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                Dropdown
+        <div class="dropdown" style="display:inline">
+            <button class="btn btn-default dropdown-toggle" style="width: 150px; text-align: left; background-color: #D7DEF4" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Allowences
                 <span class="caret"></span>
             </button>
             <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="roles">
-                <li><a href="#" data-value="action">Action</a></li>
-                <li><a href="#" data-value="another action">Another action</a></li>
-                <li><a href="#" data-value="something else here">Something else here</a></li>
-                <li><a href="#" data-value="separated link">Separated link</a></li>
+                <!--DROPDOWN SHIT GOES HERE-->
             </ul>
         </div>
 
@@ -79,6 +76,7 @@
     $(".dropdown-menu li a").click(function () {
         $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
         $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+        console.log("something Popped!")
     });
 
     document.getElementById("submitNewUser").addEventListener("click", function () {
@@ -97,7 +95,7 @@
 
         event.preventDefault();
 
-        fetch('http://10.10.9.145:3000/api/users/add_user', {
+        fetch('http://localhost:3000/api/users/add_user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -130,13 +128,34 @@
                             AL : ${Allowences} \n
                             DS : ${Description}\n`;
 
-                    document.getElementById('roles').innerHTML += '<a class="dropdown-item" href="#" value=' + Role + '>' + Allowences + '</a>';
-                    //CHANGE TO THIS!
-                    //<li><a href="#" data-value="separated link">Separated link</a></li>
+                    document.getElementById('roles').innerHTML += '<li><a href="#" value=' + Role + '>' + Allowences + '</a ></li > ';
+
 
                 })
             })
     }
 
-</script>
+    function updateUser() {
+        updateUser = document.getElementById('updateUser').value;
+        updatePassword = document.getElementById('updateUserPassword').value;
+        updatePrivlage = document.getElementById('roles').value;
 
+        event.preventDefault();
+
+        if (updatePassword != '') {
+
+            fetch('http://localhost:3000/api/user/user_pass/update', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    UserID: updateUser,
+                    Password: updatePassword,
+                    UserID: updateUser
+                })
+            }).then((res) => res.json())
+                .then((data) => { console.log(data); console.log("That worked") })
+                .catch((err) => console.log(err))
+        }
+    }
+
+</script>
