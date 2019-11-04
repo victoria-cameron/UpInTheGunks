@@ -58,7 +58,7 @@
         }, false);
 
         function getSurveysURL() { // This is the function that gets the survey info
-            var url = 'http://148.100.149.70:3000/api/surveys';
+            var url = 'http://148.100.149.70:3000/api/surveys/gather/';
             fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
             .then(function (data) {
@@ -173,7 +173,7 @@
             for (var i = 0; i < re.length; i++) {
                 var para = document.createElement("DIV");
                 para.setAttribute("id", i.toString());
-                para.innerText = re[i][0]; // Insert text
+                para.innerText = re[i][0]; // Insert textS
                 document.body.appendChild(para); 
                 
                /*if (re[i][2] == 1){ 

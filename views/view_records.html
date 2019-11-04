@@ -55,7 +55,7 @@
             }, false);
 
             function getRecordsURL() { // This is the function that gets the survey info
-                var url = 'http://148.100.149.70:3000/api/interviews';
+                var url = 'http://148.100.149.70:3000/api/interviews/gather/';
                 fetch(url) // Connection to api
                     .then(surveyList => surveyList.json()) // Transform data into json
                     .then(function (data) {
@@ -76,7 +76,8 @@
                                 `${Filled_by}`,
                                 `${Date_filled}`,
                                 `${InteTitle}`,
-                                `${SurvTitle}`];
+                                `${SurvTitle}`
+                            ];
                             let idk = JSON.stringify(result);
                             heyo.unshift(SurvID);
                             makeTableHTML(result);
@@ -148,10 +149,10 @@
                         Date_filled,
                         SurvID,
                         InteTitle,
-                        //SurvCreated,
-                        //SurvCreator,
-                        //SurvTitle,
-                        //SurvDescription,
+                        SurvCreated,
+                        SurvCreator,
+                        SurvTitle,
+                        SurvDescription,
                         QuesID,
                         Reco_ans,
                         Note,
