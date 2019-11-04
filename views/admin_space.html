@@ -41,17 +41,21 @@
         <label>Set new privledges:</label>
         <input type="text" id="updateUserPrivileges"><br><br>
         <label>Set new Privileges: </label>
-        <div class="dropdown show">
-            <a id="the_roles" class="btn btn-secondary dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Available Privileges
-            </a>
 
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuLink" id="roles">
-                <a class="dropdown-item" href="#">Action</a>
-                <a class="dropdown-item" href="#">Another action</a>
-                <a class="dropdown-item" href="#">Something else here</a>
-            </div>
+
+        <div class="dropdown">
+            <button class="btn btn-default dropdown-toggle" style="width: 200px;" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Dropdown
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="roles">
+                <li><a href="#" data-value="action">Action</a></li>
+                <li><a href="#" data-value="another action">Another action</a></li>
+                <li><a href="#" data-value="something else here">Something else here</a></li>
+                <li><a href="#" data-value="separated link">Separated link</a></li>
+            </ul>
         </div>
+
         <br>
         <br>
         <button type="button" id="submitPass">Submit ></button><br><br>
@@ -71,6 +75,12 @@
     var email = "";
     var user = "";
     var password = "";
+
+    $(".dropdown-menu li a").click(function () {
+        $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
+        $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
+    });
+
     document.getElementById("submitNewUser").addEventListener("click", function () {
         newUser();
     }, false);
@@ -103,7 +113,7 @@
     }
 
     function getRoles() {
-        var roleURL = ('http://localhost:3000/api/access/single/' + 'A0001')
+        var roleURL = ('http://localhost:3000/api/access/single/' + gathered_prod)
 
         fetch(roleURL)
             .then((role_res) => {
@@ -120,13 +130,12 @@
                             AL : ${Allowences} \n
                             DS : ${Description}\n`;
 
-                    console.log(role_result);
-                    
+                    document.getElementById('roles').innerHTML += '<a class="dropdown-item" href="#" value=' + Role + '>' + Allowences + '</a>';
+                    //CHANGE TO THIS!
+                    //<li><a href="#" data-value="separated link">Separated link</a></li>
+
                 })
             })
-    }
-    function what() {
-        console.log("Well nothing works but this does");
     }
 
 </script>
