@@ -55,7 +55,7 @@
             }, false);
 
             function getRecordsURL() { // This is the function that gets the survey info
-                var url = 'http://18.219.137.210:3000/api/interviews/gather/';
+                var url = 'http://18.219.137.210:3000/api/interviews';
                 fetch(url) // Connection to api
                     .then(surveyList => surveyList.json()) // Transform data into json
                     .then(function (data) {
