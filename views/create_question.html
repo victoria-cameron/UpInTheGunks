@@ -57,7 +57,7 @@ function postQuestion(gotText, gotTypeM, gotTypeT, ai, bi, ci, di){
     let typeTe = gotTypeT // text box question
 
     // posting the question text
-    fetch('http://10.10.9.145:3000/api/questions/add', {
+    fetch('http://18.219.137.210:3000/api/questions/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({Ques_text:text})
@@ -79,7 +79,7 @@ function addChoice(inID, mul, tex){
     console.log(id);
     // posting the type of question (multiple choice/ text box)
     if(textBox.checked){ // just a text box 
-        fetch('http://10.10.9.145:3000/api/questions/add_choice', {
+        fetch('http://18.219.137.210:3000/api/questions/add_choice', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({QuesID:id,
@@ -97,7 +97,7 @@ function addChoice(inID, mul, tex){
         questionOp.push(d);
 
         // posting the multi choice answers 
-        fetch('http://10.10.9.145:3000/api/questions/add_choice', {
+        fetch('http://18.219.137.210:3000/api/questions/add_choice', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({QuesID:newResult,

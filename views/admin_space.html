@@ -95,7 +95,7 @@
 
         event.preventDefault();
 
-        fetch('http://localhost:3000/api/users/add_user', {
+        fetch('http://18.219.137.210:3000/api/users/add_user', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
@@ -111,7 +111,7 @@
     }
 
     function getRoles() {
-        var roleURL = ('http://localhost:3000/api/access/single/' + gathered_prod)
+        var roleURL = ('http://18.219.137.210:3000/api/access/single/' + gathered_prod)
 
         fetch(roleURL)
             .then((role_res) => {
@@ -144,7 +144,7 @@
 
         if (updatePassword != '') {
 
-            fetch('http://localhost:3000/api/user/user_pass/update', {
+            fetch('http://18.219.137.210:3000/api/user/user_pass/update', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({

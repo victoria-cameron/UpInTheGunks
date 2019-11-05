@@ -44,7 +44,7 @@ document.getElementById("submit").addEventListener("click", function(){
 
 function getQuestions(check){
     // getting questions to put into table
-    fetch('http://148.100.149.70:3000/api/questions')
+    fetch('http://18.219.137.210:3000/api/questions')
     .then((res_1) => { return res_1.json() })
     .then((data_1) => {
         let result = [];
@@ -87,7 +87,7 @@ function submitQuestions(title, des){
     console.log(check);
 
     // posting the survey title and description 
-    fetch('http://10.10.9.145:3000/api/survey/add', {
+    fetch('http://18.219.137.210:3000/api/survey/add', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({SurvTitle:title,
@@ -99,7 +99,7 @@ function submitQuestions(title, des){
 
 function postQ(dat){
     // posting the chosen questions to the new survey 
-    fetch('http://10.10.9.145:3000/api/surveys/add_question', {
+    fetch('http://18.219.137.210:3000/api/surveys/add_question', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({SurvID:dat,

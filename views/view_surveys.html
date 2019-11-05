@@ -58,7 +58,7 @@
         }, false);
 
         function getSurveysURL() { // This is the function that gets the survey info
-            var url = 'http://148.100.149.70:3000/api/surveys/gather/';
+            var url = 'http://18.219.137.210:3000/api/surveys/gather/';
             fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
             .then(function (data) {
@@ -129,7 +129,7 @@
                     }
                     var rowSelected = table.getElementsByTagName('tr')[rowId];
                     var idValue = heyo[rowId]
-                    var url = 'http://148.100.149.70:3000/api/surveys/gather/' + idValue.toString();
+                    var url = 'http://18.219.137.210:3000/api/surveys/gather/' + idValue.toString();
                     pullUpSurvey(url);
                 }
             }
