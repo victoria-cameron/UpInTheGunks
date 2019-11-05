@@ -27,7 +27,7 @@
                 <col width="500px" />
             </table>
             <h2>Survey description:</h2>
-            <textarea rows = "4" cols = "50"></textarea><br><br>
+            <textarea rows = "4" cols = "50" id = "survD"></textarea><br><br>
             <button type="button" id="submit" > Submit > </button>
         </div>
     </body>
@@ -39,10 +39,11 @@ var moreCh = [];
 var check = [];
 getQuestions();
 document.getElementById("submit").addEventListener("click", function(){
-    submitQuestions();}, false);
+    submitQuestions(document.getElementById("survTitle").value,
+                    document.getElementById("survD").value);}, false);
 
 function getQuestions(check){
-    //var text = document.createTextNode("checkbox");
+    // getting questions to put into table
     fetch('http://148.100.149.70:3000/api/questions')
     .then((res_1) => { return res_1.json() })
     .then((data_1) => {
@@ -59,9 +60,9 @@ function getQuestions(check){
 }
 
 function makeTable(data){
+    // creating table with check boxes
     var ques = document.getElementById("questionTable");
     var newRow = ques.insertRow(0);
-    //(newRow).append("<input type = 'checkbox'/>")
     for(var i = 0; i < data.length; i++){
         var newCell = newRow.insertCell(i);
         newCell.innerHTML = data[i];
@@ -72,29 +73,39 @@ function makeTable(data){
     }
 }
 
-function submitQuestions(){
+function submitQuestions(title, des){
+    console.log(title);
+    console.log(des);
     var chkd = document.getElementById("questionTable");
     var chkdb = chkd.getElementsByTagName('tncheckbox');
+    // checking which check boxes are checked
     for(var i = 0; i < chkdb.length; i++){
         if(chkdb[i].checked){
             check.push(chkdb[i]);
         }
     }
     console.log(check);
-}
 
-function postSurvey(check){
-    console.log(check);
-    event.preventDefault();
-    let survey = check;
-
-    fetch('http://10.10.9.145:3000/api/questions/add', {
+    // posting the survey title and description 
+    fetch('http://10.10.9.145:3000/api/survey/add', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({Ques_text:tittle})
+            body: JSON.stringify({SurvTitle:title,
+                                  SurvDescription:des})
+    }).then((res) => res.json())
+    .then((data) =>  postQ(data))
+    .catch((err)=>console.log(err))
+}
+
+function postQ(dat){
+    // posting the chosen questions to the new survey 
+    fetch('http://10.10.9.145:3000/api/surveys/add_question', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({SurvID:dat,
+                                  QuesID:des})
     }).then((res) => res.json())
     .then((data) =>  console.log(data))
     .catch((err)=>console.log(err))
-
 }
 </script>
