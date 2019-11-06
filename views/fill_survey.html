@@ -88,7 +88,7 @@
                         if (groupedData[n[keyIndex]].length > 1) { // if the key value has more than one set of data
                             for (var i = 0; i < groupedData[n[keyIndex]].length; i ++) { // for every set of that data
                                 single_survey_data += '<div class=radio>';
-                                single_survey_data += '<input type=radio ><label>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
+                                single_survey_data += '<input type=radio name=survRadio><label>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
                                 single_survey_data += '</div>';
                             }
                             single_survey_data += '<br>';
