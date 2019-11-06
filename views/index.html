@@ -17,7 +17,15 @@
               <img src="images/SurvyaySmallLogo.jpg" alt="" style="float:left; width:30%">
           </a>
           <h2>Welcome, User!</h2>
-          <button type="button" class="btn btn-primary" onclick=logout() style="background-color:#9DCE5B">Logout</button>
+          <button type="button" class="btn btn-primary" onclick=logout() style="
+                    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                    padding: 14px 20px;
+                    margin: 8px 0;
+                    border: none;
+                    cursor: pointer;
+                    width: 130px;
+                    border-radius: 5px;
+                    font-size: 15pt;">Logout</button>
       </nav>
 
       <div class="container-fluid">
@@ -26,6 +34,8 @@
                 <div class="col-sm-3 col-md-2 dropdown" style="padding-right: 0; padding-left: 0">
                     <ul class="dropdown-menu flex-column">
                         <!--TODO: Add appropriate Home link-->
+                        <button class="dropdown-item active"> Home</button>
+                        <div class="dropdown-container" style="display: none"></div>
 
                         <button class="dropdown-item"> Fill</button>
                         <div class="dropdown-container">
