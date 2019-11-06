@@ -28,7 +28,7 @@
             <form id="surveyForm"></form>
             <!--FORM OF SINGLE SURVEY-->
 
-            <div id="list"></div>
+            <button type="button" id="submit" onclick="confirmSubmit()">Submit ></button>
         </div>
         
 
@@ -44,7 +44,8 @@
                 $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
                     var survey_data = '';
                     $.each(data, function(key,value){
-                        survey_data += '<tr>';
+                        var rowID = JSON.parse(value.SurvID);
+                        survey_data += '<tr id='+rowID+'>';
                         survey_data += '<td>'+value.SurvCreator+'</td>';
                         survey_data += '<td>'+value.SurvCreated+'</td>';
                         survey_data += '<td>'+value.SurvTitle+'</td>';
@@ -54,19 +55,19 @@
                     
                     $('#fillSurveyTable').append(survey_data); // adds row of data to table
 
-                    $('#fillSurveyTable tr').on( 'click', function() { // makes table row clickable
+                    $(document).on('click', '#fillSurveyTable tr', function(event) {
                         $("#primary").hide(); // Hide the table when you select single survey
-                        getSingleSurvey();
+                        var whichSurvey = $(this).closest('tr').attr('id');
+                        getSingleSurvey(whichSurvey);
                     });
 
                 });
             })
         }
         
-        function getSingleSurvey() {
+        function getSingleSurvey(survID) {
            var n = [];
-           var url = 'http://18.219.137.210:3000/api/surveys/gather/2';
-           console.log("hi");
+           var url = 'http://18.219.137.210:3000/api/surveys/gather/' + survID; // TODO: get individual surveys
            $(document).ready(function() {
                $.getJSON(url, function (data) {
                    var page_title = '';
@@ -102,10 +103,27 @@
            });
         }
 
+        function confirmSubmit() {
+            var r = confirm("Are you sure you want\nto submit interview?");
+            if (r == true) {
+                postRecord();
+            } else {
+                txt = "You pressed Cancel!";
+            }
+        }
+        
+        
+        function postRecord() { // Post the filled out survey into records table
+            var url = 'http://18.219.137.210:3000/api/interviews/add'
+            fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({Ques_text:text})
+            }).then((res) => res.json())
+              .then((data) =>  addChoice(data.insertId, typeMu, typeTe))
+              .catch((err)=>console.log(err))
 
-
-
-
+        }
     </script>
     </body>
 </html>
