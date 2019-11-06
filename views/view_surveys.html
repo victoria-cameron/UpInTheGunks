@@ -1,37 +1,113 @@
-﻿
-<html lang="en">
+﻿<html lang="en">
     <head>
-	<link rel="stylesheet" href="css/gunks.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
     </head>
-    <body id="view_surveys">
-        <div>
-            <h1> View Surveys</h1>
-            <table>
-		<tr>
-    		   <th>Title</th>
-    		   <th>Creator</th>
-    		   <th>Created</th>
-    		   <th>Description</th>
-  	        </tr>
-	 	<tr>
-  		   <td>Checking</td>
-    		   <td>If</td>
-        	   <td>This</td>
-    		   <td>Works</td>
-  		</tr>
-	 	<tr>
-  		   <td>Checking</td>
-    		   <td>If</td>
-        	   <td>This</td>
-    		   <td>Works</td>
-  		</tr>
-	    </table>
-		<button type="button">&laquo;Back</button>
-	</div>
+    <body id="view_surveys" onload="viewSurveysURL()" style="background-color: #DFE4E8; width: 100%">
+        <div class="container-fluid" id="primary_view_surveys">
+            <h1 class="page-header">Fill Survey</h1>
+            <h3>Select the survey you will be viewing.</h3>
+            
+            <!--TABLE OF ALL THE AVAILABLE SURVEYS-->
+            <table class="table table-striped" id="viewSurveyTable">
+                <tr>
+                    <th>Creator</th>
+                    <th>Created</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                </tr>
+            </table>
+            <!--TABLE OF ALL THE AVAILABLE SURVEYS-->
+        </div>
+
+        <div class="container-fluid" id="secondary_view_surveys">
+            <h1 id="titleOfViewSurvey"></h1>
+            <!--FORM OF SINGLE SURVEY-->
+            <form id="viewSurveyForm"></form>
+            <!--FORM OF SINGLE SURVEY-->
+        </div>
+        
+
+    
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
+    <script>
+        function viewSurveysURL() { // This is the function that gets the survey info 
+            $('secondary_view_surveys').hide(); // Hide the form
+            var url = 'http://18.219.137.210:3000/api/surveys';
+            $(document).ready(function() {
+                $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
+                    var survey_data = '';
+                    $.each(data, function(key,value){
+                        var rowID = JSON.parse(value.SurvID);
+                        survey_data += '<tr id='+rowID+'>';
+                        survey_data += '<td>'+value.SurvCreator+'</td>';
+                        survey_data += '<td>'+value.SurvCreated+'</td>';
+                        survey_data += '<td>'+value.SurvTitle+'</td>';
+                        survey_data += '<td>'+value.SurvDescription+'</td>';
+                        survey_data += '</tr>';
+                    });
+                    
+                    $('#viewSurveyTable').append(survey_data); // adds row of data to table
+
+                    $(document).on('click', '#viewSurveyTable tr', function(event) {
+                        $("#primary_view_surveys").hide(); // Hide the table when you select single survey
+                        var whichSurvey = $(this).closest('tr').attr('id');
+                        viewSingleSurvey(whichSurvey);
+                    });
+
+                });
+            })
+        }
+        
+        function viewSingleSurvey(survID) {
+           var n = [];
+           var url = 'http://18.219.137.210:3000/api/surveys/gather/' + survID; 
+           $(document).ready(function() {
+               $.getJSON(url, function (data) {
+                   var page_title = '';
+                   var single_survey_data = '';
+                   page_title += '<h1 class=page-header>'+data[0].SurvTitle+'</h1>';
+                   groupedData = data.reduce(function(result, current) { // This groups together the radio buttons under the same Question ID
+                       result[current.QuesID] = result[current.QuesID] || [];
+                       result[current.QuesID].push(current);
+                       return result;}, {});
+                    console.log(groupedData);
+
+                    $.each(groupedData, function(key,value) {
+                        n.push(key); // Make array of the keys in groupedData --> ["1", "8"]
+                        var keyIndex = n.indexOf(key); // "1" --> 0, "8" --> 1
+                        single_survey_data += '<div>';
+                        single_survey_data += '<h3>'+groupedData[n[keyIndex]][0].Ques_text+'</h3>'; // I think we can use index 0 because if there are multiples, they all share the same question...
+                        if (groupedData[n[keyIndex]].length > 1) { // if the key value has more than one set of data
+                            for (var i = 0; i < groupedData[n[keyIndex]].length; i ++) { // for every set of that data
+                                single_survey_data += '<div class=radio>';
+                                single_survey_data += '<input type=radio style=pointer-events:none;><label>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
+                                single_survey_data += '</div>';
+                            }
+                            single_survey_data += '<br>';
+                        } else {
+                            if (groupedData[n[keyIndex]][0].Choi_text_id === 2){
+                                single_survey_data += '<input type=text class=form-control style=width:20%;pointer-events:none;></input><br>'; // Give a textbox
+                            } else if (groupedData[n[keyIndex]][0].Choi_text_id === 3) {
+                                single_survey_data += '<textarea rows="4" class=form-control style=width:30%;pointer-events:none;></textarea><br>'; // Give a textbox
+                            }
+                            
+                        }
+                        single_survey_data += '</div>';
+                    });
+                   $('#titleOfViewSurvey').html(page_title);
+                   $('#viewSurveyForm').append(single_survey_data); // adds each question and their appropriate type to the form
+                   $('secondary_view_surveys').show(); // Display the form*/
+               });
+               
+           });
+        }
+    </script>
     </body>
 </html>
-<script>
 
-</script>
+<!--https://aspdotnetcodehelp.wordpress.com/2016/01/23/how-to-populate-json-results-in-html-table/-->
