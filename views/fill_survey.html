@@ -1,194 +1,138 @@
-﻿<html lang="en" >
-<head>
-    <link rel="stylesheet" href="css/gunks.css">
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-</head>
-    <body id="fill_survey" onload="getSurveysURL()">
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="css/bootstrap.css">
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<div>
-       	<h1 id="pageHeader">Fill Survey</h1>
-        <h3>Select the survey you will be filling.</h3>
-    </div>
+    </head>
+    <body id="fill_survey" onload="getSurveysURL()" style="background-color: #DFE4E8; width: 100%">
+        <div class="container-fluid" id="primary">
+            <h1 class="page-header">Fill Survey</h1>
+            <h3>Select the survey you will be filling.</h3>
+            
+            <!--TABLE OF ALL THE AVAILABLE SURVEYS-->
+            <table class="table table-striped" id="fillSurveyTable">
+                <tr>
+                    <th>Creator</th>
+                    <th>Created</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                </tr>
+            </table>
+            <!--TABLE OF ALL THE AVAILABLE SURVEYS-->
+        </div>
+
+        <div class="container-fluid" id="secondary">
+            <h1 id="titleOfSurvey"></h1>
+            <!--FORM OF SINGLE SURVEY-->
+            <form id="surveyForm"></form>
+            <!--FORM OF SINGLE SURVEY-->
+
+            <button type="button" id="submit" onclick="confirmSubmit()" style="visibility: hidden">Submit ></button>
+        </div>
+        
+
     
-    <div id = "search" style = "margin-left: 80%">
-        <input type = "text" value = "Filter By" id = "filterBy">
-        <button type = "button" id = "search">Search</button><br>
-    </div>
-
-    <div class="file" id="tableForm">
-        <table id="columnTable"> <!--Table for the column headers-->
-            <col width="125px" />
-            <col width="350px" />
-            <col width="375px" />
-            <col width="500px" />
-            <tr style="background-color: #ECE3E3">
-                <th>Creator</th>
-                <th>Created</th> 
-                <th>Title</th>
-                <th>Description</th>
-            </tr>
-        </table>
-        <table id="surveyTable"> <!--Table for data from api-->
-            <col width="125px" />
-            <col width="350px" />
-            <col width="375px" />
-            <col width="500px" />
-        </table>
-
-        <div id="singSurv"></div>
-        
-    </div>
-    
-    <script type="text/javascript">
-        var heyo = [];
-        var everythingElse = [];
-        var surveyTitle = "";
-        
-        document.getElementById("surveyTable").addEventListener("click", function() {
-            highlight_row();
-        }, false);
-        document.getElementById("surveyTable").addEventListener("dblclick", function() {
-            getSurveyID();
-        }, false);
-        // TODO: add "de-highlighter"
-        
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
+    <script>
         function getSurveysURL() { // This is the function that gets the survey info 
+            $('secondary').hide(); // Hide the form
             var url = 'http://18.219.137.210:3000/api/surveys';
-            fetch(url) // Connection to api
-            .then(surveyList => surveyList.json()) // Transform data into json
-            .then(function(data) {
-                let result = [];
-                data.forEach((survey) => {
-                    const {
-                        SurvID,
-                        SurvCreated,
-                        SurvCreator,
-                        SurvTitle,
-                        SurvDescription
-                    } = survey
-                    result = [
-                        `${SurvCreator}`,
-                        `${SurvCreated}`,
-                        `${SurvTitle}`,
-                        `${SurvDescription}`];
-                    heyo.unshift(SurvID);
-                    makeTableHTML(result);
+            $(document).ready(function() {
+                $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
+                    var survey_data = '';
+                    $.each(data, function(key,value){
+                        var rowID = JSON.parse(value.SurvID);
+                        survey_data += '<tr id='+rowID+'>';
+                        survey_data += '<td>'+value.SurvCreator+'</td>';
+                        survey_data += '<td>'+value.SurvCreated+'</td>';
+                        survey_data += '<td>'+value.SurvTitle+'</td>';
+                        survey_data += '<td>'+value.SurvDescription+'</td>';
+                        survey_data += '</tr>';
+                    });
+                    
+                    $('#fillSurveyTable').append(survey_data); // adds row of data to table
+
+                    $(document).on('click', '#fillSurveyTable tr', function(event) {
+                        $("#primary").hide(); // Hide the table when you select single survey
+                        document.getElementById('submit').style.visibility = 'visible';
+                        var whichSurvey = $(this).closest('tr').attr('id');
+                        getSingleSurvey(whichSurvey);
+                    });
+
                 });
             })
         }
-        function makeTableHTML(info) { // This is the function that takes the survey info and puts it in a table
-            var survTable =  document.getElementById("surveyTable");
-            var newRow = survTable.insertRow(0);
-            for (var i = 0; i < info.length; i++) {
-                var newCell = newRow.insertCell(i);
-                newCell.innerHTML = info[i];
+        
+        function getSingleSurvey(survID) {
+           var n = [];
+           var url = 'http://18.219.137.210:3000/api/surveys/gather/' + survID; 
+           $(document).ready(function() {
+               $.getJSON(url, function (data) {
+                   var page_title = '';
+                   var single_survey_data = '';
+                   page_title += '<h1 class=page-header>'+data[0].SurvTitle+'</h1>';
+                   groupedData = data.reduce(function(result, current) { // This groups together the radio buttons under the same Question ID
+                       result[current.QuesID] = result[current.QuesID] || [];
+                       result[current.QuesID].push(current);
+                       return result;}, {});
+                    console.log(groupedData);
+
+                    $.each(groupedData, function(key,value) {
+                        n.push(key); // Make array of the keys in groupedData --> ["1", "8"]
+                        var keyIndex = n.indexOf(key); // "1" --> 0, "8" --> 1
+                        single_survey_data += '<div>';
+                        single_survey_data += '<h3>'+groupedData[n[keyIndex]][0].Ques_text+'</h3>'; // I think we can use index 0 because if there are multiples, they all share the same question...
+                        if (groupedData[n[keyIndex]].length > 1) { // if the key value has more than one set of data
+                            for (var i = 0; i < groupedData[n[keyIndex]].length; i ++) { // for every set of that data
+                                single_survey_data += '<div class=radio>';
+                                single_survey_data += '<input type=radio ><label>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
+                                single_survey_data += '</div>';
+                            }
+                            single_survey_data += '<br>';
+                        } else {
+                            if (groupedData[n[keyIndex]][0].Choi_text_id === 2){
+                                single_survey_data += '<input type=text class=form-control style=width:20%></input><br>'; // Give a textbox
+                            } else if (groupedData[n[keyIndex]][0].Choi_text_id === 3) {
+                                single_survey_data += '<textarea rows="4" class=form-control style=width:30%></textarea><br>'; // Give a textbox
+                            }
+                            
+                        }
+                        single_survey_data += '</div>';
+                    });
+                   $('#titleOfSurvey').html(page_title);
+                   $('#surveyForm').append(single_survey_data); // adds each question and their appropriate type to the form
+                   $('secondary').show(); // Display the form*/
+               });
+               
+           });
+        }
+
+        function confirmSubmit() {
+            var r = confirm("Are you sure you want\nto submit interview?");
+            if (r == true) {
+                postRecord();
+            } else {
+                txt = "You pressed Cancel!";
             }
         }
-        function highlight_row() {
-            var table = document.getElementById('surveyTable');
-            var cells = table.getElementsByTagName('td');
-            
-            for (var i = 0; i < cells.length; i++) {
-                // Take each cell
-                var cell = cells[i];
-                // do something on onclick event for cell
-                cell.onclick = function () {
-                    // Get the row id where the cell exists
-                    var rowId = this.parentNode.rowIndex;
-                    
-                    var rowsNotSelected = table.getElementsByTagName('tr');
-                    for (var row = 0; row < rowsNotSelected.length; row++) {
-                        rowsNotSelected[row].style.backgroundColor = "";
-                        rowsNotSelected[row].classList.remove('selected');
-                    }
-                    var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    rowSelected.style.backgroundColor = "gray";
-                    rowSelected.className += " selected";
-                }
-            }
-        }
-        function getSurveyID() { //This is where I need to figure out how to pull up a survey
-            var table = document.getElementById('surveyTable');
-            var cells = table.getElementsByTagName('td');
-            
-            for (var i = 0; i < cells.length; i++) {
-                // Take each cell
-                var cell = cells[i];
-                // do something on onclick event for cell
-                cell.onclick = function () {
-                    // Get the row id where the cell exists
-                    var rowId = this.parentNode.rowIndex;
-                    
-                    var rowsNotSelected = table.getElementsByTagName('tr');
-                    for (var row = 0; row < rowsNotSelected.length; row++) {
-                        rowsNotSelected[row].style.backgroundColor = "";
-                        rowsNotSelected[row].classList.remove('selected');
-                    }
-                    var rowSelected = table.getElementsByTagName('tr')[rowId];
-                    var idValue = heyo[rowId]
-                    var url = 'http://18.219.137.210:3000/api/surveys/gather/' + idValue.toString();
-                    pullUpSurvey(url);
-                }
-            }
-        }
-        function pullUpSurvey(survURL) { // This is supposed to get all the questions for a specified survey
-            fetch(survURL) // Connection to api
-            .then(singleSurveyList => singleSurveyList.json()) // Transform data into json
-            .then(function(singleSurveyData) {
-                let singleSurveyResult = [];
-                singleSurveyData.forEach((singleSurvey) => {
-                    const {
-                        SurvID,
-                        SurvCreated,
-                        SurvCreator,
-                        SurvTitle,
-                        SurvDescription,
-                        QuesID,
-                        Ques_text,
-                        ChoiID,
-                        Choi_text,
-                        Choi_text_id
-                    } = singleSurvey
-                    singleSurveyResult = [
-                        `${Ques_text}`,
-                        `${Choi_text}`,
-                        `${Choi_text_id}`
-                    ]; // = Name,textbox,2Name,text,2Name,text,2Salary: ,$0.00-$10.00,1Salary: ,$11.00-$20.00,1
-                    everythingElse.unshift(singleSurveyResult);
-                    surveyTitle = SurvTitle;
-                    //everythingElse.unshift(SurvTitle);
-                });
-                formatResults(surveyTitle, everythingElse); 
-            })           
-        }
-        function formatResults(title, re) { // This will output the questions for a specified survey
-            document.getElementById("fill_survey").innerHTML = "";
-            var newHeader = document.createElement("H1");
-            newHeader.innerText = title;
-            document.body.appendChild(newHeader);
-            for (var i = 0; i < re.length; i++) {
-                var para = document.createElement("DIV");
-                para.setAttribute("id", i.toString());
-                para.innerText = re[i][0]; // Insert text
-                document.body.appendChild(para); 
-                
-               /*if (re[i][2] == 1){ 
-                    var radioBtn = document.createElement("INPUT");
-                    radioBtn.setAttribute("type", "radio");
-                    document.body.appendChild(radioBtn);
-                } else if (re[i][2] == 2) {
-                    var txtBox = document.createElement("INPUT");
-                    txtBox.setAttribute("type", "text");
-                    document.body.appendChild(txtBox);
-                }*/
-            }
+        
+        
+        function postRecord() { // Post the filled out survey into records table
+            var url = 'http://18.219.137.210:3000/api/interviews/add'
+            fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({Ques_text:text})
+            }).then((res) => res.json())
+              .then((data) =>  addChoice(data.insertId, typeMu, typeTe))
+              .catch((err)=>console.log(err))
+
         }
     </script>
-
-
     </body>
 </html>
+
+<!--https://aspdotnetcodehelp.wordpress.com/2016/01/23/how-to-populate-json-results-in-html-table/-->
