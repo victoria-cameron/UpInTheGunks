@@ -28,7 +28,7 @@
             <form id="surveyForm"></form>
             <!--FORM OF SINGLE SURVEY-->
 
-            <button type="button" id="submit" onclick="confirmSubmit()">Submit ></button>
+            <button type="button" id="submit" onclick="confirmSubmit()" style="visibility: hidden">Submit ></button>
         </div>
         
 
@@ -57,6 +57,7 @@
 
                     $(document).on('click', '#fillSurveyTable tr', function(event) {
                         $("#primary").hide(); // Hide the table when you select single survey
+                        document.getElementById('submit').style.visibility = 'visible';
                         var whichSurvey = $(this).closest('tr').attr('id');
                         getSingleSurvey(whichSurvey);
                     });
