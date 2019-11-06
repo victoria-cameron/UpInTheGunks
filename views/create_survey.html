@@ -16,7 +16,8 @@
             <!--TABLE OF QUESTIONS-->
             <table class="table table-striped" id="questionTable">
                 <tr>
-                    <th>Question ID</th>
+                    <th style="text-align: center">Select</th>
+                    <th style="text-align: center">Question ID</th>
                     <th>Question</th>
                 </tr>
             </table>
@@ -48,8 +49,9 @@
                 $.each(data, function(key,value){
                     var checkID = JSON.parse(value.QuesID);
                     question_data += '<tr>';
-                    question_data += '<td>'+value.QuesID+'</td>';
-                    question_data += '<td><input type=checkbox id=tncheckbox'+checkID+'</input> '+value.Ques_text+'</td>';
+                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input type=checkbox id=tncheckbox'+checkID+'></input></td>';  
+                    question_data += '<td style=width:11%;text-align:center>'+value.QuesID+'</td>';
+                    question_data += '<td>'+value.Ques_text+'</td>';
                     question_data += '</tr>';
                 });
 
