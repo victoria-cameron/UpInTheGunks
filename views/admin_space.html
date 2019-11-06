@@ -27,14 +27,14 @@
         <input type="text" id="lastN"><br><br>
         <label>Email:</label>
         <input type="text" id="email"><br><br>
-        <label>New Username (6Characters):</label>
-        <input type="text" id="userName" maxlength="6"><br><br>
         <label>Set new Privileges: </label>
         <select class="mdb-select md-form colorful-select dropdown-warning" id="new_roles">
-            <option value="">Roles</option>
+            <option value="0">Roles</option>
             <!--where the roles go-->
         </select>
-        <br>
+        <br> <br>
+        <label>New Username (6Characters):</label>
+        <input type="text" id="userName" maxlength="6"><br><br>
         <label>New user password:</label>
         <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="newUserPassword">
         <br><br>
@@ -48,7 +48,7 @@
         <br><br>
         <label>Set new Privileges: </label>
         <select class="mdb-select md-form colorful-select dropdown-warning" id="up_roles">
-            <option value="">Roles</option>
+            <option value="0">Roles</option>
             <!--where the roles go-->
         </select>
 
@@ -99,20 +99,33 @@
         password = document.getElementById('newUserPassword').value;
 
         event.preventDefault();
+        if (newRole != undefined || newRole == "0") {
+            fetch('http://18.219.137.210:3000/api/users/add_role', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ProdID: gathered_prod,
+                    UserID: user,
+                    Role: newRole
+                })
+            }).then((res) => res.json())
+                .then((data) => console.log(data))
+                .catch((err) => console.log(err))
 
-        fetch('http://18.219.137.210:3000/api/users/add_user', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                UserID: user,
-                Fir_Name: first,
-                Las_Name: last,
-                Email: email,
-                Password: password
-            })
-        }).then((res) => res.json())
-            .then((data) => console.log(data))
-            .catch((err) => console.log(err))
+            fetch('http://18.219.137.210:3000/api/users/add_user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    UserID: user,
+                    Fir_Name: first,
+                    Las_Name: last,
+                    Email: email,
+                    Password: password
+                })
+            }).then((res) => res.json())
+                .then((data) => console.log(data))
+                .catch((err) => console.log(err))
+        }
     }
 
     function getRoles() {
@@ -154,8 +167,7 @@
 
         event.preventDefault();
 
-        if (upRole != undefined) {
-            console.log(upRole)
+        if (upRole != undefined || upRole == "0") {
             fetch('http://18.219.137.210:3000/api/user/project_roles/update', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -170,11 +182,10 @@
                 .then((data) => { console.log(data); })
                 .catch((err) => console.log(err))
 
-        } else { console.log('check') }
+        }
 
 
         if (updatePassword != '') {
-
             fetch('http://18.219.137.210:3000/api/user/user_pass/update', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
