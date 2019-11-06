@@ -1,34 +1,36 @@
-﻿﻿<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale = 1">
-    <link rel="stylesheet" href="css/gunks.css" />
-</head>
-<!--<body class="content">-->
-<body id="create_question">
-    <div>
-        <h1>Create Question</h1>
-    </div>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale = 1">
+        <link rel="stylesheet" href="css/bootstrap.css" />
+    </head>
 
-    <div class="file">
-        <h2> Question:</h2>
-        <input type = "text" id = "q"><br><br>
-        <h2>Question type: </h2>
-        <input type="radio" name = "type" id = "textBox" checked> Text box </input><br><br>
-        <input type="radio" name = "type" id = "multCh"> Multiple choice </input><br><br>
-        <h2>Add multiple choice answers:</h2>
-        <label> A. </label>
-        <input type = "text" id = "a"><br><br>
-        <label> B. </label>
-        <input type = "text" id = "b"><br><br>
-        <label> C. </label>
-        <input type = "text" id = "c"><br><br>
-        <label> D. </label>
-        <input type = "text" id = "d"><br><br>
-        <button type="button" id="submit">Submit ></button><br><br>
-        <textarea id = "displayspot" type = "textarea" rows="4" cols="50"></textarea><br><br>
-    </div>     
-</body>
+    <!--<body class="content">-->
+    <body id="create_question" style="background-color: #DFE4E8; width: 100%">
+        <div class="container-fluid" id="primary_create_question">
+            <h1>Create Question</h1>
+            
+            <h2> Question:</h2>
+            <input type = "text" id = "q"><br><br>
+            
+            <h2>Question type: </h2>
+            <input type="radio" name = "type" id = "textBox" checked> Text box </input><br><br>
+            <input type="radio" name = "type" id = "multCh"> Multiple choice </input><br><br>
+            
+            <h2>Add multiple choice answers:</h2>
+            <label> A. </label>
+            <input type = "text" id = "a"><br><br>
+            <label> B. </label>
+            <input type = "text" id = "b"><br><br>
+            <label> C. </label>
+            <input type = "text" id = "c"><br><br>
+            <label> D. </label>
+            <input type = "text" id = "d"><br><br>
+            
+            <button type="button" id="submit">Submit ></button><br><br>
+            <textarea id = "displayspot" type = "textarea" rows="4" cols="50"></textarea><br><br>
+        </div>    
+    </body>
 </html>
 
 <script >
@@ -39,7 +41,6 @@ var a = "";
 var b = "";
 var c = "";
 var d = "";
-
 document.getElementById("submit").addEventListener("click", function(){
     postQuestion((document.getElementById("q").value), // user question input
                   (document.getElementById("multCh")), // multiple choice question
@@ -48,14 +49,12 @@ document.getElementById("submit").addEventListener("click", function(){
                   (document.getElementById("b").value), // multi choice B
                   (document.getElementById("c").value), // multi choice C
                   (document.getElementById("d").value));}, false); // multi choice D
-
 function postQuestion(gotText, gotTypeM, gotTypeT, ai, bi, ci, di){
     let text = document.getElementById("q").value; // text of question
     console.log(gotText);
     event.preventDefault();
     let typeMu = gotTypeM; // multi choice question
     let typeTe = gotTypeT // text box question
-
     // posting the question text
     fetch('http://18.219.137.210:3000/api/questions/add', {
         method: 'POST',
