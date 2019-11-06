@@ -29,6 +29,12 @@
         <input type="text" id="email"><br><br>
         <label>New Username (6Characters):</label>
         <input type="text" id="userName" maxlength="6"><br><br>
+        <label>Set new Privileges: </label>
+        <select class="mdb-select md-form colorful-select dropdown-warning" id="new_roles">
+            <option value="">Roles</option>
+            <!--where the roles go-->
+        </select>
+        <br>
         <label>New user password:</label>
         <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="newUserPassword">
         <br><br>
@@ -41,17 +47,10 @@
         <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="updateUserPassword">
         <br><br>
         <label>Set new Privileges: </label>
-
-
-        <div class="dropdown" style="display:inline">
-            <button class="btn btn-default dropdown-toggle" style="width: 150px; text-align: left; background-color: #D7DEF4" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                Allowences
-                <span class="caret"></span>
-            </button>
-            <ul class="dropdown-menu" aria-labelledby="dropdownMenu1" id="roles">
-                <!--DROPDOWN SHIT GOES HERE-->
-            </ul>
-        </div>
+        <select class="mdb-select md-form colorful-select dropdown-warning" id="up_roles">
+            <option value="">Roles</option>
+            <!--where the roles go-->
+        </select>
 
         <br>
         <br>
@@ -72,12 +71,18 @@
     var email = "";
     var user = "";
     var password = "";
+    var newRole;
+    var upRole;
 
-    $(".dropdown-menu li a").click(function () {
-        $(this).parents(".dropdown").find('.btn').html($(this).text() + ' <span class="caret"></span>');
-        $(this).parents(".dropdown").find('.btn').val($(this).data('value'));
-        console.log("something Popped!")
-    });
+    function new_selected() {
+        var selector = document.getElementById('new_roles');
+        newRole = selector[selector.selectedIndex].value;
+    } document.getElementById('new_roles').addEventListener('change', new_selected);
+
+    function up_selected() {
+        var selector = document.getElementById('up_roles');
+        upRole = selector[selector.selectedIndex].value;
+    } document.getElementById('up_roles').addEventListener('change', up_selected);
 
     document.getElementById("submitNewUser").addEventListener("click", function () {
         newUser();
@@ -128,9 +133,17 @@
                             AL : ${Allowences} \n
                             DS : ${Description}\n`;
 
-                    document.getElementById('roles').innerHTML += '<li><a href="#" value=' + Role + '>' + Allowences + '</a ></li > ';
 
-
+                    var x = document.getElementById("new_roles");
+                    var option = document.createElement("option");
+                    option.text = Allowences;
+                    option.value = Role;
+                    x.add(option);
+                    var y = document.getElementById("up_roles");
+                    var option1 = document.createElement("option");
+                    option1.text = Allowences;
+                    option1.value = Role;
+                    y.add(option1);
                 })
             })
     }
@@ -138,9 +151,27 @@
     function updateUser() {
         updateUser = document.getElementById('updateUser').value;
         updatePassword = document.getElementById('updateUserPassword').value;
-        updatePrivlage = document.getElementById('roles').value;
 
         event.preventDefault();
+
+        if (upRole != undefined) {
+            console.log(upRole)
+            fetch('http://18.219.137.210:3000/api/user/project_roles/update', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ProdID: gathered_prod,
+                    UserID: updateUser,
+                    Role: upRole,
+                    UserID: updateUser,
+                    ProdID: gathered_prod
+                })
+            }).then((res) => res.json())
+                .then((data) => { console.log(data); })
+                .catch((err) => console.log(err))
+
+        } else { console.log('check') }
+
 
         if (updatePassword != '') {
 
@@ -153,7 +184,7 @@
                     UserID: updateUser
                 })
             }).then((res) => res.json())
-                .then((data) => { console.log(data); console.log("That worked") })
+                .then((data) => { console.log(data); })
                 .catch((err) => console.log(err))
         }
     }
