@@ -8,7 +8,7 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 </head>
 
-<body id="view_surveys" onload="getSurveysURL()" style="background-color: #DFE4E8;">
+<body id="view_surveys" onload="getAllSurveysURL()" style="background-color: #DFE4E8;">
     <div>
         <h1 id="pageHeader">View Surveys</h1>
         <h3>Select the survey you wish to view.</h3>
@@ -57,7 +57,7 @@
             getSurveyID();
         }, false);
 
-        function getSurveysURL() { // This is the function that gets the survey info
+        function getAllSurveysURL() { // This is the function that gets the survey info
             var url = 'http://18.219.137.210:3000/api/surveys';
             fetch(url) // Connection to api
             .then(surveyList => surveyList.json()) // Transform data into json
