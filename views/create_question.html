@@ -68,15 +68,12 @@ function postQuestion(gotText, gotTypeM, gotTypeT, ai, bi, ci, di){
 function addChoice(inID, mul, tex){
     id = inID; // quesID
     textBox = tex; // text box choice 
-    multiChoice = mul; // multi choice 
     let textB = 'text'; // text box text
-    let muuul = 'multi';
     a = document.getElementById("a").value;
     b = document.getElementById("b").value;
     c = document.getElementById("c").value;
     d = document.getElementById("d").value;
-    console.log(a);
-    console.log(id);
+    var allChoices = [a,b,c,d];
     // posting the type of question (multiple choice/ text box)
     if(textBox.checked){ // just a text box 
         fetch('http://18.219.137.210:3000/api/questions/add_choice', {
@@ -95,17 +92,18 @@ function addChoice(inID, mul, tex){
         questionOp.push(b);
         questionOp.push(c);
         questionOp.push(d);
-
-        // posting the multi choice answers 
-        fetch('http://18.219.137.210:3000/api/questions/add_choice', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({QuesID:newResult,
-                              Choi_text:textB,
+        allChoices.forEach(choice =>{
+            // posting the multi choice answers 
+            fetch('http://18.219.137.210:3000/api/questions/add_choice', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({QuesID:id,
+                              Choi_text:choice,
                               Choi_text_id:1})
-        }).then((res) => res.json())
-        .then((data) =>  console.log(data))
-        .catch((err)=>console.log(err))
+            }).then((res) => res.json())
+            .then((data) =>  console.log(data))
+            .catch((err)=>console.log(err))
+        })
     }
 }
 </script>
