@@ -68,7 +68,7 @@
         
         function getSingleSurvey(survID) {
            var n = [];
-           var url = 'http://18.219.137.210:3000/api/surveys/gather/' + survID; // TODO: get individual surveys
+           var url = 'http://18.219.137.210:3000/api/surveys/gather/' + survID; 
            $(document).ready(function() {
                $.getJSON(url, function (data) {
                    var page_title = '';
@@ -84,15 +84,21 @@
                         n.push(key); // Make array of the keys in groupedData --> ["1", "8"]
                         var keyIndex = n.indexOf(key); // "1" --> 0, "8" --> 1
                         single_survey_data += '<div>';
-                        single_survey_data += '<label>'+groupedData[n[keyIndex]][0].Ques_text+'</label>'; // I think we can use index 0 because if there are multiples, they all share the same question...
+                        single_survey_data += '<h3>'+groupedData[n[keyIndex]][0].Ques_text+'</h3>'; // I think we can use index 0 because if there are multiples, they all share the same question...
                         if (groupedData[n[keyIndex]].length > 1) { // if the key value has more than one set of data
                             for (var i = 0; i < groupedData[n[keyIndex]].length; i ++) { // for every set of that data
                                 single_survey_data += '<div class=radio>';
-                                single_survey_data += '<input type=radio class=form-control>'+groupedData[n[keyIndex]][i].Choi_text+'</input>'; // Output a radio button
+                                single_survey_data += '<input type=radio ><label>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
                                 single_survey_data += '</div>';
                             }
+                            single_survey_data += '<br>';
                         } else {
-                            single_survey_data += '<input type=text class=form-control style=width:20%></input>'; // Give a textbox
+                            if (groupedData[n[keyIndex]][0].Choi_text_id === 2){
+                                single_survey_data += '<input type=text class=form-control style=width:20%></input><br>'; // Give a textbox
+                            } else if (groupedData[n[keyIndex]][0].Choi_text_id === 3) {
+                                single_survey_data += '<textarea rows="4" class=form-control style=width:30%></textarea><br>'; // Give a textbox
+                            }
+                            
                         }
                         single_survey_data += '</div>';
                     });

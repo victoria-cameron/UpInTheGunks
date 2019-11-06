@@ -263,7 +263,15 @@ label {
 }
 
 button {
-  border-radius: 0;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  padding: 14px 20px;
+  margin: 8px 0;
+  border: none;
+  cursor: pointer;
+  width: 130px;
+  border-radius: 5px;
+  font-size: 15pt;
+  background-color: #9DCE5B;
 }
 
 button:focus {
