@@ -75,8 +75,13 @@ body {
   background-color:#DFE4E8; 
   border-radius: 5px; 
   position: relative;
-  height: 73vh;
+  height: 76vh;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+span.icon:before { /* PLUS SIGN*/
+  font-family: 'Glyphicons Halflings';
+  content:"\2b";
 }
 
 hr {
@@ -272,6 +277,19 @@ button {
   border-radius: 5px;
   font-size: 15pt;
   background-color: #9DCE5B;
+}
+
+.noteButton {
+  padding-left: 0;
+  padding-right: 0;
+  padding-top: 0;
+  height: 20px;
+  width: 20px;
+  border:none;
+  background-color: transparent;
+  cursor: pointer;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  text-align: center;
 }
 
 button:focus {
