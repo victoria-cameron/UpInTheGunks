@@ -63,6 +63,12 @@ app.get('/admin_space', (req, res) => {
     });
 });
 
+app.get('/homepage', (req, res) => {
+    res.render('homepage.html', {
+        title: 'Home Page'
+    });
+});
+
 
 const server = app.listen(5000, () => {
     console.log(`Express running → PORT ${server.address().port}`);
