@@ -141,7 +141,7 @@ button { /*had to make another one since I kept breaking it*/
     background-color: #DFE4E8;
 }
 
-#create_question, #create_survey, #fill_select, #fill_survey, #view_records, #view_select, #view_surveys {
+#create_question, #create_survey, #fill_select, #fill_survey, #view_records, #view_select, #view_surveys, #homepage {
   background-color: #DFE4E8;
 }
 
