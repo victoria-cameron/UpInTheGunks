@@ -69,6 +69,24 @@ app.get('/homepage', (req, res) => {
     });
 });
 
+app.get('/help', (req, res) => {
+    res.render('help.html', {
+        title: 'Help Page'
+    });
+});
+
+app.get('/about', (req, res) => {
+    res.render('about.html', {
+        title: 'About Us'
+    });
+});
+
+app.get('/contact', (req, res) => {
+    res.render('contact.html', {
+        title: 'Contact Us'
+    });
+});
+
 
 const server = app.listen(5000, () => {
     console.log(`Express running → PORT ${server.address().port}`);
