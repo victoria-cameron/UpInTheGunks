@@ -1,12 +1,13 @@
 ﻿<html lang="en">
     <head>
         <link rel="stylesheet" href="css/bootstrap.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
     </head>
     <body id="fill_survey" onload="getSurveysURL()" style="background-color: #DFE4E8; width: 100%">
-        <div class="container-fluid" id="primary">
+        <div class="container-fluid" id="primary_fill_survey">
             <h1 class="page-header">Fill Survey</h1>
             <h3>Select the survey you will be filling.</h3>
             
@@ -22,7 +23,7 @@
             <!--TABLE OF ALL THE AVAILABLE SURVEYS-->
         </div>
 
-        <div class="container-fluid" id="secondary">
+        <div class="container-fluid" id="secondary_fill_survey">
             <h1 id="titleOfSurvey"></h1>
             <!--FORM OF SINGLE SURVEY-->
             <form id="surveyForm"></form>
@@ -38,7 +39,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
     <script>
         function getSurveysURL() { // This is the function that gets the survey info 
-            $('secondary').hide(); // Hide the form
+            $('secondary_fill_survey').hide(); // Hide the form
             var url = 'http://18.219.137.210:3000/api/surveys';
             $(document).ready(function() {
                 $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
@@ -56,7 +57,7 @@
                     $('#fillSurveyTable').append(survey_data); // adds row of data to table
 
                     $(document).on('click', '#fillSurveyTable tr', function(event) {
-                        $("#primary").hide(); // Hide the table when you select single survey
+                        $("#primary_fill_survey").hide(); // Hide the table when you select single survey
                         document.getElementById('submit').style.visibility = 'visible';
                         var whichSurvey = $(this).closest('tr').attr('id');
                         getSingleSurvey(whichSurvey);
@@ -83,6 +84,7 @@
                     $.each(groupedData, function(key,value) {
                         n.push(key); // Make array of the keys in groupedData --> ["1", "8"]
                         var keyIndex = n.indexOf(key); // "1" --> 0, "8" --> 1
+                        var getNoteID = JSON.parse(groupedData[n[keyIndex]][0].QuesID);
                         single_survey_data += '<div>';
                         single_survey_data += '<h3>'+groupedData[n[keyIndex]][0].Ques_text+'</h3>'; // I think we can use index 0 because if there are multiples, they all share the same question...
                         if (groupedData[n[keyIndex]].length > 1) { // if the key value has more than one set of data
@@ -91,12 +93,16 @@
                                 single_survey_data += '<input type=radio name=survRadio><label>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
                                 single_survey_data += '</div>';
                             }
+                            single_survey_data += '<textarea rows="4" class=form-control style=width:30%;display:none></textarea><br>'; // ADD NOTE
                             single_survey_data += '<br>';
                         } else {
                             if (groupedData[n[keyIndex]][0].Choi_text_id === 2){
                                 single_survey_data += '<input type=text class=form-control style=width:20%></input><br>'; // Give a textbox
+                                single_survey_data += '<textarea rows="4" class=form-control style=width:30%;display:none></textarea><br>'; // ADD NOTE
                             } else if (groupedData[n[keyIndex]][0].Choi_text_id === 3) {
-                                single_survey_data += '<textarea rows="4" class=form-control style=width:30%></textarea><br>'; // Give a textbox
+                                single_survey_data += '<textarea rows="4" class=form-control style=width:30%></textarea>'; // Give a textbox
+                                single_survey_data += '<textarea rows="4" class=form-control id='+getNoteID+' style=width:30%;display:none></textarea><br>'; // ADD NOTE
+                                single_survey_data += '<input type=button class=noteButton onclick=showNote('+getNoteID+') value=+></input><br><br>'; // ADD NOTE BUTTON
                             }
                             
                         }
@@ -104,7 +110,7 @@
                     });
                    $('#titleOfSurvey').html(page_title);
                    $('#surveyForm').append(single_survey_data); // adds each question and their appropriate type to the form
-                   $('secondary').show(); // Display the form*/
+                   $('secondary_fill_survey').show(); // Display the form*/
                });
                
            });
@@ -118,7 +124,11 @@
                 txt = "You pressed Cancel!";
             }
         }
-        
+
+        function showNote(id) {
+            console.log(id);
+            document.getElementById(id).style.display = 'block';
+        }
         
         function postRecord() { // Post the filled out survey into records table
             var url = 'http://18.219.137.210:3000/api/interviews/add'

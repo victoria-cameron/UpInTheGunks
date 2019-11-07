@@ -7,7 +7,7 @@
     </head>
 
 	<body id="view_record" onload="getRecordsURL()" style="background-color: #DFE4E8; width: 100%">
-		<div class="container-fluid" id="primary_records">
+		<div class="container-fluid" id="primary_view_records">
 			<h1 id="pageHeader">View Records</h1>
 			<h3>Select the record you wish to view.</h3>
 
@@ -26,7 +26,7 @@
 			</table>
         </div>
         
-        <div class="container-fluid" id="secondary_records">
+        <div class="container-fluid" id="secondary_view_records">
             <h1 id="titleOfInterview"></h1>
             <!--FORM OF SINGLE SURVEY-->
             <form id="recordForm"></form>
@@ -39,7 +39,7 @@
     <script type="text/javascript">
     
         function getRecordsURL() { // This is the function that gets the survey info
-            $('secondary_records').hide();
+            $('secondary_view_records').hide();
 			var url = 'http://18.219.137.210:3000/api/interviews';
             $(document).ready(function() {
                 $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
@@ -57,7 +57,7 @@
                     $('#viewSurveyTable').append(record_data); // adds row of data to table
 
 					$(document).on('click', '#viewSurveyTable tr', function(event) {
-                        $("#primary_records").hide(); // Hide the table when you select single survey
+                        $("#primary_view_records").hide(); // Hide the table when you select single survey
                         var whichSurvey = $(this).closest('tr').attr('id');
                         console.log(whichSurvey);
                         getSingleRecord(whichSurvey);
@@ -91,7 +91,7 @@
                     });
                    $('#titleOfInterview').html(page_title);
                    $('#recordForm').append(single_record_data); // adds each question and their appropriate type to the form
-                   $('secondary_records').show(); // Display the form*/
+                   $('secondary_view_records').show(); // Display the form*/
                });
                
            });

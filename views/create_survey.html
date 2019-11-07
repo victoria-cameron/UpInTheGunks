@@ -6,7 +6,7 @@
         <link rel = "stylesheet" href = "css/bootstrap.css"/> 
     </head>
     <body id="create_survey" onload="getQuestions()" style="background-color: #DFE4E8; width: 100%">
-        <div class="container-fluid" id="primary_question">
+        <div class="container-fluid" id="primary_create_survey">
             <h1>Create a survey</h1>
             <h2>Survey title:</h2>
 
@@ -14,7 +14,7 @@
             <h2>Choose survey questions:</h2>
 
             <!--TABLE OF QUESTIONS-->
-            <table class="table table-striped" id="questionTable">
+            <table class="table table-striped" id="createSurveyTable">
                 <tr>
                     <th style="text-align: center">Select</th>
                     <th style="text-align: center">Question ID</th>
@@ -55,7 +55,7 @@
                     question_data += '</tr>';
                 });
 
-                $('#questionTable').append(question_data); // adds row of data to table
+                $('#createSurveyTable').append(question_data); // adds row of data to table
             });
         })
     }
@@ -63,7 +63,7 @@
     function submitQuestions(title, des){
         console.log(title);
         console.log(des);
-        var chkd = document.getElementById("questionTable");
+        var chkd = document.getElementById("createSurveyTable");
         var chkdb = chkd.getElementsByTagName('tncheckbox');
         // checking which check boxes are checked
         for (var i = 0; i < chkdb.length; i++){
