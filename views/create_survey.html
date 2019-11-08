@@ -34,7 +34,7 @@
 <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
 <script>
-    var check = [];
+    var checked = [];
 
     document.getElementById("submit").addEventListener("click", function(){
         submitQuestions(document.getElementById("survTitle").value,
@@ -48,7 +48,7 @@
                 $.each(data, function(key,value){
                     var checkID = JSON.parse(value.QuesID);
                     question_data += '<tr>';
-                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input type=checkbox id=tncheckbox'+checkID+'></input></td>';  
+                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input name=checkbox type=checkbox id=tncheckbox'+checkID+'></input></td>';  
                     question_data += '<td style=width:11%;text-align:center>'+value.QuesID+'</td>';
                     question_data += '<td>'+value.Ques_text+'</td>';
                     question_data += '</tr>';
@@ -57,19 +57,23 @@
             });
         })
     }
-    /**
+    
     function submitQuestions(title, des){
         console.log(title);
         console.log(des);
-        var checkBoxId = 1;
-        var table = document.getElementById('questionTable');
-        // checking which check boxes are checked
-        if((table.getElementsByTagName('tncheckbox') + checkBoxId).checked){
-            check.push(document.getElementById("tncheckbox" + checkBoxId).value);
-            checkBoxId++;
-        }
+        var url = 'http://18.219.137.210:3000/api/questions';
+        $(document).ready(function(){
+            $.getJSON(url, function(data){
+                $.each(data, function(key,value){
+                    var checkId = JSON.parse(value.QuesID);
+                    $('input[name="checkbox"]:checked').each(function(){
+                        checked.push(checkId);
+                    })
+                })
+            })
+        })
 
-        console.log(check);
+        console.log(checked);
         
         // posting the survey title and description 
         fetch('http://18.219.137.210:3000/api/surveys/add', {
@@ -78,24 +82,25 @@
             body: JSON.stringify({SurvTitle:title,
                                   SurvDescription:des})
         }).then((res) => res.json())
-        .then((data) =>  postQ(data.insertId, check))
+        .then((data) =>  postQ(data.insertId, checked))
         .catch((err)=>console.log(err))
     }
-*/
-/**
+
+
     function postQ(dat, check){
+        var id = dat;
         var des = check;
         des.forEach(choice =>{
             // posting the chosen questions to the new survey 
             fetch('http://18.219.137.210:3000/api/surveys/add_question', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({SurvID:dat,
+                body: JSON.stringify({SurvID:id,
                                     QuesID:choice})
             }).then((res) => res.json())
             .then((data) =>  console.log(data))
             .catch((err)=>console.log(err))
         })
     }
-  */  
+    
 </script>
