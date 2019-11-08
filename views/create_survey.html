@@ -1,80 +1,101 @@
-﻿﻿<html lang = "en">
+<html lang = "en">
 
     <head>
         <meta charset = "utf-8">
         <meta name = "viewport" content = "width=device-width, initial-scale = 1">
-        <link rel = "stylesheet" href = "css/gunks.css"/> 
+        <link rel = "stylesheet" href = "css/bootstrap.css"/> 
     </head>
-    <body id="create_survey">
-        <div>
+    <body id="create_survey" onload="getQuestions()" style="background-color: #DFE4E8; width: 100%">
+        <div class="container-fluid" id="primary_question">
             <h1>Create a survey</h1>
-            <h2>Select questions for your survey.</h2>
-        </div>
+            <h2>Survey title:</h2>
 
-        <div id = "search" style = "margin-left: 50%">
-            <input type = "text" value = "Filter By" id = "filterBy">
-            <button type = "button" id = "search">Search</button><br>
-        </div>
+            <input type = "text" id = "survTitle"><br><br>
+            <h2>Choose survey questions:</h2>
 
-        <div class="file">
-            
-            <div id = "bar">
-                <h3>Creator | Created | Question </h3>
-            </div>
+            <!--TABLE OF QUESTIONS-->
+            <table class="table table-striped" id="questionTable">
+                <tr>
+                    <th style="text-align: center">Select</th>
+                    <th style="text-align: center">Question ID</th>
+                    <th>Question</th>
+                </tr>
+            </table>
+            <!--TABLE OF QUESTIONS-->
 
-            <form id = "checkBoxes" action="checkAll()">
-                <input type="checkbox" name="checkBox" value="qOne"> Question One<br>
-                <input type="checkbox" name="checkBox" value="qTwo"> Question Two<br>
-                <input type="checkbox" name="checkBox" value="qThree"> Question Three<br>
-                <input type="checkbox" name="checkBox" value="qFour"> Question Four<br>
-                <input type="checkbox" name="checkBox" value="qFive"> Question Five<br>
-                <input type="checkbox" name="checkBox" value="qSix"> Question Six<br>
-                <input type="checkbox" name="checkBox" value="qSeven"> Question Seven<br>
-                <input type="checkbox" name="checkBox" value="qEight"> Question Eight<br>
-                <input type="checkbox" name="checkBox" value="qNine"> Question Nine<br>
-                <input type="checkbox" name="checkBox" value="qTen"> Question Ten<br>
-                <input type="button" value="Submit" onClick = "checkAll()">
-            </form>
+            <h2>Survey description:</h2>
+            <textarea rows = "4" cols = "50" id = "survD"></textarea><br><br>
+            <button type="button" id="submit" > Submit > </button>
         </div>
     </body>
 </html>
 
+<script src="https://code.jquery.com/jquery.min.js"></script>
+<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
 <script>
-    function checkAll() {
-        var checked = document.getElementsByName('checkBoxes');
-        var checkedBoxes = [];
-            for (var i=0; i<checked.length; i++){
-                if (checked[i].checked) {
-                    checkedBoxes.push(checked[i]);
-                }
-            }
-        var fs = require('fs');
-        var data ={};
-        data.table = checkedBoxes;
-        for(var i = 0; i < checkedBoxes.length; i++){
-    	    var obj = { id: i, checkBox};
-    	    data.table.push(obj);
-        }
-        fs.writeFile("input.json", JSON.stringify(data), function(err){
-    	    if(err)throw err;
-    	    console.log('data');
-        });
-        return checkedBoxes.length > 0 ? checkedBoxes : null;
-    }
-    function searchFunction(){
-        var search = document.getElementId("search");
-        var data = document.getElementId("checkBox");
+    var check = [];
 
-        search.onclick = function(){
-    	    var input = document.getElementById("filterBy");
-    	    for(var i = 0; i < checkedBoxes.length; i++){
-    		    if(checkedBoxes[i] == search){
-    			    alert(data[i]);
-    		    }else{
-    			    alert("not found");
-    		    }
-    	    }
-        }
+    document.getElementById("submit").addEventListener("click", function(){
+        submitQuestions(document.getElementById("survTitle").value,
+        document.getElementById("survD").value);}, false);
+                    
+    function getQuestions(){
+        var url = 'http://18.219.137.210:3000/api/questions';
+        $(document).ready(function() {
+            $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
+                var question_data = '';
+                $.each(data, function(key,value){
+                    var checkID = JSON.parse(value.QuesID);
+                    question_data += '<tr>';
+                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input type=checkbox id=tncheckbox'+checkID+'></input></td>';  
+                    question_data += '<td style=width:11%;text-align:center>'+value.QuesID+'</td>';
+                    question_data += '<td>'+value.Ques_text+'</td>';
+                    question_data += '</tr>';
+                });
+                $('#questionTable').append(question_data); // adds row of data to table
+            });
+        })
     }
+    /**
+    function submitQuestions(title, des){
+        console.log(title);
+        console.log(des);
+        var checkBoxId = 1;
+        var table = document.getElementById('questionTable');
+        // checking which check boxes are checked
+        if((table.getElementsByTagName('tncheckbox') + checkBoxId).checked){
+            check.push(document.getElementById("tncheckbox" + checkBoxId).value);
+            checkBoxId++;
+        }
 
+        console.log(check);
+        
+        // posting the survey title and description 
+        fetch('http://18.219.137.210:3000/api/surveys/add', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({SurvTitle:title,
+                                  SurvDescription:des})
+        }).then((res) => res.json())
+        .then((data) =>  postQ(data.insertId, check))
+        .catch((err)=>console.log(err))
+    }
+*/
+/**
+    function postQ(dat, check){
+        var des = check;
+        des.forEach(choice =>{
+            // posting the chosen questions to the new survey 
+            fetch('http://18.219.137.210:3000/api/surveys/add_question', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({SurvID:dat,
+                                    QuesID:choice})
+            }).then((res) => res.json())
+            .then((data) =>  console.log(data))
+            .catch((err)=>console.log(err))
+        })
+    }
+  */  
 </script>

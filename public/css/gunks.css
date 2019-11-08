@@ -143,7 +143,7 @@ button { /*had to make another one since I kept breaking it*/
   float: right;
 }
 
-#create_question, #create_survey, #fill_select, #fill_survey, #view_records, #view_select, #view_surveys {
+#create_question, #create_survey, #fill_select, #fill_survey, #view_records, #view_select, #view_surveys, #homepage {
   background-color: #DFE4E8;
 }
 
@@ -168,9 +168,9 @@ tr:nth-child(even) {
 }
 
 /*Top wrapper*/
-.file {
+/*.file {
   position: absolute;
-  /*z-index: 2;*/
+  /*z-index: 2;
   background-color: #ECE3E3;
   left: 30px;
   width: 90%;
@@ -178,7 +178,7 @@ tr:nth-child(even) {
   font-size: 20px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   padding: 20px;
-}
+}*/
 
 /* Style the list inside the menu */
 nav ul {
@@ -194,13 +194,35 @@ article {
 }
 
 footer {
-  position:absolute;
-  bottom:0;
-  width:97%;
-  height:60px;   /* Height of the footer */
-  text-align: right;
-  font-size: 20px;
-  color: black;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #777;
+  padding: 10px;
+  text-align: center;
+  color: white;
+}
 
+.list-group {
+    margin: auto;
+    float: left;
+    padding-top: 0px;
+    background-color: antiquewhite;
+}
+
+.lead {
+    margin: auto;
+    left: 0;
+    right: 0;
+    padding-top: 10%;
+    background-color: #DFE4E8;
+    color: black
+}
+
+.list-group-item {
+    background-color: #9DCE5B;
+    color: black;
+    width: 150px;
+    height: 45px;
+}
+
+.click {
+    background-color: rgb(172, 199, 136);
 }

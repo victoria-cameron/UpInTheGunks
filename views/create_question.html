@@ -1,115 +1,120 @@
 ﻿﻿<html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale = 1">
-    <link rel="stylesheet" href="css/gunks.css" />
-</head>
-<!--<body class="content">-->
-<body id="create_question">
-    <div>
-        <h1>Create Question</h1>
-    </div>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale = 1">
+        <link rel="stylesheet" href="css/bootstrap.css" />
+    </head>
 
-    <div class="file">
-        <h2> Question:</h2>
-        <input type = "text" id = "q"><br><br>
-        <h2>Question type: </h2>
-        <input type="radio" name = "type" id = "textBox" checked> Text box </input><br><br>
-        <input type="radio" name = "type" id = "multCh"> Multiple choice </input><br><br>
-        <h2>Add multiple choice answers:</h2>
-        <label> A. </label>
-        <input type = "text" id = "a"><br><br>
-        <label> B. </label>
-        <input type = "text" id = "b"><br><br>
-        <label> C. </label>
-        <input type = "text" id = "c"><br><br>
-        <label> D. </label>
-        <input type = "text" id = "d"><br><br>
-        <button type="button" id="submit">Submit ></button><br><br>
-        <textarea id = "displayspot" type = "textarea" rows="4" cols="50"></textarea><br><br>
-    </div>     
-</body>
+    <!--<body class="content">-->
+    <body id="create_question" style="background-color: #DFE4E8; width: 100%">
+        <div class="container-fluid" id="primary_create_question">
+            <h1>Create Question</h1>
+            
+            <h2> Question:</h2>
+            <input type = "text" id = "q"><br><br>
+            
+            <h2>Question type: </h2>
+            <input type="radio" name = "type" id = "textBox" checked> Text box </input><br><br>
+            <input type="radio" name = "type" id = "multCh"> Multiple choice </input><br><br>
+            <input type="radio" name = "type" id = "textArea"> Paragraph </input><br><br>
+
+            
+            <h2>Add multiple choice answers:</h2>
+            <label> A. </label>
+            <input type = "text" id = "a"><br><br>
+            <label> B. </label>
+            <input type = "text" id = "b"><br><br>
+            <label> C. </label>
+            <input type = "text" id = "c"><br><br>
+            <label> D. </label>
+            <input type = "text" id = "d"><br><br>
+            
+            <button type="button" id="submit">Submit ></button><br><br>
+            <textarea id = "displayspot" type = "textarea" rows="4" cols="50"></textarea><br><br>
+        </div>    
+    </body>
 </html>
 
 <script >
 var questionOp = []; // array of multiple choice answers
-var result = ``; // empty string of QuesID result
 var typeT = document.getElementById("textBox");
 var typeMu = document.getElementById("multCh");
-
+var typeP = document.getElementById("textArea");
+var a = "";
+var b = "";
+var c = "";
+var d = "";
 document.getElementById("submit").addEventListener("click", function(){
     postQuestion((document.getElementById("q").value), // user question input
                   (document.getElementById("multCh")), // multiple choice question
                   (document.getElementById("textBox")), // text box question
+                  (document.getElementById("textArea")),
                   (document.getElementById("a").value), // multi choice A
                   (document.getElementById("b").value), // multi choice B
                   (document.getElementById("c").value), // multi choice C
                   (document.getElementById("d").value));}, false); // multi choice D
-
-function postQuestion(gotText, gotTypeM, gotTypeT, ai, bi, ci, di){
-    let text = gotText; // text of question
+function postQuestion(gotText, gotTypeM, gotTypeT, gotTypeP, ai, bi, ci, di){
+    let text = document.getElementById("q").value; // text of question
     console.log(gotText);
     event.preventDefault();
     let typeMu = gotTypeM; // multi choice question
-    let typeTe = gotTypeT // text box question
-    let textB = 'text'; // text box 
-    let a = ai;
-    let b = bi;
-    let c = ci;
-    let d = di;
-    var newResult = 1; // the QuesID as an int
-
+    let typeTe = gotTypeT; // text box question
+    let typeP = gotTypeP; // text area question
     // posting the question text
-    fetch('http://10.10.9.145:3000/api/questions/add', {
+    fetch('http://18.219.137.210:3000/api/questions/add', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({Ques_text:text})
     }).then((res) => res.json())
-    .then((data) =>  console.log(data))
+    .then((data) =>  addChoice(data.insertId, typeMu, typeTe, typeP))
     .catch((err)=>console.log(err))
-
-    // getting the question ID
-    fetch('http://10.10.9.145:3000/api/questions')
-    .then((res_1) => { return res_1.json() })
-    .then((data_1) => {
-        data_1.forEach((question) => {
-            const { QuesID, Ques_text} = question
-                if(Ques_text == text){
-                    result = `${QuesID} ` ;
-                    document.getElementById('displayspot').innerHTML = result;
-                    newResult = parseInt(result);
-                }     
-        });
-    })
+}
+function addChoice(inID, mul, tex, par){
+    id = inID; // quesID
+    textBox = tex; // text box choice 
+    let textB = 'text'; // text box text
+    let textA = 'textArea'; // text area
+    a = document.getElementById("a").value;
+    b = document.getElementById("b").value;
+    c = document.getElementById("c").value;
+    d = document.getElementById("d").value;
+    var allChoices = [a,b,c,d];
     // posting the type of question (multiple choice/ text box)
-    if(typeT.checked){ // just a text box 
-        fetch('http://10.10.9.145:3000/api/questions/add_choice', {
+    if(textBox.checked){ // just a text box 
+        fetch('http://18.219.137.210:3000/api/questions/add_choice', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({QuesID:newResult,
+        body: JSON.stringify({QuesID:id,
                               Choi_text:textB,
                               Choi_text_id:2})
         }).then((res) => res.json())
         .then((data) =>  console.log(data))
         .catch((err)=>console.log(err)) 
-        alert(newResult);
+        alert("A Question has been added to the database!");
     }else if(typeMu.checked){ // multiple choice 
-        // pushing all multiple choice questions to an array
-        questionOp.push(a);
-        questionOp.push(b);
-        questionOp.push(c);
-        questionOp.push(d);
-
-        // posting the multi choice answers 
-        fetch('http://10.10.9.145:3000/api/questions/add_choice', {
+        allChoices.forEach(choice =>{
+            // posting the multi choice answers 
+            fetch('http://18.219.137.210:3000/api/questions/add_choice', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({QuesID:id,
+                              Choi_text:choice,
+                              Choi_text_id:1})
+            }).then((res) => res.json())
+            .then((data) =>  console.log(data))
+            .catch((err)=>console.log(err))
+        })
+    }else if(typeP.checked){
+        // posting questions with paragraph responses
+        fetch('http://18.219.137.210:3000/api/questions/add_choice', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({QuesID:newResult,
-                              Choi_text:textB,
-                              Choi_text_id:1})
+        body: JSON.stringify({QuesID:id,
+                              Choi_text:textA,
+                              Choi_text_id:3})
         }).then((res) => res.json())
         .then((data) =>  console.log(data))
-        .catch((err)=>console.log(err))
+        .catch((err)=>console.log(err)) 
     }
 }
 </script>

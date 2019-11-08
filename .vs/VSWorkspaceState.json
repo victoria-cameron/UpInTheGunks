@@ -1,8 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\public"
+    "\\views"
   ],
-  "SelectedNode": "\\view_records.html",
+  "SelectedNode": "\\views\\create_question.html",
   "PreviewInSolutionExplorer": false
 }

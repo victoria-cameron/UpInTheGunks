@@ -1,86 +1,203 @@
-<!DOCTYPE html>
-<html lang = "en">
-<body>
-    <head>
-        <title> Admin Space</title> 
-        <script src = "create_question.js"></script>
-        <meta charset = "utf-8">
-        <meta name = "viewport" content = "width=device-width, initial-scale = 1">
-        <link rel = "stylesheet" href = "gunks.css"/> 
-    </head>
-    <body>
-        <div class = "header">
-            <a href = "index.html">
-                <img src = "SurvyaySmallLogo.jpg" alt = "SurvYay">
-            </a>
-            <h2>Welcome, user!</h2>
-            <button type = "button"> Logout</button>
-        </div>
+﻿<!DOCTYPE html>
+<html lang="en">
 
-        <div class="sidenav">
-            <button type="button" id="create">Create ></button>
-            <button type="button" id="fill">Fill ></button>
-            <button type="button" id="view">View ></button>
-        </div>
 
-        <div class = "index" id = "adminSpace">
-            <h1>Admin Space</h1>
+<head>
+    <link rel="stylesheet" href="css/gunks.css">
+    <title>admin_space</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-            <h2>Create new user:</h2>
-            <label>First name:</label>
-            <input type="text" id="firstN"><br><br>
-            <label>Last name:</label>
-            <input type="text" id="lastN"><br><br>
-            <label>Email:</label>
-            <input type="text" id="email"><br><br>
-            <label>New user password:</label>
-            <input type="text" id="newUserPassword"><br><br>
-            <button type="button" id="submitU">Submit ></button><br>
+</head>
+<body id="admin_space" onload="getRoles()">
+    <div style="background-color: #DFE4E8; height:906px;">
+        <h1>Admin Space</h1>
 
-            <h2>Update user:</h2>
-            <label>User ID:</label>
-            <input type="text" id="updateUser"><br><br>
-            <label>Set new password:</label>
-            <input type="text" id="updateUserPassword"><br><br>
-            <label>Set new privledges:</label>
-            <input type="text" id="updateUserPrivledges"><br><br>
-            <button type="button" id="Submit">Submit ></button><br>
+        <h2>Create new user:</h2>
+        <label>First name:</label>
+        <input type="text" id="firstN"><br><br>
+        <label>Last name:</label>
+        <input type="text" id="lastN"><br><br>
+        <label>Email:</label>
+        <input type="text" id="email"><br><br>
+        <label>Set new Privileges: </label>
+        <select class="mdb-select md-form colorful-select dropdown-warning" id="new_roles">
+            <option value="0">Roles</option>
+            <!--where the roles go-->
+        </select>
+        <br> <br>
+        <label>New Username (6Characters):</label>
+        <input type="text" id="userName" maxlength="6"><br><br>
+        <label>New user password:</label>
+        <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="newUserPassword">
+        <br><br>
+        <button type="button" id="submitNewUser">Submit ></button><br>
 
-            <h2>Upload an image for the project:</h2>
-            <label>Image:</label>
-            <input type="image" id="image"><br>
-            <button type="button" id ="submit">Submit ></button>
-        </div>
-    </body>
+        <h2>Update user:</h2>
+        <label>User ID:</label>
+        <input type="text" id="updateUser" maxlength="6"><br><br>
+        <label>Set new password:</label>
+        <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="updateUserPassword">
+        <br><br>
+        <label>Set new Privileges: </label>
+        <select class="mdb-select md-form colorful-select dropdown-warning" id="up_roles">
+            <option value="0">Roles</option>
+            <!--where the roles go-->
+        </select>
+
+        <br>
+        <br>
+        <button type="button" id="submitPass">Submit ></button><br><br>
+    </div>
 </body>
+
+
+
+
+
 </html>
 
-<script type = "text/javascript">
-var first = document.getElemenetById('firstN').value;
-var last = document.getElemenetById('lastN').value;
-var email = document.getElemenetById('email').value;
-var password = document.getElemenetById('newUserPassword').value;
-document.getElemenetById('submitU').addEvenetListener("click", function(){
-    newUser(first, last, email, password);}, false);   
-function newUser(getFirst, getLast, getEmail, getPassword){
-console.log(getFirst);
-console.log(getLast);
-console.log(getEmail);
-console.log(getPassword);
-event.preventDefault();
-let firstName = getFirst;
-let lastName = getLast;
-let userEmail = getEmail;
-let userPassword = getPassword;
-fetch('http://10.10.9.145:3000/api/users/add', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({Fir_Name:firstName,
-                              Las_Name:lastName,
-                              Email:userEmail,
-                              Password:userPassword})
-    }).then((res) => res.json())
-    .then((data) =>  console.log(data))
-    .catch((err)=>console.log(err))
-}
+<script type="text/javascript">
+    var gathered_prod = sessionStorage.getItem("UsersProject");
+    var first = "";
+    var last = "";
+    var email = "";
+    var user = "";
+    var password = "";
+    var newRole;
+    var upRole;
+
+    function new_selected() {
+        var selector = document.getElementById('new_roles');
+        newRole = selector[selector.selectedIndex].value;
+    } document.getElementById('new_roles').addEventListener('change', new_selected);
+
+    function up_selected() {
+        var selector = document.getElementById('up_roles');
+        upRole = selector[selector.selectedIndex].value;
+    } document.getElementById('up_roles').addEventListener('change', up_selected);
+
+    document.getElementById("submitNewUser").addEventListener("click", function () {
+        newUser();
+    }, false);
+    document.getElementById("submitPass").addEventListener("click", function () {
+        updateUser();
+    }, false);
+
+    function newUser() {
+        first = document.getElementById('firstN').value;
+        last = document.getElementById('lastN').value;
+        email = document.getElementById('email').value;
+        user = document.getElementById('userName').value;
+        password = document.getElementById('newUserPassword').value;
+
+        event.preventDefault();
+        if (newRole != undefined || newRole == "0") {
+            fetch('http://18.219.137.210:3000/api/users/add_role', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ProdID: gathered_prod,
+                    UserID: user,
+                    Role: newRole
+                })
+            }).then((res) => res.json())
+                .then((data) => console.log(data))
+                .catch((err) => console.log(err))
+
+            fetch('http://18.219.137.210:3000/api/users/add_user', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    UserID: user,
+                    Fir_Name: first,
+                    Las_Name: last,
+                    Email: email,
+                    Password: password
+                })
+            }).then((res) => res.json())
+                .then((data) => console.log(data))
+                .catch((err) => console.log(err))
+        }
+    }
+
+    function getRoles() {
+        var roleURL = ('http://18.219.137.210:3000/api/access/single/' + gathered_prod)
+
+        fetch(roleURL)
+            .then((role_res) => {
+                return role_res.json()
+            })
+            .then((role_data) => {
+                var role_result = '';
+                role_data.forEach((role) => {
+                    const { ProdID, Role, Allowences, Description } = role
+
+                    role_result =
+                        `ProdID: ${ProdID}\n
+                            RL : ${Role} \n
+                            AL : ${Allowences} \n
+                            DS : ${Description}\n`;
+
+
+                    var x = document.getElementById("new_roles");
+                    var option = document.createElement("option");
+                    option.text = Allowences;
+                    option.value = Role;
+                    x.add(option);
+                    var y = document.getElementById("up_roles");
+                    var option1 = document.createElement("option");
+                    option1.text = Allowences;
+                    option1.value = Role;
+                    y.add(option1);
+                })
+            })
+    }
+
+    function updateUser() {
+        updateUser = document.getElementById('updateUser').value;
+        updatePassword = document.getElementById('updateUserPassword').value;
+
+        event.preventDefault();
+
+        if (upRole != undefined || upRole == "0") {
+            fetch('http://18.219.137.210:3000/api/user/project_roles/update', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ProdID: gathered_prod,
+                    UserID: updateUser,
+                    Role: upRole,
+                    UserID: updateUser,
+                    ProdID: gathered_prod
+                })
+            }).then((res) => res.json())
+                .then((data) => { console.log(data); })
+                .catch((err) => console.log(err))
+
+        }
+
+
+        if (updatePassword != '') {
+            fetch('http://18.219.137.210:3000/api/user/user_pass/update', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    UserID: updateUser,
+                    Password: updatePassword,
+                    UserID: updateUser
+                })
+            }).then((res) => res.json())
+                .then((data) => { console.log(data); })
+                .catch((err) => console.log(err))
+        }
+    }
+
 </script>

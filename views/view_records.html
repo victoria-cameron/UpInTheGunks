@@ -1,52 +1,102 @@
-﻿
-    <html lang="en">
+﻿<html lang="en">
     <head>
-        <link rel="stylesheet" href="css/gunks.css">
+        <link rel="stylesheet" href="css/bootstrap.css">
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+
     </head>
-    <body id="display_records">
-        <div>
-            <h1> View Records</h1>
-            <table id="list_records">
-                <tr>
-                    <th>Creator</th>
-                    <th>Name</th>
-                    <th>Category</th>
-                    <th>Survey</th>
-                </tr>
-            </table>
-            <br>
-            <br>
-            <!--<textarea id='display_surveys' rows=20 cols=100></textarea>-->
+
+	<body id="view_record" onload="getRecordsURL()" style="background-color: #DFE4E8; width: 100%">
+		<div class="container-fluid" id="primary_records">
+			<h1 id="pageHeader">View Records</h1>
+			<h3>Select the record you wish to view.</h3>
+
+			<div id="search" style="margin-left: 80%">
+					<input type="text" value="Filter By" id="filterBy">
+					<button type="button" id="search">Search</button><br>
+			</div>
+
+			<table class="table table-striped" id="viewSurveyTable">
+				<tr>
+					<th>Interviewer</th>
+					<th>Filled</th>
+					<th>Interview Title</th>
+					<th>Survey Title</th>
+				</tr>
+			</table>
         </div>
-    </body>
-    </html>
+        
+        <div class="container-fluid" id="secondary_records">
+            <h1 id="titleOfInterview"></h1>
+            <!--FORM OF SINGLE SURVEY-->
+            <form id="recordForm"></form>
+            <!--FORM OF SINGLE SURVEY-->
+        </div>
 
+	<script src="https://code.jquery.com/jquery.min.js"></script>
+	<script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
+    <script type="text/javascript">
+    
+        function getRecordsURL() { // This is the function that gets the survey info
+            $('secondary_records').hide();
+			var url = 'http://18.219.137.210:3000/api/interviews';
+            $(document).ready(function() {
+                $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
+                    var record_data = '';
+                    $.each(data, function(key,value){
+						var rowID = JSON.parse(value.SurvID);
+                        record_data += '<tr id='+rowID+'>';
+						record_data += '<td>'+value.Filled_by+'</td>';
+                        record_data += '<td>'+value.Date_filled+'</td>';
+                        record_data += '<td>'+value.InteTitle+'</td>';
+                        record_data += '<td>'+value.SurvTitle+'</td>';
+                        record_data += '</tr>';
+                    });
+                    
+                    $('#viewSurveyTable').append(record_data); // adds row of data to table
 
+					$(document).on('click', '#viewSurveyTable tr', function(event) {
+                        $("#primary_records").hide(); // Hide the table when you select single survey
+                        var whichSurvey = $(this).closest('tr').attr('id');
+                        console.log(whichSurvey);
+                        getSingleRecord(whichSurvey);
+                    });
+                });
+            })
+        }
 
-<script>
-	document.getElementById("list_records").addEventListener("click", function() {
-    getRecords();
-    }, false);
+		function getSingleRecord(survID) {
+           var n = [];
+           var url = 'http://18.219.137.210:3000/api/interviews/gather/' + survID; // TODO: get individual surveys
+           console.log(url);
+           $(document).ready(function() {
+               $.getJSON(url, function (data) {
+                   var page_title = '';
+                   var single_record_data = '';
+                   page_title += '<h1 class=page-header>'+data[0].InteTitle+'</h1>';
+                   groupedData = data.reduce(function(result, current) { // This groups together the radio buttons under the same Question ID
+                       result[current.QuesID] = result[current.QuesID] || [];
+                       result[current.QuesID].push(current);
+                       return result;}, {});
+                    console.log(groupedData);
 
-	function getRecords(){
-		fetch('http://10.10.9.145:3000/api/interviews')
-		.then((res_1) => { return res_1.json() })
-		.then((data_1) => {
-			let result = ``;
-			data_1.forEach((record) => {
-				const { InteID, Filled_by, Date_filled, SurvID, InteTitle} = record
-				result +=
-				`Interview ID: ${InteID} 
-				Interview Filler: ${Filled_by} \n
-				Date Filled: ${Date_filled} \n
-				Survey Filled: ${SurvID} \n
-				Interview Title: ${InteTitle} \n\n` ;
-				
-				document.getElementById('display_Records').innerHTML = result;
-			});
-		})
+                    $.each(groupedData, function(key,value) {
+                        n.push(key); // Make array of the keys in groupedData --> ["1", "8"]
+                        var keyIndex = n.indexOf(key); // "1" --> 0, "8" --> 1
+                        single_record_data += '<div>';
+						single_record_data += '<h3>'+groupedData[n[keyIndex]][0].Ques_text+'</h3>'; // I think we can use index 0 because if there are multiples, they all share the same question...
+                        single_record_data += '<p>'+ groupedData[n[keyIndex]][0].Reco_ans+'</p>'; // Give a textbox
+                        single_record_data += '</div>';
+                    });
+                   $('#titleOfInterview').html(page_title);
+                   $('#recordForm').append(single_record_data); // adds each question and their appropriate type to the form
+                   $('secondary_records').show(); // Display the form*/
+               });
+               
+           });
+        }
+    </script>
+</body>
 
-	}
-</script>
+</html>
