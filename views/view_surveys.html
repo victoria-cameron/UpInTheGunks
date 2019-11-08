@@ -37,6 +37,7 @@
     <script>
         function viewSurveysURL() { // This is the function that gets the survey info 
             $('secondary_view_surveys').hide(); // Hide the form
+            $('#titleOfViewSurvey').hide();
             var url = 'http://18.219.137.210:3000/api/surveys';
             $(document).ready(function() {
                 $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
@@ -100,6 +101,7 @@
                         single_survey_data += '</div>';
                     });
                    $('#titleOfViewSurvey').html(page_title);
+                   $('#titleOfViewSurvey').show();
                    $('#viewSurveyForm').append(single_survey_data); // adds each question and their appropriate type to the form
                    $('secondary_view_surveys').show(); // Display the form*/
                });
