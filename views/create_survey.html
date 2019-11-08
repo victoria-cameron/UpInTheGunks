@@ -1,33 +1,35 @@
-<html lang = "en">
+<html lang="en">
 
-    <head>
-        <meta charset = "utf-8">
-        <meta name = "viewport" content = "width=device-width, initial-scale = 1">
-        <link rel = "stylesheet" href = "css/bootstrap.css"/> 
-    </head>
-    <body id="create_survey" onload="getQuestions()" style="background-color: #DFE4E8; width: 100%">
-        <div class="container-fluid" id="primary_question">
-            <h1>Create a survey</h1>
-            <h2>Survey title:</h2>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale = 1">
+    <link rel="stylesheet" href="css/bootstrap.css" />
+</head>
 
-            <input type = "text" id = "survTitle"><br><br>
-            <h2>Choose survey questions:</h2>
+<body id="create_survey" onload="getQuestions()" style="background-color: #DFE4E8; width: 100%">
+    <div class="container-fluid" id="primary_question">
+        <h1>Create a survey</h1>
+        <h2>Survey title:</h2>
 
-            <!--TABLE OF QUESTIONS-->
-            <table class="table table-striped" id="questionTable">
-                <tr>
-                    <th style="text-align: center">Select</th>
-                    <th style="text-align: center">Question ID</th>
-                    <th>Question</th>
-                </tr>
-            </table>
-            <!--TABLE OF QUESTIONS-->
+        <input type="text" id="survTitle"><br><br>
+        <h2>Choose survey questions:</h2>
 
-            <h2>Survey description:</h2>
-            <textarea rows = "4" cols = "50" id = "survD"></textarea><br><br>
-            <button type="button" id="submit" > Submit > </button>
-        </div>
-    </body>
+        <!--TABLE OF QUESTIONS-->
+        <table class="table table-striped" id="questionTable">
+            <tr>
+                <th style="text-align: center">Select</th>
+                <th style="text-align: center">Question ID</th>
+                <th>Question</th>
+            </tr>
+        </table>
+        <!--TABLE OF QUESTIONS-->
+
+        <h2>Survey description:</h2>
+        <textarea rows="4" cols="50" id="survD"></textarea><br><br>
+        <button type="button" id="submit"> Submit > </button>
+    </div>
+</body>
+
 </html>
 
 <script src="https://code.jquery.com/jquery.min.js"></script>
@@ -35,38 +37,40 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
 <script>
     var checked = [];
+    var gathered_user = sessionStorage.getItem("UserID");
 
-    document.getElementById("submit").addEventListener("click", function(){
+    document.getElementById("submit").addEventListener("click", function () {
         submitQuestions(document.getElementById("survTitle").value,
-        document.getElementById("survD").value);}, false);
-                    
-    function getQuestions(){
+            document.getElementById("survD").value);
+    }, false);
+
+    function getQuestions() {
         var url = 'http://18.219.137.210:3000/api/questions';
-        $(document).ready(function() {
+        $(document).ready(function () {
             $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
                 var question_data = '';
-                $.each(data, function(key,value){
+                $.each(data, function (key, value) {
                     var checkID = JSON.parse(value.QuesID);
                     question_data += '<tr>';
-                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input name=checkbox type=checkbox id=tncheckbox'+checkID+'></input></td>';  
-                    question_data += '<td style=width:11%;text-align:center>'+value.QuesID+'</td>';
-                    question_data += '<td>'+value.Ques_text+'</td>';
+                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input name=checkbox type=checkbox id=tncheckbox' + checkID + '></input></td>';
+                    question_data += '<td style=width:11%;text-align:center>' + value.QuesID + '</td>';
+                    question_data += '<td>' + value.Ques_text + '</td>';
                     question_data += '</tr>';
                 });
                 $('#questionTable').append(question_data); // adds row of data to table
             });
         })
     }
-    
-    function submitQuestions(title, des){
+
+    function submitQuestions(title, des) {
         console.log(title);
         console.log(des);
         var url = 'http://18.219.137.210:3000/api/questions';
-        $(document).ready(function(){
-            $.getJSON(url, function(data){
-                $.each(data, function(key,value){
+        $(document).ready(function () {
+            $.getJSON(url, function (data) {
+                $.each(data, function (key, value) {
                     var checkId = JSON.parse(value.QuesID);
-                    $('input[name="checkbox"]:checked').each(function(){
+                    $('input[name="checkbox"]:checked').each(function () {
                         checked.push(checkId);
                     })
                 })
@@ -74,33 +78,38 @@
         })
 
         console.log(checked);
-        
+
         // posting the survey title and description 
         fetch('http://18.219.137.210:3000/api/surveys/add', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({SurvTitle:title,
-                                  SurvDescription:des})
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                SurvCreator: gathered_user,
+                SurvTitle: title,
+                SurvDescription: des
+            })
         }).then((res) => res.json())
-        .then((data) =>  postQ(data.insertId, checked))
-        .catch((err)=>console.log(err))
+            .then((data) => postQ(data.insertId, checked))
+            .catch((err) => console.log(err))
     }
 
 
-    function postQ(dat, check){
+    function postQ(dat, check) {
         var id = dat;
         var des = check;
-        des.forEach(choice =>{
+        des.forEach(choice => {
             // posting the chosen questions to the new survey 
             fetch('http://18.219.137.210:3000/api/surveys/add_question', {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({SurvID:id,
-                                    QuesID:choice})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    SurvID: id,
+                    QuesID: choice
+                })
             }).then((res) => res.json())
-            .then((data) =>  console.log(data))
-            .catch((err)=>console.log(err))
+                .then((data) => console.log(data))
+                .catch((err) => console.log(err))
         })
     }
-    
+
 </script>
