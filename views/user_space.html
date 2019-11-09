@@ -29,6 +29,7 @@
         <button type="button" id="submitPass">Submit ></button><br><br>
 
         <p class="text-center" id="wrong" style="color: red; display:none">Confirmed Password is not the same as Update Password</p>
+
     </div>
 </body>
 
@@ -50,13 +51,7 @@
 
         if (updatePassword == confirmPassword) {
             console.log("Match")
-            window.location = '/index';
-        } else {
-                console.log("No Match");
-                document.getElementById('wrong').style.display = "block";
-        }
-
-        if (updatePassword != '') {
+            if (updatePassword != '') {
             fetch('http://18.219.137.210:3000/api/user/user_pass/update', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
@@ -68,6 +63,10 @@
             }).then((res) => res.json())
                 .then((data) => { console.log(data); })
                 .catch((err) => console.log(err))
+            }
+        } else {
+             console.log("No Match");
+             document.getElementById('wrong').style.display = "block";
         }
     }
 
