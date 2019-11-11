@@ -10,7 +10,7 @@
 
     <title>Surv-YAY Homepage</title>
   </head>
-  <body onload="load_tab('homepage')">
+  <body onload="signed()">
       <!--HEADER-->
       <nav class="navbar navbar-expand-lg navbar bg static-top">
           <div class="col-sm">
@@ -20,7 +20,7 @@
             </div>
           
           <div class="col-sm">
-            <h2 style="text-align: right;">Welcome, User!</h2>
+            <h2 id="welwel" style="text-align: right; color: white;"></h2>
           </div>
           <button type="button" class="btn btn-primary" onclick=logout() style="
                     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -31,7 +31,8 @@
                     width: 130px;
                     border-radius: 5px;
                     text-align: right;
-                    font-size: 15pt;">Logout</button>
+                    font-size: 15pt;
+                    color: white;">Logout</button>
       </nav>
 
       <div class="container-fluid">
@@ -89,6 +90,10 @@
 </html>
 
 <script>
+        var signinName = sessionStorage.getItem("firstName");
+        var gathered_role = sessionStorage.getItem("userRole");
+        document.getElementById("welwel").innerHTML="Welcome, " + signinName + "!";
+
         /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
         var dropdown = document.getElementsByClassName("dropdown-item");
         var i;
@@ -103,6 +108,14 @@
                     dropdownContent.style.display = "block";
                 }
             });
+        }
+
+        function signed(){
+          if(signinName == null){ 
+            window.location = '/'
+          }else{ 
+            load_tab('homepage')
+          }
         }
 
         function load_tab(tab) {
