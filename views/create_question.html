@@ -14,9 +14,9 @@
             <input type = "text" id = "q"><br><br>
             
             <h2>Question type: </h2>
-            <input type="radio" name = "type" id = "textBox" checked> Text box </input><br><br>
+            <input type="radio" name = "type" id = "textBox" onclick= "unM()" checked> Text box </input><br><br>
             <input type="radio" name = "type" id = "multCh" onclick= "displayM()"> Multiple choice </input><br><br>
-            <input type="radio" name = "type" id = "textArea"> Paragraph </input><br><br>
+            <input type="radio" name = "type" id = "textArea" onclick= "unM()"> Paragraph </input><br><br>
 
             <div id = "show" style='display:none'>           
                 <h2>Add multiple choice answers:</h2>
@@ -29,6 +29,7 @@
                 <label> D. </label>
                 <input type = "text" id = "d"><br><br>
             </div> 
+            <div id ="nada"></div>
             
             <button type="button" id="submit">Submit ></button><br><br>        </div>    
     </body>
@@ -124,6 +125,12 @@ function displayM(){
     var checked = document.getElementById("multCh");
     var dv = document.getElementById("show");
     dv.style.display = checked.checked ? "block" : "none";
+}
+
+function unM(){
+    var checked = document.getElementById("textBox");
+    var dv = document.getElementById("show");
+    dv.style.display = checked = "none";
 }
 
 </script>
