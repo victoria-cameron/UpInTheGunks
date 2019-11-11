@@ -15,19 +15,20 @@
             
             <h2>Question type: </h2>
             <input type="radio" name = "type" id = "textBox" checked> Text box </input><br><br>
-            <input type="radio" name = "type" id = "multCh"> Multiple choice </input><br><br>
+            <input type="radio" name = "type" id = "multCh" onclick= "displayM()"> Multiple choice </input><br><br>
             <input type="radio" name = "type" id = "textArea"> Paragraph </input><br><br>
 
-            
-            <h2>Add multiple choice answers:</h2>
-            <label> A. </label>
-            <input type = "text" id = "a"><br><br>
-            <label> B. </label>
-            <input type = "text" id = "b"><br><br>
-            <label> C. </label>
-            <input type = "text" id = "c"><br><br>
-            <label> D. </label>
-            <input type = "text" id = "d"><br><br>
+            <div id = "show" style='display:none'>           
+                <h2>Add multiple choice answers:</h2>
+                <label> A. </label>
+                <input type = "text" id = "a"><br><br>
+                <label> B. </label>
+                <input type = "text" id = "b"><br><br>
+                <label> C. </label>
+                <input type = "text" id = "c"><br><br>
+                <label> D. </label>
+                <input type = "text" id = "d"><br><br>
+            </div> 
             
             <button type="button" id="submit">Submit ></button><br><br>
             <textarea id = "displayspot" type = "textarea" rows="4" cols="50"></textarea><br><br>
@@ -44,6 +45,7 @@ var a = "";
 var b = "";
 var c = "";
 var d = "";
+
 document.getElementById("submit").addEventListener("click", function(){
     postQuestion((document.getElementById("q").value), // user question input
                   (document.getElementById("multCh")), // multiple choice question
@@ -119,4 +121,11 @@ function addChoice(inID, mul, tex, par){
         alert("A Question has been added to the database!");
     }
 }
+
+function displayM(){
+    var checked = document.getElementById("multCh");
+    var dv = document.getElementById("show");
+    dv.style.display = checked.checked ? "block" : "none";
+}
+
 </script>
