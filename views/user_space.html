@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <title>user_space</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+</head>
+
+<body id="user_space" style="background-color: #DFE4E8; width: 100%">
+    <div class="container-fluid" id="primary">
+        <h1>User Space</h1>
+        <h2>Update User</h2>
+        <label>Set New Password:</label>
+        <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="updateUserPassword">
+        <br><br>
+        <label>Confirm New Password:</label>
+        <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="confirmUserPassword">
+        <br>
+        <br>
+        <button type="button" id="submitPass">Submit ></button><br><br>
+
+        <p class="text-center" id="wrong" style="color: red; display:none">Confirmed Password is not the same as Update Password</p>
+
+    </div>
+</body>
+
+</html>
+
+<script type="text/javascript">
+    var gathered_user = sessionStorage.getItem("UserID");
+    var password = "";
+
+    document.getElementById("submitPass").addEventListener("click", function () {
+        updateUser();
+    }, false);
+
+    function updateUser() {
+        updatePassword = document.getElementById('updateUserPassword').value;
+        confirmPassword = document.getElementById('confirmUserPassword').value;
+
+        event.preventDefault();
+
+        if (updatePassword == confirmPassword) {
+            
+            document.getElementById('wrong').style.display = "none";
+            console.log("Match")
+            if (updatePassword != '') {
+            fetch('http://18.219.137.210:3000/api/user/user_pass/update', {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    UserID: gathered_user,
+                    Password: updatePassword,
+                    UserID: gathered_user
+                })
+            }).then((res) => res.json())
+                .then((data) => { console.log(data); })
+                .catch((err) => console.log(err))
+            }
+        } else {
+             console.log("No Match");
+             document.getElementById('wrong').style.display = "block";
+        }
+    }
+
+</script>

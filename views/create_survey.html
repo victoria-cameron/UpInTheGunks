@@ -38,6 +38,7 @@
 <script>
     var checked = [];
     var gathered_user = sessionStorage.getItem("UserID");
+    var checkID;
 
     document.getElementById("submit").addEventListener("click", function () {
         submitQuestions(document.getElementById("survTitle").value,
@@ -50,9 +51,9 @@
             $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
                 var question_data = '';
                 $.each(data, function (key, value) {
-                    var checkID = JSON.parse(value.QuesID);
+                    checkID = JSON.parse(value.QuesID);
                     question_data += '<tr>';
-                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input name=checkbox type=checkbox id=tncheckbox' + checkID + '></input></td>';
+                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input name=checkbox type=checkbox id=' + checkID + '></input></td>';
                     question_data += '<td style=width:11%;text-align:center>' + value.QuesID + '</td>';
                     question_data += '<td>' + value.Ques_text + '</td>';
                     question_data += '</tr>';
@@ -63,19 +64,21 @@
     }
 
     function submitQuestions(title, des) {
+        var checker = 1;
         console.log(title);
         console.log(des);
-        var url = 'http://18.219.137.210:3000/api/questions';
-        $(document).ready(function () {
-            $.getJSON(url, function (data) {
-                $.each(data, function (key, value) {
-                    var checkId = JSON.parse(value.QuesID);
-                    $('input[name="checkbox"]:checked').each(function () {
-                        checked.push(checkId);
-                    })
-                })
-            })
-        })
+        /**
+        $('input[type="checkbox"]').each(function () {
+            if('input[id='+checkID+']:checked'){
+                checked.push(checker);
+                checker++;
+            }
+        })*/
+
+        $('#questionTable input:checked').each(function() {
+        checked.push($(this).attr('id'));
+        });
+
 
         console.log(checked);
 

@@ -1,12 +1,13 @@
-﻿﻿<!doctype html>
+﻿﻿
+<!doctype html>
 <html lang="en">
-  <head>
+<head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.css" >
+    <link rel="stylesheet" href="css/bootstrap.css">
 
     <title>Surv-YAY Homepage</title>
   </head>
@@ -69,49 +70,57 @@
                 <div class="col-sm-4 col-md-10 mai" id="mainBody"></div>
                 <!--MAIN BODY-->
             </div>
-      </div>
-
-
-    
-  </body>
-
-  <!-- Footer Help | About | User Account-->
-  <footer class="page-footer font-small " style="padding-right: 5%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-    <div class="footer-copyright text-right py-3" >
-      <a href="#" onclick="load_tab('help')" style="color: black"> Help</a>
-      <a> | </a>
-      <a href="#" onclick="load_tab('about')" style="color: black"> About</a>
-      <a> | </a>
-      <a href="#" onclick="load_tab('contact')" style="color: black"> Contact Us</a>
+            <!--SIDE NAVBAR-->
+            <!--MAIN BODY-->
+            <div class="col-sm-4 col-md-10 mai" id="mainBody"></div>
+            <!--MAIN BODY-->
+        </div>
     </div>
-  </footer>
-  <!-- Footer -->
+
+
+
+</body>
+
+<!-- Footer Help | About | User Account-->
+<footer class="page-footer font-small " style="padding-right: 5%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+    <div class="footer-copyright text-right py-3">
+        <a href="#" onclick="load_tab('help')" style="color: black"> Help</a>
+        <a> | </a>
+        <a href="#" onclick="load_tab('about')" style="color: black"> About</a>
+        <a> | </a>
+        <a href="#" onclick="load_tab('contact')" style="color: black"> Contact Us</a>
+    </div>
+</footer>
+<!-- Footer -->
 </html>
 
 <script>
-        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-        var dropdown = document.getElementsByClassName("dropdown-item");
-        var i;
-    
-        for (i = 0; i < dropdown.length; i++) {
-            dropdown[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var dropdownContent = this.nextElementSibling;
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                } else {
-                    dropdownContent.style.display = "block";
-                }
-            });
-        }
+    var gathered_first = sessionStorage.getItem("FirstName")
+    document.getElementById("firstN").innerHTML = 'Welcome, ' + gathered_first + '!'
 
-        function load_tab(tab) {
-            var dest = 'views/' + tab
-            console.log(dest);
-            document.getElementById("mainBody").innerHTML = '<object type="text/html" data=' + tab + ' width=100% height=100%></object>';
-        }
+    /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+    var dropdown = document.getElementsByClassName("dropdown-item");
+    var i;
 
-        function logout(){
-            window.location = '/';
-        }
+    for (i = 0; i < dropdown.length; i++) {
+        dropdown[i].addEventListener("click", function () {
+            this.classList.toggle("active");
+            var dropdownContent = this.nextElementSibling;
+            if (dropdownContent.style.display === "block") {
+                dropdownContent.style.display = "none";
+            } else {
+                dropdownContent.style.display = "block";
+            }
+        });
+    }
+
+    function load_tab(tab) {
+        var dest = 'views/' + tab
+        console.log(dest);
+        document.getElementById("mainBody").innerHTML = '<object type="text/html" data=' + tab + ' width=100% height=100%></object>';
+    }
+
+    function logout() {
+        window.location = '/';
+    }
 </script>
