@@ -69,12 +69,6 @@ app.get('/admin_space', (req, res) => {
     });
 });
 
-app.get('/user_space', (req, res) => {
-    res.render('user_space.html', {
-        title: 'User Space'
-    });
-});
-
 app.get('/homepage', (req, res) => {
     res.render('homepage.html', {
         title: 'Home Page'
