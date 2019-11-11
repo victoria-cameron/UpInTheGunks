@@ -79,7 +79,7 @@ function addChoice(inID, mul, tex, par){
     c = document.getElementById("c").value;
     d = document.getElementById("d").value;
     var allChoices = [a,b,c,d];
-    // posting the type of question (multiple choice/ text box)
+    // posting the type of question (multiple choice/ text box/ paragraph)
     if(textBox.checked){ // just a text box 
         fetch('http://18.219.137.210:3000/api/questions/add_choice', {
         method: 'POST',
@@ -104,6 +104,7 @@ function addChoice(inID, mul, tex, par){
             .then((data) =>  console.log(data))
             .catch((err)=>console.log(err))
         })
+        alert("A Question has been added to the database with multiple choice answers!");
     }else if(typeP.checked){
         // posting questions with paragraph responses
         fetch('http://18.219.137.210:3000/api/questions/add_choice', {
@@ -115,6 +116,7 @@ function addChoice(inID, mul, tex, par){
         }).then((res) => res.json())
         .then((data) =>  console.log(data))
         .catch((err)=>console.log(err)) 
+        alert("A Question has been added to the database!");
     }
 }
 </script>
