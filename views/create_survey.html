@@ -70,27 +70,33 @@
     function submitQuestions(title, des) {
         console.log(title);
         console.log(des);
-        if(confirm("Are you sure you want to submit?")){
-            // adding survey questions to array 
-            $('#questionTable input:checked').each(function() {
-                checked.push($(this).attr('id'));
-            });
-            console.log(checked);
-
-            // posting the survey creator, title, and description 
-            fetch('http://18.219.137.210:3000/api/surveys/add', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    SurvCreator: gathered_user,
-                    SurvTitle: title,
-                    SurvDescription: des
-                })
-            }).then((res) => res.json())
-                .then((data) => postQ(data.insertId, checked))
-                .catch((err) => console.log(err))
+        if(title == ""){
+            alert("Please enter a survey title");
+        }else if(des == ""){
+            alert("Please enter a survey description");
         }else{
-            alert("Submit canceled!");
+            if(confirm("Are you sure you want to submit?")){
+                // adding survey questions to array 
+                $('#questionTable input:checked').each(function() {
+                    checked.push($(this).attr('id'));
+                });
+                console.log(checked);
+
+                // posting the survey creator, title, and description 
+                fetch('http://18.219.137.210:3000/api/surveys/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        SurvCreator: gathered_user,
+                        SurvTitle: title,
+                        SurvDescription: des
+                    })
+                }).then((res) => res.json())
+                    .then((data) => postQ(data.insertId, checked))
+                    .catch((err) => console.log(err))
+            }else{
+                alert("Submit canceled!");
+            }
         }
     }
 
