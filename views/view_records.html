@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
     <head>
         <link rel="stylesheet" href="css/bootstrap.css">
         <meta charset="utf-8">
@@ -40,6 +40,7 @@
     
         function getRecordsURL() { // This is the function that gets the survey info
             $('secondary_records').hide();
+            $('#titleOfInterview').hide();
 			var url = 'http://18.219.137.210:3000/api/interviews';
             $(document).ready(function() {
                 $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
@@ -90,6 +91,7 @@
                         single_record_data += '</div>';
                     });
                    $('#titleOfInterview').html(page_title);
+                   $('#titleOfInterview').show();
                    $('#recordForm').append(single_record_data); // adds each question and their appropriate type to the form
                    $('secondary_records').show(); // Display the form*/
                });

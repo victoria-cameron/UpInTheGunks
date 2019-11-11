@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
     <head>
         <link rel="stylesheet" href="css/bootstrap.css">
         <meta charset="utf-8">
@@ -39,6 +39,7 @@
     <script>
         function getSurveysURL() { // This is the function that gets the survey info 
             $('secondary').hide(); // Hide the form
+            $('#titleOfSurvey').hide();
             var url = 'http://18.219.137.210:3000/api/surveys';
             $(document).ready(function() {
                 $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
@@ -103,6 +104,7 @@
                         single_survey_data += '</div>';
                     });
                    $('#titleOfSurvey').html(page_title);
+                   $('#titleOfSurvey').show();
                    $('#surveyForm').append(single_survey_data); // adds each question and their appropriate type to the form
                    $('secondary').show(); // Display the form*/
                });

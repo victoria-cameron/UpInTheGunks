@@ -45,6 +45,12 @@ app.get('/fill_survey', (req, res) => {
     });
 });
 
+app.get('/fill_select', (req, res) => {
+    res.render('fill_select.html', {
+        title: 'Fill Select'
+    });
+});
+
 app.get('/view_surveys', (req, res) => {
     res.render('view_surveys.html', {
         title: 'View Survey'
@@ -60,6 +66,30 @@ app.get('/view_records', (req, res) => {
 app.get('/admin_space', (req, res) => {
     res.render('admin_space.html', {
         title: 'Admin Space'
+    });
+});
+
+app.get('/homepage', (req, res) => {
+    res.render('homepage.html', {
+        title: 'Home Page'
+    });
+});
+
+app.get('/help', (req, res) => {
+    res.render('help.html', {
+        title: 'Help Page'
+    });
+});
+
+app.get('/about', (req, res) => {
+    res.render('about.html', {
+        title: 'About Us'
+    });
+});
+
+app.get('/contact', (req, res) => {
+    res.render('contact.html', {
+        title: 'Contact Us'
     });
 });
 
