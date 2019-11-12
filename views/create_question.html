@@ -14,24 +14,24 @@
             <input type = "text" id = "q"><br><br>
             
             <h2>Question type: </h2>
-            <input type="radio" name = "type" id = "textBox" checked> Text box </input><br><br>
-            <input type="radio" name = "type" id = "multCh"> Multiple choice </input><br><br>
-            <input type="radio" name = "type" id = "textArea"> Paragraph </input><br><br>
+            <input type="radio" name = "type" id = "textBox" onclick= "unM()" checked> Text box </input><br><br>
+            <input type="radio" name = "type" id = "multCh" onclick= "displayM()"> Multiple choice </input><br><br>
+            <input type="radio" name = "type" id = "textArea" onclick= "unM()"> Paragraph </input><br><br>
 
+            <div id = "show" style='display:none'>           
+                <h2>Add multiple choice answers:</h2>
+                <label> A. </label>
+                <input type = "text" id = "a"><br><br>
+                <label> B. </label>
+                <input type = "text" id = "b"><br><br>
+                <label> C. </label>
+                <input type = "text" id = "c"><br><br>
+                <label> D. </label>
+                <input type = "text" id = "d"><br><br>
+            </div> 
+            <div id ="nada"></div>
             
-            <h2>Add multiple choice answers:</h2>
-            <label> A. </label>
-            <input type = "text" id = "a"><br><br>
-            <label> B. </label>
-            <input type = "text" id = "b"><br><br>
-            <label> C. </label>
-            <input type = "text" id = "c"><br><br>
-            <label> D. </label>
-            <input type = "text" id = "d"><br><br>
-            
-            <button type="button" id="submit">Submit ></button><br><br>
-            <textarea id = "displayspot" type = "textarea" rows="4" cols="50"></textarea><br><br>
-        </div>    
+            <button type="button" id="submit">Submit ></button><br><br>        </div>    
     </body>
 </html>
 
@@ -44,6 +44,7 @@ var a = "";
 var b = "";
 var c = "";
 var d = "";
+
 document.getElementById("submit").addEventListener("click", function(){
     postQuestion((document.getElementById("q").value), // user question input
                   (document.getElementById("multCh")), // multiple choice question
@@ -60,14 +61,18 @@ function postQuestion(gotText, gotTypeM, gotTypeT, gotTypeP, ai, bi, ci, di){
     let typeMu = gotTypeM; // multi choice question
     let typeTe = gotTypeT; // text box question
     let typeP = gotTypeP; // text area question
-    // posting the question text
-    fetch('http://18.219.137.210:3000/api/questions/add', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({Ques_text:text})
-    }).then((res) => res.json())
-    .then((data) =>  addChoice(data.insertId, typeMu, typeTe, typeP))
-    .catch((err)=>console.log(err))
+    if(text == ""){
+        alert("Please enter a question!")
+    }else{
+        // posting the question text
+        fetch('http://18.219.137.210:3000/api/questions/add', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({Ques_text:text})
+        }).then((res) => res.json())
+        .then((data) =>  addChoice(data.insertId, typeMu, typeTe, typeP))
+        .catch((err)=>console.log(err))
+    }
 }
 function addChoice(inID, mul, tex, par){
     id = inID; // quesID
@@ -79,7 +84,7 @@ function addChoice(inID, mul, tex, par){
     c = document.getElementById("c").value;
     d = document.getElementById("d").value;
     var allChoices = [a,b,c,d];
-    // posting the type of question (multiple choice/ text box)
+    // posting the type of question (multiple choice/ text box/ paragraph)
     if(textBox.checked){ // just a text box 
         fetch('http://18.219.137.210:3000/api/questions/add_choice', {
         method: 'POST',
@@ -92,18 +97,23 @@ function addChoice(inID, mul, tex, par){
         .catch((err)=>console.log(err)) 
         alert("A Question has been added to the database!");
     }else if(typeMu.checked){ // multiple choice 
-        allChoices.forEach(choice =>{
-            // posting the multi choice answers 
-            fetch('http://18.219.137.210:3000/api/questions/add_choice', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({QuesID:id,
-                              Choi_text:choice,
-                              Choi_text_id:1})
-            }).then((res) => res.json())
-            .then((data) =>  console.log(data))
-            .catch((err)=>console.log(err))
-        })
+        if(a==""){
+            alert("Please enter multiple choice answers");
+        }else{
+            allChoices.forEach(choice =>{
+                // posting the multi choice answers 
+                fetch('http://18.219.137.210:3000/api/questions/add_choice', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({QuesID:id,
+                                Choi_text:choice,
+                                Choi_text_id:1})
+                }).then((res) => res.json())
+                .then((data) =>  console.log(data))
+                .catch((err)=>console.log(err))
+            })
+            alert("A Question has been added to the database with multiple choice answers!");
+        }
     }else if(typeP.checked){
         // posting questions with paragraph responses
         fetch('http://18.219.137.210:3000/api/questions/add_choice', {
@@ -115,6 +125,20 @@ function addChoice(inID, mul, tex, par){
         }).then((res) => res.json())
         .then((data) =>  console.log(data))
         .catch((err)=>console.log(err)) 
+        alert("A Question has been added to the database!");
     }
 }
+
+function displayM(){
+    var checked = document.getElementById("multCh");
+    var dv = document.getElementById("show");
+    dv.style.display = checked.checked ? "block" : "none";
+}
+
+function unM(){
+    var checked = document.getElementById("textBox");
+    var dv = document.getElementById("show");
+    dv.style.display = checked = "none";
+}
+
 </script>

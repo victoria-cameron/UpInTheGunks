@@ -1,28 +1,30 @@
 ﻿﻿<!doctype html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="css/bootstrap.css" >
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Surv-YAY Homepage</title>
-  </head>
-  <body onload="load_tab('homepage')">
-      <!--HEADER-->
-      <nav class="navbar navbar-expand-lg navbar bg static-top">
-          <div class="col-sm">
-                <a class="navbar-brand" href="index" id="homepage">
-                        <img src="images/SurvyaySmallLogo.jpg" alt="" style="float:left;">
-                </a>
-            </div>
-          
-          <div class="col-sm">
-            <h2 style="text-align: right;">Welcome, User!</h2>
-          </div>
-          <button type="button" class="btn btn-primary" onclick=logout() style="
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="css/bootstrap.css">
+
+  <title>Surv-YAY Homepage</title>
+</head>
+
+<body onload="signed()">
+  <!--HEADER-->
+  <nav class="navbar navbar-expand-lg navbar bg static-top">
+    <div class="col-sm">
+      <a class="navbar-brand" href="index" id="homepage">
+        <img src="images/SurvyaySmallLogo.jpg" alt="" style="float:left;">
+      </a>
+    </div>
+
+    <div class="col-sm">
+      <h2 id="welwel" style="text-align: right; color: white;"></h2>
+    </div>
+    <button type="button" class="btn btn-primary" onclick=logout() style="
                     font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
                     padding: 14px 20px;
                     margin: 8px 0;
@@ -31,87 +33,122 @@
                     width: 130px;
                     border-radius: 5px;
                     text-align: right;
-                    font-size: 15pt;">Logout</button>
-      </nav>
+                    font-size: 15pt;
+                    color: white;">Logout</button>
+  </nav>
 
-      <div class="container-fluid">
-            <div class="row">
-                <!--SIDE NAVBAR-->
-                <div class="col-sm-2 col-md-1 dropdown" style="padding-right: 0; padding-left: 0">
-                    <ul class="dropdown-menu flex-column">
-                        <!--TODO: Add appropriate Home link-->
-                        <button onclick="load_tab('homepage')" class="dropdown-item active" style="font-size:1vw"> Home</button>
-                        <div class="dropdown-container" style="display: none"></div>
+  <div class="container-fluid">
+    <div class="row">
+      <!--SIDE NAVBAR-->
+      <div class="col-sm-2 col-md-1 dropdown" style="padding-right: 0; padding-left: 0">
+        <ul class="dropdown-menu flex-column">
+          <!--TODO: Add appropriate Home link-->
+          <button onclick="load_tab('homepage')" class="dropdown-item active" style="font-size:1vw"> Home</button>
+          <div class="dropdown-container" style="display: none"></div>
 
-                        <button class="dropdown-item" style="font-size:1vw"> Fill</button>
-                        <div class="dropdown-container">
-                                <li><a href="#" onclick="load_tab('fill_survey')" style="font-size:1vw">Surveys</a></li>
-                        </div>
+          <button class="dropdown-item" style="font-size:1vw"> Fill</button>
+          <div class="dropdown-container">
+            <li><a href="#" onclick="load_tab('fill_survey')" style="font-size:1vw">Surveys</a></li>
+          </div>
 
-                        <button class="dropdown-item" style="font-size:1vw"> View</button>
-                        <div class="dropdown-container">
-                                <li><a href="#" onclick="load_tab('view_records')" style="font-size:1vw">Records</a></li>
-                                <li><a href="#" onclick="load_tab('view_surveys')" style="font-size:1vw">Surveys</a></li>
-                        </div>
+          <button class="dropdown-item" style="font-size:1vw"> View</button>
+          <div class="dropdown-container">
+            <li><a href="#" onclick="load_tab('view_records')" style="font-size:1vw">Records</a></li>
+            <li><a href="#" onclick="load_tab('view_surveys')" style="font-size:1vw">Surveys</a></li>
+          </div>
 
-                        <button class="dropdown-item" style="font-size:1vw"> Create</button>
-                        <div class="dropdown-container">
-                                <li><a href="#" onclick="load_tab('create_question')" style="font-size:1vw">Questions</a></li>
-                                <li><a href="#" onclick="load_tab('create_survey')" style="font-size:1vw">Surveys</a></li>
-                        </div>
+          <button class="dropdown-item" style="font-size:1vw"> Create</button>
+          <div class="dropdown-container">
+            <li><a href="#" onclick="load_tab('create_question')" style="font-size:1vw">Questions</a></li>
+            <li><a href="#" onclick="load_tab('create_survey')" style="font-size:1vw">Surveys</a></li>
+          </div>
 
-                        <button onclick="load_tab('admin_space')" class="dropdown-item" style="font-size:1vw"> Settings</button>
-                    </ul>
-                </div>
-                <!--SIDE NAVBAR-->
-
-                <!--MAIN BODY-->
-                <div class="col-sm-4 col-md-10 mai" id="mainBody"></div>
-                <!--MAIN BODY-->
-            </div>
+          <button onclick="load_tab('admin_space')" class="dropdown-item" style="font-size:1vw"> Settings</button>
+        </ul>
       </div>
+      <!--SIDE NAVBAR-->
 
-
-    
-  </body>
-
-  <!-- Footer Help | About | User Account-->
-  <footer class="page-footer font-small " style="padding-right: 5%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
-    <div class="footer-copyright text-right py-3" >
-      <a href="#" onclick="load_tab('help')" style="color: black"> Help</a>
-      <a> | </a>
-      <a href="#" onclick="load_tab('about')" style="color: black"> About</a>
-      <a> | </a>
-      <a href="#" onclick="load_tab('contact')" style="color: black"> Contact Us</a>
+      <!--MAIN BODY-->
+      <div class="col-sm-4 col-md-10 mai" id="mainBody"></div>
+      <!--MAIN BODY-->
     </div>
-  </footer>
-  <!-- Footer -->
+  </div>
+
+
+
+</body>
+
+<!-- Footer Help | About | User Account-->
+<footer class="page-footer font-small "
+  style="padding-right: 5%; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;">
+  <div class="footer-copyright text-right py-3">
+    <a href="#" onclick="open_tab('help')" style="color: black"> Help</a>
+    <a> | </a>
+    <a href="#" onclick="open_tab('about')" style="color: black"> About</a>
+    <a> | </a>
+    <a href="#" onclick="open_tab('contact')" style="color: black"> Contact Us</a>
+  </div>
+</footer>
+<!-- Footer -->
+
 </html>
 
 <script>
-        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
-        var dropdown = document.getElementsByClassName("dropdown-item");
-        var i;
-    
-        for (i = 0; i < dropdown.length; i++) {
-            dropdown[i].addEventListener("click", function () {
-                this.classList.toggle("active");
-                var dropdownContent = this.nextElementSibling;
-                if (dropdownContent.style.display === "block") {
-                    dropdownContent.style.display = "none";
-                } else {
-                    dropdownContent.style.display = "block";
-                }
-            });
-        }
+  var signinName = sessionStorage.getItem("firstName");
+  document.getElementById("welwel").innerHTML = "Welcome, " + signinName + "!";
+  var gathered_role = sessionStorage.getItem("userRole");
+  gathered_role = parseInt(gathered_role);
+  
+  /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+  var dropdown = document.getElementsByClassName("dropdown-item");
+  var i;
 
-        function load_tab(tab) {
-            var dest = 'views/' + tab
-            console.log(dest);
-            document.getElementById("mainBody").innerHTML = '<object type="text/html" data=' + tab + ' width=100% height=100%></object>';
-        }
+  for (i = 0; i < dropdown.length; i++) {
+    dropdown[i].addEventListener("click", function () {
+      this.classList.toggle("active");
+      var dropdownContent = this.nextElementSibling;
+      if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+      } else {
+        dropdownContent.style.display = "block";
+      }
+    });
+  }
 
-        function logout(){
-            window.location = '/';
-        }
+  function signed() {
+    if (signinName == null) {
+      window.location = '/'
+    } else {
+      open_tab('homepage')
+    }
+  }
+
+  function load_tab(tab) {
+    var dest = 'views/' + tab
+    console.log(dest);
+
+      if (gathered_role >= 7) {
+      open_tab(tab)
+    } else if (gathered_role >= 5) {
+      if (tab != 'admin_space') { open_tab(tab) }
+    } else if (gathered_role >= 4) {
+      if ((tab != 'admin_space' && tab != 'create_question')) { open_tab(tab) }
+    } else if (gathered_role >= 3) {
+      if ((tab != 'admin_space' && tab != 'create_question' && tab != 'create_survey')) { open_tab(tab) }
+    } else if (gathered_role >= 2) {
+      if ((tab != 'admin_space' && tab != 'create_question' && tab != 'create_survey' && tab != 'fill_survey')) { open_tab(tab) }
+    } else {
+      console.log('No can do.')
+      }
+
+  }
+
+  function open_tab(allowed_tab) {
+    document.getElementById("mainBody").innerHTML = '<object type="text/html" data=' + allowed_tab + ' width=100% height=100%></object>';
+  }
+  function logout() {
+    window.location = '/';
+    signinName = null;
+    gathered_role = null;
+  }
 </script>

@@ -27,6 +27,7 @@
         <h2>Survey description:</h2>
         <textarea rows="4" cols="50" id="survD"></textarea><br><br>
         <button type="button" id="submit"> Submit > </button>
+        <button type="button" id="delete"> Delete > </button>
     </div>
 </body>
 
@@ -44,6 +45,10 @@
             document.getElementById("survD").value);
     }, false);
 
+    document.getElementById("delete").addEventListener("click", function () {
+        deleteQuestions();
+    }, false);
+
     function getQuestions() {
         var url = 'http://18.219.137.210:3000/api/questions';
         $(document).ready(function () {
@@ -52,7 +57,7 @@
                 $.each(data, function (key, value) {
                     var checkID = JSON.parse(value.QuesID);
                     question_data += '<tr>';
-                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input name=checkbox type=checkbox id=tncheckbox' + checkID + '></input></td>';
+                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input name=checkbox type=checkbox id=' + checkID + '></input></td>';
                     question_data += '<td style=width:11%;text-align:center>' + value.QuesID + '</td>';
                     question_data += '<td>' + value.Ques_text + '</td>';
                     question_data += '</tr>';
@@ -65,39 +70,41 @@
     function submitQuestions(title, des) {
         console.log(title);
         console.log(des);
-        var url = 'http://18.219.137.210:3000/api/questions';
-        $(document).ready(function () {
-            $.getJSON(url, function (data) {
-                $.each(data, function (key, value) {
-                    var checkId = JSON.parse(value.QuesID);
-                    $('input[name="checkbox"]:checked').each(function () {
-                        checked.push(checkId);
+        if(title == ""){
+            alert("Please enter a survey title");
+        }else if(des == ""){
+            alert("Please enter a survey description");
+        }else{
+            if(confirm("Are you sure you want to submit?")){
+                // adding survey questions to array 
+                $('#questionTable input:checked').each(function() {
+                    checked.push($(this).attr('id'));
+                });
+                console.log(checked);
+
+                // posting the survey creator, title, and description 
+                fetch('http://18.219.137.210:3000/api/surveys/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        SurvCreator: gathered_user,
+                        SurvTitle: title,
+                        SurvDescription: des
                     })
-                })
-            })
-        })
-
-        console.log(checked);
-
-        // posting the survey title and description 
-        fetch('http://18.219.137.210:3000/api/surveys/add', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                SurvCreator: gathered_user,
-                SurvTitle: title,
-                SurvDescription: des
-            })
-        }).then((res) => res.json())
-            .then((data) => postQ(data.insertId, checked))
-            .catch((err) => console.log(err))
+                }).then((res) => res.json())
+                    .then((data) => postQ(data.insertId, checked))
+                    .catch((err) => console.log(err))
+            }else{
+                alert("Submit canceled!");
+            }
+        }
     }
 
 
     function postQ(dat, check) {
-        var id = dat;
-        var des = check;
-        des.forEach(choice => {
+        var id = dat; // the survey ID
+        var des = check; // array of survey questions
+        des.forEach(choice => { 
             // posting the chosen questions to the new survey 
             fetch('http://18.219.137.210:3000/api/surveys/add_question', {
                 method: 'POST',
@@ -110,6 +117,46 @@
                 .then((data) => console.log(data))
                 .catch((err) => console.log(err))
         })
+        alert("A Survey has been added to the database!");
     }
-
+/**
+    function deleteQuestions(){
+        var checkedD =[];
+        fetch('http://10.10.9.145:3000/api/users/project_roles/:ProdID')
+        .then((res_1) => { return res_1.json() })
+        .then((data_1) => {
+            let result = ``;
+            data_1.forEach((roler) => {
+                const {Role, UserID} = roler
+                if(gathered_user == UserID){
+                    result += `${Role} `;
+                }
+                //document.getElementById('displayspot').innerHTML = result;
+            });
+        })
+        if(result > 3){
+            if(confirm("Are you sure you want to delete?")){
+                $('#questionTable input:checked').each(function() {
+                checkedD.push($(this).attr('id'));
+                });
+                console.log(checkedD);
+                checkedD.forEach(choice => {
+                    // posting the chosen questions to the new survey 
+                    fetch('http://18.219.137.210:3000/api/questions/delete', {
+                        method: 'DELETE',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            QuesID: choice
+                        })
+                    }).then((res) => res.json())
+                        .then((data) => console.log(data))
+                        .catch((err) => console.log(err))
+                    })
+                    alert("You deleted questions.");
+            }else{
+                alert("You canceled the delete.");
+            }
+        }
+    }
+*/
 </script>

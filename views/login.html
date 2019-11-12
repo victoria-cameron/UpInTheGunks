@@ -94,7 +94,6 @@
                 subd_prod = document.getElementById('prod').value
 
             var userURL = ('http://18.219.137.210:3000/api/users/single/' + subd_prod + '/' + subd_user)
-            //var otherURL = ('http://localhost:3000/api/users/single/A0001/_tjoy')
 
             fetch(userURL)
                 .then((user_res) => {
@@ -113,19 +112,15 @@
                             PS : ${Password} \n
                             PD : ${ProdID} \n
                             RL : ${Role}`;
-
-
-                        var favoritemovie = Role;
-                        sessionStorage.setItem("favoriteMovie", favoritemovie);
+                            
+                        sessionStorage.setItem("userRole", Role);
                         sessionStorage.setItem("UsersProject", ProdID);
                         sessionStorage.setItem("UserID", UserID);
-                        //console.log(favoritemovie)
+                        sessionStorage.setItem("firstName", Fir_Name);
 
                         real_pass = Password;
                         real_user = UserID;
                         real_role = Role;
-                        //console.log(user_result)
-                        //console.log(real_pass + subd_pass);
 
                         return real_pass
 
@@ -134,14 +129,10 @@
         }
 
         function validator(act_pass) {
-            console.log("made it")
-            act_pass += "change"
             if (real_pass == subd_pass) {
                 console.log("Match")
                 window.location = '/index';
-
             } else {
-                console.log("No Match");
                 document.getElementById('wrong').style.display = "block";
             }
         }
