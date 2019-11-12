@@ -6,7 +6,7 @@
 
     </head>
     <body id="fill_survey" onload="getSurveysURL()" style="background-color: #DFE4E8; width: 100%">
-        <div class="container-fluid" id="primary">
+        <div class="container-fluid" id="primary_fill_survey">
             <h1 class="page-header">Fill Survey</h1>
             <h3>Select the survey you will be filling.</h3>
             
@@ -22,13 +22,16 @@
             <!--TABLE OF ALL THE AVAILABLE SURVEYS-->
         </div>
 
-        <div class="container-fluid" id="secondary">
+        <div class="container-fluid" id="secondary_fill_survey">
             <h1 id="titleOfSurvey"></h1>
+            <h3>Interview Title:</h3>
+            <input type="text" id="inteTitle"><br><br>
             <!--FORM OF SINGLE SURVEY-->
             <form id="surveyForm"></form>
             <!--FORM OF SINGLE SURVEY-->
 
-            <button type="button" id="submit" onclick="confirmSubmit()" style="visibility: hidden">Submit ></button>
+            <!--<button type="button" id="submit" onclick="confirmSubmit()" style="visibility: hidden">Submit ></button>-->
+            <button type="button" id="submit_fill_survey"> Submit > </button>
         </div>
         
 
@@ -37,9 +40,16 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.10.0/bootstrap-table.min.js"></script>
     <script>
+        var gathered_user_fill_survey = sessionStorage.getItem("UserID");
+        var surveyID = '';
+        var arrayOfQuesID = [];
+
+        document.getElementById("submit_fill_survey").addEventListener("click", function () {
+            confirmSubmit();
+        }, false);
+
         function getSurveysURL() { // This is the function that gets the survey info 
-            $('secondary').hide(); // Hide the form
-            $('#titleOfSurvey').hide();
+            $('#secondary_fill_survey').hide(); // Hide the form
             var url = 'http://18.219.137.210:3000/api/surveys';
             $(document).ready(function() {
                 $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
@@ -57,9 +67,9 @@
                     $('#fillSurveyTable').append(survey_data); // adds row of data to table
 
                     $(document).on('click', '#fillSurveyTable tr', function(event) {
-                        $("#primary").hide(); // Hide the table when you select single survey
-                        document.getElementById('submit').style.visibility = 'visible';
+                        $("#primary_fill_survey").hide(); // Hide the table when you select single survey
                         var whichSurvey = $(this).closest('tr').attr('id');
+                        surveyID = whichSurvey;
                         getSingleSurvey(whichSurvey);
                     });
 
@@ -84,12 +94,13 @@
                     $.each(groupedData, function(key,value) {
                         n.push(key); // Make array of the keys in groupedData --> ["1", "8"]
                         var keyIndex = n.indexOf(key); // "1" --> 0, "8" --> 1
+                        arrayOfQuesID.push(groupedData[n[keyIndex]][0].QuesID);
                         single_survey_data += '<div>';
-                        single_survey_data += '<h3>'+groupedData[n[keyIndex]][0].Ques_text+'</h3>'; // I think we can use index 0 because if there are multiples, they all share the same question...
+                        single_survey_data += '<h4 id=question'+groupedData[n[keyIndex]][0].QuesID+'>'+groupedData[n[keyIndex]][0].Ques_text+'</h4>'; // I think we can use index 0 because if there are multiples, they all share the same question...
                         if (groupedData[n[keyIndex]].length > 1) { // if the key value has more than one set of data
                             for (var i = 0; i < groupedData[n[keyIndex]].length; i ++) { // for every set of that data
                                 single_survey_data += '<div class=radio>';
-                                single_survey_data += '<input type=radio ><label>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
+                                single_survey_data += '<input type=radio><label>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
                                 single_survey_data += '</div>';
                             }
                             single_survey_data += '<br>';
@@ -97,16 +108,15 @@
                             if (groupedData[n[keyIndex]][0].Choi_text_id === 2){
                                 single_survey_data += '<input type=text class=form-control style=width:20%></input><br>'; // Give a textbox
                             } else if (groupedData[n[keyIndex]][0].Choi_text_id === 3) {
-                                single_survey_data += '<textarea rows="4" class=form-control style=width:30%></textarea><br>'; // Give a textbox
+                                single_survey_data += '<textarea rows="4" class=form-control style=width:30%></textarea><br>'; // Give a paragraph
                             }
                             
                         }
                         single_survey_data += '</div>';
                     });
                    $('#titleOfSurvey').html(page_title);
-                   $('#titleOfSurvey').show();
                    $('#surveyForm').append(single_survey_data); // adds each question and their appropriate type to the form
-                   $('secondary').show(); // Display the form*/
+                   $('#secondary_fill_survey').show(); // Display the form
                });
                
            });
@@ -115,23 +125,49 @@
         function confirmSubmit() {
             var r = confirm("Are you sure you want\nto submit interview?");
             if (r == true) {
-                postRecord();
+                submitInterview();
             } else {
                 txt = "You pressed Cancel!";
             }
         }
         
         
-        function postRecord() { // Post the filled out survey into records table
-            var url = 'http://18.219.137.210:3000/api/interviews/add'
+        function postInterview() {
+            //Get the data from the questions RIP
+            var intervewTitle = document.getElementById("inteTitle").value; //
+
+            var url = 'http://18.219.137.210:3000/api/interviews/add'; //Add a new interview
             fetch(url, {
                 method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify({Ques_text:text})
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    Filled_by: gathered_user_fill_survey, 
+                    SurvID: surveyID,
+                    InteTitle: intervewTitle,
+                })
             }).then((res) => res.json())
-              .then((data) =>  addChoice(data.insertId, typeMu, typeTe))
-              .catch((err)=>console.log(err))
-
+            .then((data) => postInterviewAnswers(data.insertId))
+            .catch((err) => console.log(err))
+        }
+        
+        function postInterviewAnswers(datID) {
+            var interviewID = datID;
+            var allQuesID = arrayOfQuesID;
+            allQuesID.forEach(ques => {
+                // posting the filled out questions to records
+                fetch('http://18.219.137.210:3000/api/interviews/add_record', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        InteID: interviewID,
+                        QuesID: ques,
+                        Reco_ans: $('#question'+ques).val(),
+                        Note: '',
+                    })
+                }).then((res) => res.json())
+                .then((data) => console.log(data))
+                .catch((err) => console.log(err))
+            })
         }
     </script>
     </body>
