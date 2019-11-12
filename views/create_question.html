@@ -84,6 +84,16 @@ function addChoice(inID, mul, tex, par){
     c = document.getElementById("c").value;
     d = document.getElementById("d").value;
     var allChoices = [a,b,c,d];
+    var checkers = []; // new array of multiple choice answers
+    // making array of choices without blanks
+    for(var i = 0; i < allChoices.length; i++){
+        if(allChoices[i]=="" || allChoices[i]==" "){
+            // if there is no input, break loop
+            break;
+        }else{
+            checkers.push(allChoices[i]);
+        }
+    }
     // posting the type of question (multiple choice/ text box/ paragraph)
     if(textBox.checked){ // just a text box 
         fetch('http://18.219.137.210:3000/api/questions/add_choice', {
@@ -97,10 +107,10 @@ function addChoice(inID, mul, tex, par){
         .catch((err)=>console.log(err)) 
         alert("A Question has been added to the database!");
     }else if(typeMu.checked){ // multiple choice 
-        if(a==""){
+        if(a==""){ // making sure user has input
             alert("Please enter multiple choice answers");
         }else{
-            allChoices.forEach(choice =>{
+            checkers.forEach(choice =>{
                 // posting the multi choice answers 
                 fetch('http://18.219.137.210:3000/api/questions/add_choice', {
                 method: 'POST',
@@ -130,12 +140,14 @@ function addChoice(inID, mul, tex, par){
 }
 
 function displayM(){
+    // if multiple choice question is chosen, display textboxes
     var checked = document.getElementById("multCh");
     var dv = document.getElementById("show");
     dv.style.display = checked.checked ? "block" : "none";
 }
 
 function unM(){
+    // if text box or paragraph is chosen display nothing 
     var checked = document.getElementById("textBox");
     var dv = document.getElementById("show");
     dv.style.display = checked = "none";
