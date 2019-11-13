@@ -97,19 +97,19 @@
                         var keyIndex = n.indexOf(key); // "1" --> 0, "8" --> 1
                         arrayOfQuesID.push(groupedData[n[keyIndex]][0].QuesID);
                         single_survey_data += '<div>';
-                        single_survey_data += '<h4 id=question'+groupedData[n[keyIndex]][0].QuesID+'>'+groupedData[n[keyIndex]][0].Ques_text+'</h4>'; // I think we can use index 0 because if there are multiples, they all share the same question...
+                        single_survey_data += '<h4>'+groupedData[n[keyIndex]][0].Ques_text+'</h4>'; // I think we can use index 0 because if there are multiples, they all share the same question...
                         if (groupedData[n[keyIndex]].length > 1) { // if the key value has more than one set of data
                             for (var i = 0; i < groupedData[n[keyIndex]].length; i ++) { // for every set of that data
                                 single_survey_data += '<div class=radio>';
-                                single_survey_data += '<input type=radio><label>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
+                                single_survey_data += '<input type=radio id=question'+groupedData[n[keyIndex]][0].QuesID+'><label id=label'+groupedData[n[keyIndex]][0].QuesID+'>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
                                 single_survey_data += '</div>';
                             }
                             single_survey_data += '<br>';
                         } else {
                             if (groupedData[n[keyIndex]][0].Choi_text_id === 2){
-                                single_survey_data += '<input type=text class=form-control style=width:20%></input><br>'; // Give a textbox
+                                single_survey_data += '<input type=text class=form-control id=question'+groupedData[n[keyIndex]][0].QuesID+' style=width:20%></input><br>'; // Give a textbox
                             } else if (groupedData[n[keyIndex]][0].Choi_text_id === 3) {
-                                single_survey_data += '<textarea rows="4" class=form-control style=width:30%></textarea><br>'; // Give a paragraph
+                                single_survey_data += '<textarea rows="4" class=form-control id=question'+groupedData[n[keyIndex]][0].QuesID+' style=width:30%></textarea><br>'; // Give a paragraph
                             }
                             
                         }
@@ -163,17 +163,38 @@
         function postInterviewAnswers(datID) {
             var interviewID = datID;
             var allQuesID = arrayOfQuesID;
-            console.log(interviewID);
-            
-            allQuesID.forEach(ques => {
-                // posting the filled out questions to records
+            console.log(allQuesID);
+            var arrayOfValueData = [];
+
+            for (var i = 0; i < allQuesID.length; i++){
+                var nname = document.getElementById('question' + allQuesID[i]);
+                console.log('question' + allQuesID[i]);
+                console.log(document.getElementById('question' + allQuesID[i]));
+                if (nname.nodeName == "INPUT") { // Check to see if tag is INPUT
+                    if (nname.getAttribute("type") == "radio") { // Check to see if INPUT is a radio button
+                        if (nname.checked){ // Check to see if radio button is checked
+                            arrayOfValueData.push(document.getElementById('label' + allQuesID[i]).innerHTML); // Add checked radio button value to array
+                        }
+                    } else if (nname.getAttribute("type") == "text") { // Check to see if INPUT is text
+                        arrayOfValueData.push(nname.value); // Add text value to array
+                    } else {
+                        console.log("i suck");
+                    }
+                } else if (nname.nodeName == "TEXTAREA") { // Check to see if tag is TEXTAREA
+                    arrayOfValueData.push(nname.value); // Add textarea value to array
+                } else {
+                    console.log("i suck more");
+                }
+            }
+
+            $.each(arrayOfQuesID, function(i, item) {
                 fetch('http://18.219.137.210:3000/api/interviews/add_record', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         InteID: interviewID,
-                        QuesID: ques,
-                        Reco_ans: $('#question'+ques).val(),
+                        QuesID: arrayOfQuesID[i],
+                        Reco_ans: arrayOfValueData[i],
                         Note: '',
                     })
                 }).then((res) => res.json())
