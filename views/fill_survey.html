@@ -43,6 +43,7 @@
         var gathered_user_fill_survey = sessionStorage.getItem("UserID");
         var surveyID = '';
         var arrayOfQuesID = [];
+        var arrayOfValues = [];
 
         document.getElementById("submit_fill_survey").addEventListener("click", function () {
             confirmSubmit();
@@ -123,18 +124,27 @@
         }
 
         function confirmSubmit() {
-            var r = confirm("Are you sure you want\nto submit interview?");
-            if (r == true) {
-                submitInterview();
+            var intervewTitle = document.getElementById("inteTitle").value; //
+            if(intervewTitle == ""){
+                alert("Please enter an interview title");
+                return false;
+                //how to exit function without posting interview
             } else {
-                txt = "You pressed Cancel!";
+                confirm("Are you sure you want to submit?");
+                postInterview(intervewTitle);
+                return false;
+                    /*$('surveyForm input:checked').each(function() {
+                        arrayOfValues.push($(this).attr('id'));
+                    });*/
+                    
+                    
+                
             }
         }
         
         
-        function postInterview() {
+        function postInterview(title) {
             //Get the data from the questions RIP
-            var intervewTitle = document.getElementById("inteTitle").value; //
 
             var url = 'http://18.219.137.210:3000/api/interviews/add'; //Add a new interview
             fetch(url, {
@@ -143,7 +153,7 @@
                 body: JSON.stringify({
                     Filled_by: gathered_user_fill_survey, 
                     SurvID: surveyID,
-                    InteTitle: intervewTitle,
+                    InteTitle: title,
                 })
             }).then((res) => res.json())
             .then((data) => postInterviewAnswers(data.insertId))
@@ -153,6 +163,8 @@
         function postInterviewAnswers(datID) {
             var interviewID = datID;
             var allQuesID = arrayOfQuesID;
+            console.log(interviewID);
+            
             allQuesID.forEach(ques => {
                 // posting the filled out questions to records
                 fetch('http://18.219.137.210:3000/api/interviews/add_record', {
