@@ -46,6 +46,10 @@
         <label>Set New Password:</label>
         <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="updateUserPassword">
         <br><br>
+        <label>Confirm New Password:</label>
+        <input style="width:185px; display:inline;" class="form-control" placeholder="******" type="password" id="confirmUserPassword">
+        <br>
+        <br>
         <label>Set New Privileges: </label>
         <select class="mdb-select md-form colorful-select dropdown-warning" id="up_roles">
             <option value="0">Roles</option>
@@ -55,6 +59,8 @@
         <br>
         <br>
         <button type="button" id="submitPass">Submit ></button><br><br>
+
+        <p class="text-center" id="wrong" style="color: red; display:none">Confirmed Password is not the same as Update Password</p>
     </div>
 </body>
 
@@ -66,6 +72,7 @@
 
 <script type="text/javascript">
     var gathered_prod = sessionStorage.getItem("UsersProject");
+    var gathered_user = sessionStorage.getItem("UserID");
     var first = "";
     var last = "";
     var email = "";
@@ -164,6 +171,7 @@
     function updateUser() {
         updateUser = document.getElementById('updateUser').value;
         updatePassword = document.getElementById('updateUserPassword').value;
+        confirmPassword = document.getElementById('confirmUserPassword').value;
 
         event.preventDefault();
 
@@ -184,19 +192,25 @@
 
         }
 
-
-        if (updatePassword != '') {
+        if (updatePassword == confirmPassword) {
+            document.getElementById('wrong').style.display = "none";
+            console.log("Match")
+            if (updatePassword != '') {
             fetch('http://18.219.137.210:3000/api/user/user_pass/update', {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    UserID: updateUser,
+                    UserID: gathered_user,
                     Password: updatePassword,
-                    UserID: updateUser
+                    UserID: gathered_user
                 })
             }).then((res) => res.json())
                 .then((data) => { console.log(data); })
                 .catch((err) => console.log(err))
+            }
+        } else {
+             console.log("No Match");
+             document.getElementById('wrong').style.display = "block";
         }
     }
 
