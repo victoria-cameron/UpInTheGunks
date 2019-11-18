@@ -46,7 +46,7 @@
                 $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
                     var record_data = '';
                     $.each(data, function(key,value){
-						var rowID = JSON.parse(value.SurvID);
+						var rowID = JSON.parse(value.InteID);
                         record_data += '<tr id='+rowID+'>';
 						record_data += '<td>'+value.Filled_by+'</td>';
                         record_data += '<td>'+value.Date_filled+'</td>';
@@ -59,9 +59,9 @@
 
 					$(document).on('click', '#viewSurveyTable tr', function(event) {
                         $("#primary_records").hide(); // Hide the table when you select single survey
-                        var whichSurvey = $(this).closest('tr').attr('id');
-                        console.log(whichSurvey);
-                        getSingleRecord(whichSurvey);
+                        var whichRecord = $(this).closest('tr').attr('id');
+                        console.log(whichRecord);
+                        getSingleRecord(whichRecord);
                     });
                 });
             })
