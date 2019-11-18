@@ -76,6 +76,8 @@ body {
   border-radius: 5px; 
   position: relative;
   height: 76vh;
+  padding-left: 100px;
+  padding-right: 100px;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
@@ -3313,6 +3315,7 @@ input[type="button"].btn-block {
 
 .dropdown-container a{ /* and this. This is font color of links in dropdown*/
   color: black;
+  padding: 0.25rem 0.8rem;
 }
 
 #fill_survey {
