@@ -1,4 +1,4 @@
-<html lang="en">
+﻿<html lang="en">
     <head>
         <link rel="stylesheet" href="css/bootstrap.css">
         <meta charset="utf-8">
@@ -66,7 +66,8 @@
         
         function viewSingleSurvey(survID) {
            var n = [];
-           var url = 'http://18.219.137.210:3000/api/surveys/gather/' + survID; 
+            var url = 'http://18.219.137.210:3000/api/surveys/gather/' + survID;
+            console.log(url)
            $(document).ready(function() {
                $.getJSON(url, function (data) {
                    var page_title = '';
