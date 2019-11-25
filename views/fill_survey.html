@@ -33,6 +33,10 @@
             <!--<button type="button" id="submit" onclick="confirmSubmit()" style="visibility: hidden">Submit ></button>-->
             <button type="button" id="submit_fill_survey"> Submit > </button>
         </div>
+
+        <div class="container-fluid" id="tertiary_fill_survey">
+            <p style="text-align:center">Success, survey submitted. Yay!</p>
+        </div>
         
 
     
@@ -51,6 +55,7 @@
 
         function getSurveysURL() { // This is the function that gets the survey info 
             $('#secondary_fill_survey').hide(); // Hide the form
+            $('#tertiary_fill_survey').hide(); // Hide the form
             var url = 'http://18.219.137.210:3000/api/surveys';
             $(document).ready(function() {
                 $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
@@ -143,6 +148,8 @@
             } else {
                 confirm("Are you sure you want to submit?");
                 postInterview(intervewTitle);
+                document.getElementById('secondary_fill_survey').style.display = "none";
+                document.getElementById('tertiary_fill_survey').style.display = "block";
                 return false;
             }
         }
@@ -170,6 +177,8 @@
             var allQuesID = arrayOfQuesID;
             var arrayOfValueData = [];
             var arrayOfNotes = [];
+
+            console.log()
 
             arrayOfValueData = $('form').serializeArray();
             $.each(arrayOfValueData, function(i, field) {
