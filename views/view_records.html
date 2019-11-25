@@ -63,8 +63,9 @@
         }
 
 		function getSingleRecord(survID) {
-           var n = [];
-           var url = 'http://18.219.137.210:3000/api/interviews/gather/' + survID; // TODO: get individual surveys
+            var n = [];
+            var url = 'http://18.219.137.210:3000/api/interviews/gather/67' 
+           //var url = 'http://18.219.137.210:3000/api/interviews/gather/' + survID; // TODO: get individual surveys
            console.log(url);
            $(document).ready(function() {
                $.getJSON(url, function (data) {

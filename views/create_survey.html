@@ -119,22 +119,11 @@
         })
         alert("A Survey has been added to the database!");
     }
-/**
+
     function deleteQuestions(){
         var checkedD =[];
-        fetch('http://10.10.9.145:3000/api/users/project_roles/:ProdID')
-        .then((res_1) => { return res_1.json() })
-        .then((data_1) => {
-            let result = ``;
-            data_1.forEach((roler) => {
-                const {Role, UserID} = roler
-                if(gathered_user == UserID){
-                    result += `${Role} `;
-                }
-                //document.getElementById('displayspot').innerHTML = result;
-            });
-        })
-        if(result > 3){
+        var deleted = 0;
+        //if(result > 3){
             if(confirm("Are you sure you want to delete?")){
                 $('#questionTable input:checked').each(function() {
                 checkedD.push($(this).attr('id'));
@@ -142,21 +131,21 @@
                 console.log(checkedD);
                 checkedD.forEach(choice => {
                     // posting the chosen questions to the new survey 
-                    fetch('http://18.219.137.210:3000/api/questions/delete', {
-                        method: 'DELETE',
+                    fetch('http://18.219.137.210:3000/api/questions/update', {
+                        method: 'PUT',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({
-                            QuesID: choice
+                            QuesID: choice,
+                            Ques_text: choice,
+                            Ques_view: deleted
                         })
                     }).then((res) => res.json())
                         .then((data) => console.log(data))
-                        .catch((err) => console.log(err))
-                    })
-                    alert("You deleted questions.");
+                        .catch((err) => console.log(err))})
+                alert("You deleted questions.");
             }else{
                 alert("You canceled the delete.");
             }
-        }
+        //}
     }
-*/
 </script>
