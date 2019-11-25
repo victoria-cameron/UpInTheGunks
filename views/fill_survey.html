@@ -27,7 +27,7 @@
             <h3>Interview Title:</h3>
             <input type="text" id="inteTitle"><br><br>
             <!--FORM OF SINGLE SURVEY-->
-            <form id="surveyForm"></form>
+            <div id="surveyForm"></div>
             <!--FORM OF SINGLE SURVEY-->
 
             <!--<button type="button" id="submit" onclick="confirmSubmit()" style="visibility: hidden">Submit ></button>-->
@@ -96,24 +96,28 @@
                         n.push(key); // Make array of the keys in groupedData --> ["1", "8"]
                         var keyIndex = n.indexOf(key); // "1" --> 0, "8" --> 1
                         arrayOfQuesID.push(groupedData[n[keyIndex]][0].QuesID);
-                        single_survey_data += '<div>';
+                        single_survey_data += '<form>';
                         single_survey_data += '<h4>'+groupedData[n[keyIndex]][0].Ques_text+'</h4>'; // I think we can use index 0 because if there are multiples, they all share the same question...
                         if (groupedData[n[keyIndex]].length > 1) { // if the key value has more than one set of data
-                            for (var i = 0; i < groupedData[n[keyIndex]].length; i ++) { // for every set of that data
+                            for (var i = 0; i < groupedData[n[keyIndex]].length; i++) { // for every set of that data
                                 single_survey_data += '<div class=radio>';
-                                single_survey_data += '<input type=radio id=question'+groupedData[n[keyIndex]][0].QuesID+'><label id=label'+groupedData[n[keyIndex]][0].QuesID+'>'+groupedData[n[keyIndex]][i].Choi_text+'</label></input>'; // Output a radio button
+                                single_survey_data += '<label><input type=radio name='+groupedData[n[keyIndex]][0].QuesID+' value='+groupedData[n[keyIndex]][i].Choi_text+'>'+groupedData[n[keyIndex]][i].Choi_text+'</input></label>'; // Output a radio button
                                 single_survey_data += '</div>';
                             }
+                            single_survey_data += '<textarea rows="4" class=form-control id=note'+groupedData[n[keyIndex]][0].QuesID+' style=width:30%;display:none></textarea><br>';
+                            single_survey_data += '<button type="button" id=add_note'+groupedData[n[keyIndex]][0].QuesID+' onclick=showNote('+groupedData[n[keyIndex]][0].QuesID+')> Add Note</button>';
                             single_survey_data += '<br>';
                         } else {
                             if (groupedData[n[keyIndex]][0].Choi_text_id === 2){
-                                single_survey_data += '<input type=text class=form-control id=question'+groupedData[n[keyIndex]][0].QuesID+' style=width:20%></input><br>'; // Give a textbox
+                                single_survey_data += '<input type=text class=form-control name='+groupedData[n[keyIndex]][0].QuesID+' style=width:20%></input>'; // Give a textbox
+                                single_survey_data += '<textarea rows="4" class=form-control id=note'+groupedData[n[keyIndex]][0].QuesID+' style=width:30%;display:none></textarea><br>'; // Fake note box
                             } else if (groupedData[n[keyIndex]][0].Choi_text_id === 3) {
-                                single_survey_data += '<textarea rows="4" class=form-control id=question'+groupedData[n[keyIndex]][0].QuesID+' style=width:30%></textarea><br>'; // Give a paragraph
+                                single_survey_data += '<textarea rows="4" class=form-control name='+groupedData[n[keyIndex]][0].QuesID+' style=width:30%></textarea>'; // Give a paragraph
+                                single_survey_data += '<textarea rows="4" class=form-control id=note'+groupedData[n[keyIndex]][0].QuesID+' style=width:30%;display:none></textarea><br>'; // Fake note box
                             }
                             
                         }
-                        single_survey_data += '</div>';
+                        single_survey_data += '</form>';
                     });
                    $('#titleOfSurvey').html(page_title);
                    $('#surveyForm').append(single_survey_data); // adds each question and their appropriate type to the form
@@ -123,8 +127,15 @@
            });
         }
 
+        function showNote(noteID) {
+            var notez = 'note' + noteID;
+            var idz = 'add_note' + noteID;
+            document.getElementById(notez).style.display = "block";
+            document.getElementById(idz).style.display = "none";
+        }
+
         function confirmSubmit() {
-            var intervewTitle = document.getElementById("inteTitle").value; //
+            var intervewTitle = document.getElementById("inteTitle").value; 
             if(intervewTitle == ""){
                 alert("Please enter an interview title");
                 return false;
@@ -133,12 +144,6 @@
                 confirm("Are you sure you want to submit?");
                 postInterview(intervewTitle);
                 return false;
-                    /*$('surveyForm input:checked').each(function() {
-                        arrayOfValues.push($(this).attr('id'));
-                    });*/
-                    
-                    
-                
             }
         }
         
@@ -163,45 +168,29 @@
         function postInterviewAnswers(datID) {
             var interviewID = datID;
             var allQuesID = arrayOfQuesID;
-            console.log(allQuesID);
             var arrayOfValueData = [];
+            var arrayOfNotes = [];
 
-            for (var i = 0; i < allQuesID.length; i++){
-                var nname = document.getElementById('question' + allQuesID[i]);
-                console.log('question' + allQuesID[i]);
-                console.log(document.getElementById('question' + allQuesID[i]));
-                if (nname.nodeName == "INPUT") { // Check to see if tag is INPUT
-                    if (nname.getAttribute("type") == "radio") { // Check to see if INPUT is a radio button
-                        if (nname.checked){ // Check to see if radio button is checked
-                            arrayOfValueData.push(document.getElementById('label' + allQuesID[i]).innerHTML); // Add checked radio button value to array
-                        }
-                    } else if (nname.getAttribute("type") == "text") { // Check to see if INPUT is text
-                        arrayOfValueData.push(nname.value); // Add text value to array
-                    } else {
-                        console.log("i suck");
-                    }
-                } else if (nname.nodeName == "TEXTAREA") { // Check to see if tag is TEXTAREA
-                    arrayOfValueData.push(nname.value); // Add textarea value to array
-                } else {
-                    console.log("i suck more");
-                }
-            }
+            arrayOfValueData = $('form').serializeArray();
+            $.each(arrayOfValueData, function(i, field) {
+                document.getElementById('note' + field.name).style.display = "block";
+                arrayOfNotes.push(document.getElementById('note' + field.name).value);
 
-            $.each(arrayOfQuesID, function(i, item) {
                 fetch('http://18.219.137.210:3000/api/interviews/add_record', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
                         InteID: interviewID,
-                        QuesID: arrayOfQuesID[i],
-                        Reco_ans: arrayOfValueData[i],
-                        Note: '',
+                        QuesID: field.name,
+                        Reco_ans: field.value,
+                        Note: arrayOfNotes[i],
                     })
-                }).then((res) => res.json())
-                .then((data) => console.log(data))
-                .catch((err) => console.log(err))
+                    }).then((res) => res.json())
+                    .then((data) => console.log(data))
+                    .catch((err) => console.log(err))
             })
         }
+        
     </script>
     </body>
 </html>
