@@ -61,6 +61,7 @@ function postQuestion(gotText, gotTypeM, gotTypeT, gotTypeP, ai, bi, ci, di){
     let typeMu = gotTypeM; // multi choice question
     let typeTe = gotTypeT; // text box question
     let typeP = gotTypeP; // text area question
+    let add = 1;
     if(text == ""){
         alert("Please enter a question!")
     }else{
@@ -68,10 +69,12 @@ function postQuestion(gotText, gotTypeM, gotTypeT, gotTypeP, ai, bi, ci, di){
         fetch('http://18.219.137.210:3000/api/questions/add', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({Ques_text:text})
+            body: JSON.stringify({Ques_text:text,
+                                  Ques_view: add})
         }).then((res) => res.json())
         .then((data) =>  addChoice(data.insertId, typeMu, typeTe, typeP))
         .catch((err)=>console.log(err))
+        alert
     }
 }
 function addChoice(inID, mul, tex, par){
