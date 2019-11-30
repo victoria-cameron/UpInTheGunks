@@ -107,19 +107,8 @@
 
         event.preventDefault();
         if (newRole != undefined || newRole == "0") {
-            fetch('http://18.219.137.210:3000/api/users/add_role', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    ProdID: gathered_prod,
-                    UserID: user,
-                    Role: newRole
-                })
-            }).then((res) => res.json())
-                .then((data) => console.log(data))
-                .catch((err) => console.log(err))
-
-            fetch('http://18.219.137.210:3000/api/users/add_user', {
+            
+			fetch('http://18.219.137.210:3000/api/users/add_user', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
@@ -128,6 +117,18 @@
                     Las_Name: last,
                     Email: email,
                     Password: password
+                })
+            }).then((res) => res.json())
+                .then((data) => console.log(data))
+                .catch((err) => console.log(err))
+			
+			fetch('http://18.219.137.210:3000/api/users/add_role', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    ProdID: gathered_prod,
+                    UserID: user,
+                    Role: newRole
                 })
             }).then((res) => res.json())
                 .then((data) => console.log(data))
@@ -200,9 +201,8 @@
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    UserID: gathered_user,
                     Password: updatePassword,
-                    UserID: gathered_user
+                    UserID: updateUser
                 })
             }).then((res) => res.json())
                 .then((data) => { console.log(data); })
