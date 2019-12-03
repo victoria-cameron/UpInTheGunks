@@ -55,12 +55,14 @@
             $.getJSON(url, function (data) { // fetches the json from url, puts in data as a result
                 var question_data = '';
                 $.each(data, function (key, value) {
-                    var checkID = JSON.parse(value.QuesID);
-                    question_data += '<tr>';
-                    question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input name=checkbox type=checkbox id=' + checkID + '></input></td>';
-                    question_data += '<td style=width:11%;text-align:center>' + value.QuesID + '</td>';
-                    question_data += '<td>' + value.Ques_text + '</td>';
-                    question_data += '</tr>';
+                    if(value.Ques_view == 1){
+                        var checkID = JSON.parse(value.QuesID);
+                        question_data += '<tr>';
+                        question_data += '<td style=width:5%;text-align:center;vertical-align:middle><input name=checkbox type=checkbox id=' + checkID + '></input></td>';
+                        question_data += '<td style=width:11%;text-align:center>' + value.QuesID + '</td>';
+                        question_data += '<td>' + value.Ques_text + '</td>';
+                        question_data += '</tr>';
+                    }
                 });
                 $('#questionTable').append(question_data); // adds row of data to table
             });
@@ -130,18 +132,16 @@
                 });
                 console.log(checkedD);
                 checkedD.forEach(choice => {
-                    // posting the chosen questions to the new survey 
                     fetch('http://18.219.137.210:3000/api/questions/update', {
-                        method: 'PUT',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            QuesID: choice,
-                            Ques_text: choice,
-                            Ques_view: deleted
-                        })
-                    }).then((res) => res.json())
-                        .then((data) => console.log(data))
-                        .catch((err) => console.log(err))})
+                                method: 'PUT',
+                                headers: { 'Content-Type': 'application/json' },
+                                body: JSON.stringify({
+                                    QuesID: choice,
+                                    Ques_view: deleted
+                                })
+                            }).then((res) => res.json())
+                                .then((data) => console.log(data))
+                                .catch((err) => console.log(err))})
                 alert("You deleted questions.");
             }else{
                 alert("You canceled the delete.");
